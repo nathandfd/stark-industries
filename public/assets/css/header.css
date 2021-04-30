@@ -1,0 +1,12 @@
+header{
+    background-color: #262626;
+    height: 100vh;
+    /*position: fixed;*/
+    flex-basis: 10vw;
+    transition: all 700ms ease-in-out;
+}
+
+header:hover{
+    /*width: 10vw;*/
+    flex-grow: 2;
+}
