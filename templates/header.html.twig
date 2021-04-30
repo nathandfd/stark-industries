@@ -1,3 +1,4 @@
+{% if path(app.request.attributes.get('_route')) is not same as("/login") %}
 <header>
     <div>
         <a href="{{ path('home') }}">
@@ -11,3 +12,4 @@
         <i class="fas fa-power-off fa-4x"></i>
     </a>
 </header>
+{% endif %}

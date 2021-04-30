@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class AdminController
  * @package App\Controller
  * @Route("/admin")
- * @IsGranted("ROLE_ADMIN")
  */
 class AdminController extends AbstractController
 {
