@@ -1,4 +1,10 @@
 <header>
-    <h1>Navbar</h1>
-    <a href="{{ path('app_logout') }}">Déconnexion</a>
+    <div>
+        <a href="{{ path('home') }}">
+            <i class="fas fa-home fa-4x"></i>
+        </a>
+    </div>
+    <a id="logout" href="{{ path('app_logout') }}">
+        <i class="fas fa-power-off fa-4x"></i>
+    </a>
 </header>

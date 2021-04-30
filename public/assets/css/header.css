@@ -1,12 +1,21 @@
 header{
     background-color: #262626;
     height: 100vh;
-    /*position: fixed;*/
     flex-basis: 10vw;
-    transition: all 700ms ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
 }
 
-header:hover{
-    /*width: 10vw;*/
-    flex-grow: 2;
+header i{
+    color: white;
+}
+header #logout i{
+    color: red;
+}
+
+header #logout{
+    justify-self: flex-end;
 }
