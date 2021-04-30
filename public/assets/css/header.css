@@ -9,8 +9,16 @@ header{
     padding: 1rem 0;
 }
 
-header i{
+header > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+header > div i{
     color: white;
+    margin-bottom: 2rem;
 }
 header #logout i{
     color: red;

@@ -19,4 +19,11 @@ class SalesmanController extends AbstractController
             'controller_name' => 'SalesmanController',
         ]);
     }
+
+    /**
+     * @Route("/new-contract", name="new-contract")
+     */
+    public function newContract(){
+        return $this->render('salesman/new-contract.html.twig');
+    }
 }
