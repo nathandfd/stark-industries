@@ -17,7 +17,7 @@
     <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
     <label for="inputEmail">Identifiant</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
+    <label for="inputPassword">Mot de passe</label>
     <input type="password" name="password" id="inputPassword" class="form-control" required>
 
     <input type="hidden" name="_csrf_token"
@@ -36,7 +36,7 @@
     #}
 
     <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
+        Connexion
     </button>
     <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié / Première connexion</a>
 </form>
