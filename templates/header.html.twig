@@ -4,9 +4,11 @@
         <a href="{{ path('home') }}">
             <i class="fas fa-home fa-4x"></i>
         </a>
+        {% if is_granted('ROLE_SALESMAN') %}
         <a href="{{ path('new-contract') }}">
             <i class="fas fa-edit fa-4x"></i>
         </a>
+        {% endif %}
     </div>
     <a id="logout" href="{{ path('app_logout') }}">
         <i class="fas fa-power-off fa-4x"></i>

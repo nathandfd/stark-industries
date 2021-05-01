@@ -30,7 +30,8 @@ class AdminController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Stark Industries');
+            ->setTitle('Stark Industries')
+            ;
     }
 
     public function configureMenuItems(): iterable
