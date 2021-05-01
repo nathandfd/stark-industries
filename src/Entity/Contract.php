@@ -18,7 +18,7 @@ class Contract
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="contracts")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="contracts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $salesman;
