@@ -30,6 +30,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     }
 
     public function setUserEntity(BeforeEntityPersistedEvent $event){
+        dd($event);
         $entity = $event->getEntityInstance();
 
     }

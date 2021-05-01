@@ -114,7 +114,8 @@ class User implements UserInterface
 
     public function getRole():string
     {
-        return $this->roles[0];
+        if ($this->roles) return $this->roles[0];
+        else return 'ROLE_SALESMAN';
     }
 
     public function setRole(string $role):self
