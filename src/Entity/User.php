@@ -28,7 +28,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private $roles = ["ROLE_SALESMAN"];
 
     /**
      * @var string The hashed password
@@ -114,8 +114,7 @@ class User implements UserInterface
 
     public function getRole():string
     {
-        if ($this->roles) return $this->roles[0];
-        else return 'ROLE_SALESMAN';
+       return $this->roles[0];
     }
 
     public function setRole(string $role):self

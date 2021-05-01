@@ -14,7 +14,9 @@
     </head>
     <body>
         <div id="main">
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             {{ include('header.html.twig') }}
+            {% endif %}
             {% block body %}{% endblock %}
         </div>
     </body>
