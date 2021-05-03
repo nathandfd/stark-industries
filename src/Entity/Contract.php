@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ContractRepository;
+use Cassandra\Date;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,7 +30,7 @@ class Contract
     private $status;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $num_contrat;
 

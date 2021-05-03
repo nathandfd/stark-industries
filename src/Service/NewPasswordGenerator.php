@@ -30,16 +30,11 @@ class NewPasswordGenerator
         $this->resetPasswordHelper = $resetPasswordHelper;
     }
 
-    public function createNewPassword(string $emailFormData)
+    public function createNewPassword(string $emailFormData, string $name)
     {
         $user = $this->em->getRepository(User::class)->findOneBy([
-            'email' => $emailFormData,
+            'email' => $emailFormData
         ]);
-
-        // Do not reveal whether a user account was found or not.
-//        if (!$user) {
-//            return $this->redirectToRoute('app_check_email');
-//        }
 
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
@@ -63,15 +58,11 @@ class NewPasswordGenerator
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,
+                'name'=> $name
             ])
         ;
 
         $this->mailer->send($email);
-
-        // Store the token object in session for retrieval in check-email route.
-        //$this->setTokenObjectInSession($resetToken);
-
-        //return $this->redirectToRoute('app_check_email');
     }
 
 }
