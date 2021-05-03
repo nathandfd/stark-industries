@@ -5,16 +5,18 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-class NullController extends AbstractController
+/**
+ * @Route("/backoffice")
+ */
+class BackofficeController extends AbstractController
 {
     /**
-     * @Route("/null", name="null")
+     * @Route("/", name="backoffice_home")
      */
     public function index(): Response
     {
-        return $this->render('null/index.html.twig', [
-            'controller_name' => 'NullController',
+        return $this->render('backoffice/index.html.twig', [
+            'controller_name' => 'BackofficeController',
         ]);
     }
 }
