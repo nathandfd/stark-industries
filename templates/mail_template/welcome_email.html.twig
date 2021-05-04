@@ -83,7 +83,7 @@
 				}
 
 				.hero-subheader__content{
-					padding: 0 15px 90px 15px !important;
+					padding: 0 15px 1rem 15px !important;
 				}
 
 				/* ----- Title block ----- */
@@ -150,7 +150,7 @@
 	</head>
 
 	<body style="padding: 0; margin: 0;" bgcolor="#eeeeee">
-		<span style="color:transparent !important; overflow:hidden !important; display:none !important; line-height:0px !important; height:0 !important; opacity:0 !important; visibility:hidden !important; width:0 !important; mso-hide:all;">This is your preheader text for this email (Read more about email preheaders here - https://goo.gl/e60hyK)</span>
+		<span style="color:transparent !important; overflow:hidden !important; display:none !important; line-height:0px !important; height:0 !important; opacity:0 !important; visibility:hidden !important; width:0 !important; mso-hide:all;">Créez votre nouveau mot de passe</span>
 
 		<!-- / Full width container -->
 		<table class="full-width-container" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" bgcolor="#eeeeee" style="width: 100%; height: 100%; padding: 30px 0 30px 0;">
@@ -164,7 +164,7 @@
 								<table class="container header" border="0" cellpadding="0" cellspacing="0" width="620" style="width: 620px;">
 									<tr>
 										<td style="padding: 0.5rem 0; border-bottom: solid 1px #eeeeee; vertical-align: middle;" align="left">
-											<img style="width: 12rem;" src="./img/logo_stark.png" alt="">
+											<img style="width: 12rem;" src="{{ absolute_url(asset('assets/img/logo_stark.png')) }}" alt="">
 										</td>
 									</tr>
 								</table>
@@ -173,17 +173,34 @@
 								<!-- / Hero subheader -->
 								<table class="container hero-subheader" border="0" cellpadding="0" cellspacing="0" width="620" style="width: 620px;">
 									<tr>
-										<td class="hero-subheader__title" style="font-size: 43px; font-weight: bold; padding: 80px 0 15px 0;" align="left">Product Design Portfolio</td>
+										<td class="hero-subheader__title" style="font-size: 43px; font-weight: bold; padding: 80px 0 15px 0;" align="left">Bienvenue chez Stark Industries {{ name }}</td>
 									</tr>
 
 									<tr>
-										<td class="hero-subheader__content" style="font-size: 16px; line-height: 27px; color: #969696; padding: 0 60px 90px 0;" align="left">Sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</td>
+										<td class="hero-subheader__content" style="font-size: 16px; line-height: 27px; color: #969696; padding: 0 60px 1rem 0;" align="left">Maintenant que votre compte est créé, vous allez pouvoir vous créer un nouveau mot de passe</td>
+									</tr>
+									<tr>
+										<td class="hero-subheader__content" style="font-size: 16px; line-height: 27px; color: #969696; padding: 0 60px 1rem 0;" align="left">
+											<p>Voici votre identifiant : {{ identifiant }}</p>
+										</td>
+									</tr>
+									<tr>
+										<td class="hero-subheader__content" style="font-size: 16px; line-height: 27px; color: #969696; padding: 0 60px 1rem 0;" align="left">
+											<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">Cliquez ici pour créer votre nouveau mot de passe</a>
+										</td>
+									</tr>
+									<tr>
+										<td class="hero-subheader__content">
+											<p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}. Une fois ce délai passé, veuillez vous rendre ici :
+												<a href="{{ url('app_forgot_password_request') }}">Cliquez pour créer votre nouveau mot de passe</a>
+											</p>
+										</td>
 									</tr>
 								</table>
 								<!-- /// Hero subheader -->
 
 								<!-- / Divider -->
-								<table class="container" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 25px;" align="center">
+								{# <table class="container" border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 25px;" align="center">
 									<tr>
 										<td align="center">
 											<table class="container" border="0" cellpadding="0" cellspacing="0" width="620" align="center" style="border-bottom: solid 1px #eeeeee; width: 620px;">
@@ -212,17 +229,6 @@
 													consequat.</td>
 												</tr>
 
-												<tr>
-													<td align="center">
-														<table class="container" border="0" cellpadding="0" cellspacing="0">
-															<tr>
-																<td class="cta-block__button" width="230" align="center" style="width: 200px;">
-																	<a href="http://slicejack.com/" style="border: 3px solid #eeeeee; color: #969696; text-decoration: none; padding: 15px 45px; text-transform: uppercase; display: block; text-align: center; font-size: 16px;">Visit Us</a>
-																</td>
-															</tr>
-														</table>
-													</td>
-												</tr>
 											</table>
 										</td>
 									</tr>
@@ -368,7 +374,7 @@
 											</table>
 										</td>
 									</tr>
-								</table>
+								</table>#}
 								<!-- /// Footer -->
 							</td>
 						</tr>

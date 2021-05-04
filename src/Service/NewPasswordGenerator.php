@@ -54,9 +54,10 @@ class NewPasswordGenerator
         $email = (new TemplatedEmail())
             ->from(new Address('contact@groupe-stark-industries.fr', 'Stark industries'))
             ->to($emailFormData)
-            ->subject('Création d\'un nouveau mot de passe')
-            ->htmlTemplate('reset_password/email.html.twig')
+            ->subject('Création de votre compte')
+            ->htmlTemplate('mail_template/welcome_email.html.twig')
             ->context([
+                'identifiant'=>$emailFormData,
                 'resetToken' => $resetToken,
                 'name'=> $name
             ])
