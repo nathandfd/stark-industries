@@ -8,6 +8,7 @@
     <h1>Mes contrats</h1>
     <div class="h-screen overflow-hidden flex items-center justify-center" style="background: #edf2f7;">
         <div class="flex items-center justify-center">
+            {% if contrats is not empty %}
             <div id="contrats-list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
                 <div class="search-forms">
                 <input class="search" placeholder="Rechercher un contrat" /><br>
@@ -26,8 +27,6 @@
                     </button>
                 </div>
                 <ul class="list">
-
-                {% if contrats is not empty %}
                     {% for contrat in contrats %}
                 <!-- 1 card -->
                         <li>
@@ -158,11 +157,12 @@
                         </div>
                         </li>
                     {% endfor %}
-                {% else %}
-                    Vous n'avez encore réalisé aucun contrat.
-                {% endif %}
-                </ul>  <ul class="pagination"></ul>
+                </ul>
+                <ul class="pagination"></ul>
             </div>
+            {% else %}
+                <h2 class="text-center font-bold text-3xl w-screen">Vous n'avez encore réalisé aucun contrat.</h2>
+            {% endif %}
         </div>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
