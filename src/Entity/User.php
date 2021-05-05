@@ -167,7 +167,9 @@ class User implements UserInterface
 
     public function setName(string $name): self
     {
-        $this->name = $name;
+        $lower = strtolower($name);
+        $capitalize = ucfirst($lower);
+        $this->name = $capitalize;
 
         return $this;
     }
@@ -179,7 +181,9 @@ class User implements UserInterface
 
     public function setFirstname(string $firstname): self
     {
-        $this->firstname = $firstname;
+        $lower = strtolower($firstname);
+        $capitalize = ucfirst($lower);
+        $this->firstname = $capitalize;
 
         return $this;
     }
