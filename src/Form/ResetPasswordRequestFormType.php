@@ -19,7 +19,10 @@ class ResetPasswordRequestFormType extends AbstractType
                         'message' => 'Veuillez entrer votre adresse mail',
                     ]),
                 ],
-                'label'=>'Identifiant'
+                'label'=>'Identifiant',
+                'attr'=>[
+                    'placeholder'=>'Identifiant'
+                ]
             ])
         ;
     }
