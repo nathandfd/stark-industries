@@ -3,11 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ContractRepository;
-use Cassandra\Date;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ContractRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ContractRepository", repositoryClass=ContractRepository::class)
  */
 class Contract
 {
@@ -53,6 +52,11 @@ class Contract
      * @ORM\Column(type="array")
      */
     private $info_prelevement = [];
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
 
     public function getId(): ?int
     {
@@ -139,6 +143,18 @@ class Contract
     public function setInfoPrelevement(array $info_prelevement): self
     {
         $this->info_prelevement = $info_prelevement;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = new DateTime('now');
 
         return $this;
     }
