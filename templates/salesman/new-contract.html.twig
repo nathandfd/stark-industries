@@ -2,6 +2,79 @@
 
 {% block title %}New contract page{% endblock %}
 
+
 {% block body %}
     <h1>Bienvenue sur la page pour créer un nouveau contrat !</h1>
+
+    {{ form_start (form,{ 'attr': {'id': 'newContrat'} }) }}
+
+        <div>
+            <h2>ADHÉRENT</h2>
+            {{  form_label(form.gender)}}
+            {{ form_widget(form.gender )}}
+
+            {{  form_label(form.lastname )}}
+            {{ form_widget(form.lastname )}}
+
+            {{  form_label(form.firstname )}}
+            {{ form_widget(form.firstname )}}
+
+            {{  form_label(form.birthday)}}
+            {{ form_widget(form.birthday.day,   {'attr':{'placeholder':'Jour' } })}}
+            {{ form_widget(form.birthday.month, {'attr':{'placeholder':'Mois' } })}}
+            {{ form_widget(form.birthday.year,  {'attr':{'placeholder':'Année' } })}}
+
+            {{  form_label(form.address )}}
+            {{ form_widget(form.address )}}
+
+            {{  form_label(form.zipcode )}}
+            {{ form_widget(form.zipcode )}}
+
+            {{  form_label(form.city )}}
+            {{ form_widget(form.city )}}
+
+            {{  form_label(form.country )}}
+            {{ form_widget(form.country )}}
+
+            {{  form_label(form.phone)}}
+            {{ form_widget(form.phone, {'attr':{'class':'phone' } } )}}
+
+            {{  form_label(form.mobile)}}
+            {{ form_widget(form.mobile,  {'attr':{'class':'mobile' } } )}}
+
+            {{  form_label(form.mail)}}
+            {{ form_widget(form.mail )}}
+        </div>
+
+        <div>
+            <h2>MANDAT DE PRÉLÉVEMENT</h2>
+
+            {{  form_label(form.iban,'IBAN', )}}
+            {{ form_widget(form.iban,  {'attr':{'class':'iban' } } )}}
+
+            {{  form_label(form.bic,'BIC' )}}
+            {{ form_widget(form.bic )}}
+
+        </div>
+
+    {{ form_errors(form) }}
+    {{ form_end(form) }}
+
+    <script>
+        var cleaveIban = new Cleave('.iban', {
+            blocks: [4, 4, 4, 4, 4, 4, 3],
+            uppercase: true
+        });
+
+        var cleavePhone = new Cleave('.phone', {
+            blocks: [2, 2, 2, 2, 2],
+            numericOnly: true,
+        });
+        var cleaveMobile = new Cleave('.mobile', {
+            blocks: [2, 2, 2, 2, 2],
+            numericOnly: true,
+        });
+    </script>
 {% endblock %}
+
+
