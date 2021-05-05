@@ -4,7 +4,10 @@
 namespace App\EventSubscriber;
 
 
+use App\Controller\ResetPasswordController;
+use App\Entity\ResetPasswordRequest;
 use App\Entity\User;
+use App\Service\NewPasswordGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -16,12 +19,14 @@ use Symfony\Component\Mime\Message;
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
     private $mailer;
+    private $passwordGenerator;
     /**
      * EasyAdminSubscriber constructor.
      */
-    public function __construct(MailerInterface $mailer)
+    public function __construct(MailerInterface $mailer, NewPasswordGenerator $passwordGenerator)
     {
         $this->mailer = $mailer;
+        $this->passwordGenerator = $passwordGenerator;
     }
 
     public static function getSubscribedEvents()
@@ -41,18 +46,10 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public function sendMailAfterRegistration(AfterEntityPersistedEvent $event){
         if ($event->getEntityInstance() instanceof User){
             $user = $event->getEntityInstance();
-
-            $email = new TemplatedEmail();
-            $email
-                ->from('contact@groupe-stark-industries.fr')
-                ->to($user->getEmail())
-                ->subject('Welcome to Stark Industries')
-                ->htmlTemplate('mail_template/create_user.html.twig')
-                ->context([
-                    'name'=>$user->getFirstname(),
-                    'mail'=>$user->getEmail()
-                ]);
-            $this->mailer->send($email);
+            if ($user->getRole() === "ROLE_SALESMAN"){
+                $user->setMatricule(str_pad($user->getId(), 4, 0, STR_PAD_LEFT));
+            }
+            $this->passwordGenerator->createNewPassword($user->getEmail(), $user->getFirstname());
         }
 
     }
