@@ -1,7 +1,197 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Salesman page{% endblock %}
-
+{% block title %}Profil de {{ salesman.firstname }}{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset("assets/css/contratlisting_style.css") }}">
+{% endblock %}
 {% block body %}
-<h1>Bienvenue sur la page Commercial</h1>
+    <h1>Mes contrats</h1>
+    <div class="h-screen overflow-hidden flex items-center justify-center" style="background: #edf2f7;">
+        <div class="flex items-center justify-center">
+            <div id="contrats-list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+                <div class="search-forms">
+                <input class="search" placeholder="Rechercher un contrat" /><br>
+                <!-- class="sort" automagically makes an element a sort buttons. The date-sort value decides what to sort by. -->
+                Trier par : <button class="sort" data-sort="list-numcontrat">
+                    N° Contrat
+                </button>
+                    <button class="sort" data-sort="list-status">
+                        Statut
+                    </button>
+                    <button class="sort" data-sort="list-datecontrat">
+                        Date
+                    </button>
+                    <button class="sort" data-sort="list-nom">
+                        Nom
+                    </button>
+                </div>
+                <ul class="list">
+
+                {% if contrats %}
+                    {% for contrat in contrats %}
+                <!-- 1 card -->
+                        <li>
+                <div class="contract-item relative bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-xl" style="margin: 20px; min-width: 300px;">
+                    <div class=" text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-black left-4 -top-6">
+                        <i class="far fa-clipboard fa-2x"></i>
+                    </div>
+                    <div class="mt-8">
+                        <p class="text-xl font-semibold my-2">Contrat n°<span class="list-numcontrat">{{ contrat.getNumContrat() }}</span></p>
+                        <div class="flex space-x-2 text-gray-400 text-sm">
+                            <i class="fas fa-user"></i>
+                            <p>{% if contrat.getInfoClient()['gender'] == 'F' %}
+                                Mme
+                                {% else %}
+                                    M.
+                                    {% endif %}
+                                {{ contrat.getInfoClient()['firstname'] }}<span class="list-nom">{{ contrat.getInfoClient()['lastname'] }}</span></p>
+                        </div>
+                        <div class="flex space-x-2 text-gray-400 text-sm my-3">
+                            <i class="far fa-calendar-alt"></i>
+                            <p>Fait le <span class="list-datecontrat timestamp" data-timestamp="{{ contrat.getCreated()|date('d/m/Y à H:m') }}">{{ contrat.getCreated()|date('d/m/Y à H:m') }}</span></p>
+                        </div>
+                        <div class="border-t-2"></div>
+
+                        <div class="flex justify-between">
+                            <div class="my-2">
+                                <p class="font-semibold text-base mb-2"></p>
+                                <div class="flex space-x-2">
+                                    <button class="detail_button" data-value="contrat{{ contrat.getNumContrat() }}">Détails</button>
+                                </div>
+                            </div>
+                            <div class="my-2">
+                                <p class="font-semibold text-base mb-2">Statut</p>
+                                <div class="text-base text-gray-400 font-semibold">
+                                    <p class="list-status">
+                                        {% if contrat.getStatus() == '1' %}
+                                                En attente client
+                                        {% elseif contrat.getStatus() == '2' %}
+                                                En attente back-office
+                                        {% elseif contrat.getStatus() == '3' %}
+                                                Validé
+                                        {% elseif contrat.getStatus() == '4' %}
+                                                Rétracté
+                                        {% elseif contrat.getStatus() == '5' %}
+                                                Injoignable
+                                        {% else %}
+                                                Erreur
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        <div class="contrat_details" id="contrat{{ contrat.getNumContrat() }}">
+                            <div class="min-h-screen bg-gray-300 bg-opa py-6 flex flex-col justify-center sm:py-12">
+                                <div class="py-3 sm:max-w-xl sm:mx-auto">
+                                    <div class="bg-white min-w-1xl flex flex-col rounded-xl shadow-lg">
+                                        <div class="px-12 py-5">
+                                            <h2 class="text-gray-800 text-3xl font-semibold">Contrat n°{{ contrat.getNumContrat() }}</h2>
+                                        </div>
+                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                            <i class="fas fa-info-circle dtp"></i>
+                                            <p>{% if contrat.getStatus() == '1' %}
+                                                    En attente client
+                                                {% elseif contrat.getStatus() == '2' %}
+                                                    En attente back-office
+                                                {% elseif contrat.getStatus() == '3' %}
+                                                    Validé
+                                                {% elseif contrat.getStatus() == '4' %}
+                                                    Rétracté
+                                                {% elseif contrat.getStatus() == '5' %}
+                                                    Injoignable
+                                                {% else %}
+                                                    Erreur
+                                                {% endif %}</p>
+                                        </div>
+                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                            <i class="far fa-calendar-alt dtp"></i>
+                                            <p>Fait le {{ contrat.getCreated()|date('d/m/Y à H:m') }}</p>
+                                        </div>
+                                        <div class="border-t-2"></div>
+                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                            <i class="fas fa-user dtp"></i>
+                                            <p>{% if contrat.getInfoClient()['gender'] == 'F' %}
+                                                    Mme
+                                                {% else %}
+                                                    M.
+                                                {% endif %} {{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</p>
+                                        </div>
+                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                            <i class="fas fa-calendar-day dtp"></i>
+                                            <p>Né{% if contrat.getInfoClient()['gender'] == 'F' %}e{% endif%} le {{ contrat.getInfoClient()['birthdate'] }}</p>
+                                        </div>
+                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                            <i class="fas fa-map-marker-alt dtp"></i>
+                                            <p>{{ contrat.getInfoClient()['address'] }}</p>
+                                        </div>
+                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                            <i class="fas fa-envelope dtp2"></i>
+                                            <p>{{ contrat.getInfoClient()['zipcode'] }} {{ contrat.getInfoClient()['city'] }}</p>
+                                               <i class="far fa-flag dtp2"></i>
+                                            <p>{{ contrat.getInfoClient()['country'] }}</p>
+                                        </div>
+                                        {% if contrat.getInfoClient()['phone'] %}
+                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                            <i class="fas fa-phone dtp"></i>
+                                            <p>{{ contrat.getInfoClient()['phone'] }}</p>
+                                        </div>
+                                        {% endif %}
+                                        {% if contrat.getInfoClient()['mobile'] %}
+                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                            <i class="fas fa-mobile-alt dtp"></i>
+                                            <p>{{ contrat.getInfoClient()['mobile'] }}</p>
+                                        </div>
+                                        {% endif %}
+                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                            <i class="fas fa-at dtp"></i>
+                                            <p>{{ contrat.getInfoClient()['mail'] }}</p>
+                                        </div>
+                                        <div class="border-t-2"></div>
+                                        <div class="h-20 flex items-center justify-center">
+                                            <a href="#" class="text-gray-600 back-button">Retour</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    Vous n'avez encore réalisé aucun contrat.
+                {% endif %}
+                </ul>  <ul class="pagination"></ul>
+            </div>
+        </div>
+    </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
+    <script>
+        let button_details = document.querySelectorAll('.detail_button')
+
+        button_details.forEach((button)=>{
+            button.addEventListener('click',(e)=>{
+                let numcont = e.target.getAttribute('data-value')
+                document.getElementById(numcont).style.display = 'block'
+                document.querySelectorAll('.back-button').forEach(back=>{
+                    back.addEventListener('click',(e)=> {
+                        document.getElementById(numcont).style.display = 'none'
+                    })
+                })
+            })
+        })
+
+        var options = {
+            valueNames: [
+                'list-nom',
+                'list-status',
+                'list-numcontrat',
+                {name: 'list-datecontrat', attr: 'data-timestamp'}
+            ],
+            page: 25,
+            pagination: true
+        };
+        var contratsList = new List('contrats-list', options);
+    </script>
+
 {% endblock %}
