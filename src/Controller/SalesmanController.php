@@ -42,11 +42,20 @@ class SalesmanController extends AbstractController
 			$em = $this->getDoctrine()->getManager();
 
 			$contrat->setSalesman($this->getUser());
-			$contrat->setStatus(0);
+			$contrat->setStatus(1);
 
 			$infoClient = [
 				'gender'=>$form->get('gender')->getData(),
 				'lastname'=>$form->get('lastname')->getData(),
+                'firstname'=>$form->get('firstname')->getData(),
+                'birthdate'=>$form->get('birthday')->getData()->format('d/m/Y'),
+                'address'=>$form->get('address')->getData(),
+                'zipcode'=>$form->get('zipcode')->getData(),
+                'city'=>$form->get('city')->getData(),
+                'country'=>$form->get('country')->getData(),
+                'phone'=>$form->get('phone')->getData(),
+                'mobile'=>$form->get('mobile')->getData(),
+                'mail'=>$form->get('mail')->getData(),
 			];
 			$contrat->setInfoClient($infoClient);
 
@@ -56,17 +65,17 @@ class SalesmanController extends AbstractController
 			];
 			$contrat->setInfoPrelevement($infoPrelevement);
 			$contrat->setNumeroVerif(1234);
+			$contrat->setCreated(new \DateTime());
 
 			$em->persist($contrat);
 			$em->flush();
 			$em->refresh($contrat);
 
-			$num_contrat = $this->getUser()->getMatricule();
+			$num_contrat = (string)$this->getUser()->getMatricule();
 			$num_contrat .= str_pad($contrat->getId(), 4, 0, STR_PAD_LEFT);;
 			$contrat->setNumContrat($num_contrat);
 			$em->flush();
-			dd($contrat);
-
+			$this->redirectToRoute('salesman_home');
 		}
 
 		return $this->render('salesman/new-contract.html.twig', ['form' => $form->createView()]);

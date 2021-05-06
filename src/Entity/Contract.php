@@ -147,14 +147,14 @@ class Contract
         return $this;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    public function getCreated(): string
     {
-        return $this->created;
+        return $this->created->format('d/m/Y à H:m');
     }
 
     public function setCreated(\DateTimeInterface $created): self
     {
-        $this->created = new DateTime('now');
+        $this->created = $created;
 
         return $this;
     }

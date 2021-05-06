@@ -47,7 +47,7 @@
                         </div>
                         <div class="flex space-x-2 text-gray-400 text-sm my-3">
                             <i class="far fa-calendar-alt"></i>
-                            <p>Fait le <span class="list-datecontrat timestamp" data-timestamp="{{ contrat.getCreated()|date('d/m/Y à H:m') }}">{{ contrat.getCreated()|date('d/m/Y à H:m') }}</span></p>
+                            <p>Fait le <span class="list-datecontrat timestamp" data-timestamp="{{ contrat.getCreated() }}">{{ contrat.getCreated() }}</span></p>
                         </div>
                         <div class="border-t-2"></div>
 
@@ -106,7 +106,7 @@
                                         </div>
                                         <div class="flex space-x-2 text-gray-400 text-sm">
                                             <i class="far fa-calendar-alt dtp"></i>
-                                            <p>Fait le {{ contrat.getCreated()|date('d/m/Y à H:m') }}</p>
+                                            <p>Fait le {{ contrat.getCreated() }}</p>
                                         </div>
                                         <div class="border-t-2"></div>
                                         <div class="flex space-x-2 text-gray-400 text-sm">
