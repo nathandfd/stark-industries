@@ -15,22 +15,6 @@ class TestController extends AbstractController
      */
     public function index(MailerInterface $mailer)
     {
-      $email = new TemplatedEmail();
-      $email
-          ->from('oui@gmail.com')
-          ->to('nathan.dufaud@gmail.com')
-          ->subject('Création de votre compte')
-          ->htmlTemplate('mail_template/welcome_email.html.twig')
-          ->context([
-              'resetToken' => [
-                  'token'=>'oui',
-                  'expirationMessageKey'=>'1'
-              ],
-              'name'=> '$name'
-          ]);
-
-      $mailer->send($email);
-
-      return new Response('ok');
+     return $this->render('reset_password/check_email.html.twig');
     }
 }
