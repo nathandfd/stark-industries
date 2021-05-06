@@ -12,7 +12,7 @@
         {% block stylesheets %}
         {% endblock %}
     </head>
-    <body>
+    <body class="font-sans">
         <div id="main">
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             {{ include('header.html.twig') }}
