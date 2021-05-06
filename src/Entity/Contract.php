@@ -29,7 +29,7 @@ class Contract
     private $status;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string",nullable=true)
      */
     private $num_contrat;
 
