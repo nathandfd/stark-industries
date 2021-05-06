@@ -64,6 +64,7 @@ class SalesmanController extends AbstractController
 				'gender'=>$form->get('gender')->getData(),
 				'lastname'=>$form->get('lastname')->getData(),
 			];
+
 			$contrat->setInfoPrelevement($infoPrelevement);
 			$contrat->setNumeroVerif(1234);
 			$contrat->setCreated(new \DateTime());
