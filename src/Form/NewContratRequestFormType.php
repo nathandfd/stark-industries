@@ -33,7 +33,7 @@ class NewContratRequestFormType extends AbstractType
 			->add('gender', ChoiceType::class,[
 				'label'=>'Genre',
 				'mapped'=>false,
-				'expanded'=>true,
+				'expanded'=>false,
 				'multiple'=>false,
 				'choices'=>[
 					'M.'=>'m',
@@ -98,7 +98,7 @@ class NewContratRequestFormType extends AbstractType
 
 			])
 			->add('save', SubmitType::class,[
-				'label'=>'Valider'
+				'label'=>'Valider le contrat'
 			]);
 		}
 
