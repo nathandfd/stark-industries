@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,16 +67,15 @@ class SalesmanController extends AbstractController
 			$contrat->setInfoPrelevement($infoPrelevement);
 			$contrat->setNumeroVerif(1234);
 			$contrat->setCreated(new \DateTime());
-
 			$em->persist($contrat);
 			$em->flush();
 			$em->refresh($contrat);
 
-			$num_contrat = (string)$this->getUser()->getMatricule();
+			$num_contrat = $this->getUser()->getMatricule();
 			$num_contrat .= str_pad($contrat->getId(), 4, 0, STR_PAD_LEFT);;
 			$contrat->setNumContrat($num_contrat);
 			$em->flush();
-			$this->redirectToRoute('salesman_home');
+			return new RedirectResponse($this->generateUrl('salesman_home'));
 		}
 
 		return $this->render('salesman/new-contract.html.twig', ['form' => $form->createView()]);

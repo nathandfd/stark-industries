@@ -87,12 +87,12 @@ class Contract
         return $this;
     }
 
-    public function getNumContrat(): ?int
+    public function getNumContrat(): ?string
     {
         return $this->num_contrat;
     }
 
-    public function setNumContrat(int $num_contrat): self
+    public function setNumContrat(string $num_contrat): self
     {
         $this->num_contrat = $num_contrat;
 
