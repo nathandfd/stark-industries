@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ChangePasswordFormType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,9 @@ class TestController extends AbstractController
      */
     public function index(MailerInterface $mailer)
     {
-     return $this->render('reset_password/check_email.html.twig');
+        $form = $this->createForm(ChangePasswordFormType::class);
+        return $this->render('reset_password/reset.html.twig', [
+            'resetForm' => $form->createView(),
+        ]);
     }
 }

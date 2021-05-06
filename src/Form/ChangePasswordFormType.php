@@ -29,10 +29,24 @@ class ChangePasswordFormType extends AbstractType
                             'max' => 4096,
                         ]),
                     ],
-                    'label' => 'Nouveau mot de passe',
+                    'label'=>'Nouveau mot de passe',
+                    'label_attr'=>[
+                        'class'=>'sr-only',
+                    ],
+                    'attr'=>[
+                        'class'=>'w-full p-2 border rounded-md outline-none focus:border-purple-600',
+                        'placeholder' => 'Nouveau mot de passe'
+                    ],
                 ],
                 'second_options' => [
-                    'label' => 'Confirmation du mot de passe',
+                    'label'=>'Confirmation du mot de passe',
+                    'label_attr'=>[
+                        'class'=>'sr-only',
+                    ],
+                    'attr'=>[
+                        'class'=>'w-full p-2 border rounded-md outline-none focus:border-purple-600',
+                        'placeholder' => 'Confirmation du mot de passe'
+                    ],
                 ],
                 'invalid_message' => 'Les mots de passe doivent correspondre',
                 // Instead of being set onto the object directly,

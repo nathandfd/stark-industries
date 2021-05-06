@@ -3,10 +3,17 @@
 {% block title %}Réinitialisation du mot de passe{% endblock %}
 
 {% block body %}
-    <h1>Réinitialisation du mot de passe</h1>
+    <div class="w-screen h-screen flex flex-col justify-center items-center">
+        <div class="max-w-screen-md h-auto py-8 space-y-6 flex flex-col justify-center items-center">
+            <img src="{{ asset('assets/images/logo_stark.png') }}" class="h-auto w-56" alt="">
+            <h1 class="font-medium text-2xl">Réinitialisation du mot de passe</h1>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Réinitialiser mon mot de passe</button>
-    {{ form_end(resetForm) }}
+            {{ form_start(resetForm,{'attr':{'class':'flex flex-col justify-center items-center w-full'}}) }}
+            <div class="self-start space-y-4 w-full">
+                {{ form_row(resetForm.plainPassword) }}
+            </div>
+            <button class="bg-purple-600 text-white py-2 w-full font-medium mt-6 rounded-md">Réinitialiser mon mot de passe</button>
+            {{ form_end(resetForm) }}
+        </div>
+    </div>
 {% endblock %}
