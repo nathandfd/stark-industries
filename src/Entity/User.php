@@ -52,14 +52,14 @@ class User implements UserInterface
     private $matricule;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $head = [];
-
-    /**
      * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="salesman")
      */
     private $contracts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=distributor::class, inversedBy="users")
+     */
+    private $distributor;
 
     public function __construct()
     {
@@ -200,18 +200,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getHead(): ?array
-    {
-        return $this->head;
-    }
-
-    public function setHead(?array $head): self
-    {
-        $this->head = $head;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Contract[]
      */
@@ -238,6 +226,18 @@ class User implements UserInterface
                 $contract->setSalesman(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDistributor(): ?distributor
+    {
+        return $this->distributor;
+    }
+
+    public function setDistributor(?distributor $distributor): self
+    {
+        $this->distributor = $distributor;
 
         return $this;
     }
