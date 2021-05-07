@@ -14,7 +14,7 @@
         {% endblock %}
     </head>
     <body class="font-sans">
-        <div id="main">
+        <div id="main" class="">
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             {{ include('header.html.twig') }}
             {% endif %}
