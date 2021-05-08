@@ -50,13 +50,16 @@ class UserCrudController extends AbstractCrudController
                     "Administrateur"=>"ROLE_ADMIN",
                     "Back-office"=>"ROLE_BACKOFFICE",
                     "Commercial"=>"ROLE_SALESMAN"
-                    ]),
+                    ])
+                ->addCssClass('role-input'),
             TextField::new('matricule','Matricule')
                 ->onlyOnDetail()
                 ->formatValue(function($value){
                     return $value?:'Aucun matricule disponible';
                 }),
             AssociationField::new('distributor', 'Distributeur')
+                ->addCssClass('distributor-input')
+                ->addJsFiles('/build/showdistributor.js')
         ];
     }
 

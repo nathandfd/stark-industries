@@ -23,6 +23,8 @@ Encore
     .addEntry('style', './public/assets/styles/style.js')
     .addEntry('sidebar', './public/assets/styles/sidebar.js')
     .addEntry('contratlisting_style', './public/assets/styles/contratlisting_style.js')
+    .addEntry('showdistributor', './public/assets/scripts/showdistributor.js')
+
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./public/assets/controllers.json')
@@ -32,7 +34,8 @@ Encore
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
-    .enableSingleRuntimeChunk()
+    //.enableSingleRuntimeChunk()
+    .disableSingleRuntimeChunk()
 
     /*
      * FEATURE CONFIG
