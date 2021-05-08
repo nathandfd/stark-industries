@@ -44,5 +44,7 @@ class AdminController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', Admin\UserCrudController::getEntityFqcn());
+        yield MenuItem::linkToCrud('Distributeurs', 'fas fa-list', Admin\DistributorCrudController::getEntityFqcn());
+
     }
 }
