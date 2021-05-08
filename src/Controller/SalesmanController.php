@@ -4,12 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Contract;
 use App\Entity\User;
+use App\Repository\ContractRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\NewContratRequestFormType;
 
@@ -76,9 +82,30 @@ class SalesmanController extends AbstractController
 			$num_contrat .= str_pad($contrat->getId(), 4, 0, STR_PAD_LEFT);;
 			$contrat->setNumContrat($num_contrat);
 			$em->flush();
-			return new RedirectResponse($this->generateUrl('salesman_home'));
+			return new RedirectResponse($this->generateUrl('new-contract-validated',[
+                'contractId'=>$contrat->getId()
+            ]));
 		}
 
 		return $this->render('salesman/new-contract.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/new-contract-validated/{contractId}", name="new-contract-validated")
+     */
+    public function sendMailNewContract(MailerInterface $mailer, ContractRepository $contractRepository, $contractId){
+        $contract = $contractRepository->find($contractId);
+        $email = (new TemplatedEmail())
+            ->from(new Address('contact@groupe-stark-industries.fr', 'Stark industries'))
+            ->to($contract->getInfoClient()['mail'])
+            ->subject('Souscription à Stark industries')
+            ->htmlTemplate('mail_template/new_contract.html.twig')
+            ->context([
+                'name'=> $contract->getInfoClient()['firstname']
+            ])
+            ->attachFromPath('assets/documents/'.$contract->getNumContrat().'.pdf', 'contrat_stark_industries.pdf')
+        ;
+        $mailer->send($email);
+        return new RedirectResponse($this->generateUrl('salesman_home'));
     }
 }
