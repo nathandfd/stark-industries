@@ -98,12 +98,12 @@ class SalesmanController extends AbstractController
         $email = (new TemplatedEmail())
             ->from(new Address('contact@groupe-stark-industries.fr', 'Stark industries'))
             ->to($contract->getInfoClient()['mail'])
-            ->subject('Souscription à Stark industries')
+            ->subject('Souscription chez Stark industries')
             ->htmlTemplate('mail_template/new_contract.html.twig')
             ->context([
                 'name'=> $contract->getInfoClient()['firstname']
             ])
-            ->attachFromPath('assets/documents/'.$contract->getNumContrat().'.pdf', 'contrat_stark_industries.pdf')
+            ->attachFromPath('../var/documents/00020011.pdf', 'contrat_stark_industries.pdf')
         ;
         $mailer->send($email);
         return new RedirectResponse($this->generateUrl('salesman_home'));
