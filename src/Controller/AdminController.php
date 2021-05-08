@@ -47,5 +47,8 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Distributeurs', 'fas fa-building', Admin\DistributorCrudController::getEntityFqcn());
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Back-office', 'fas fa-file-signature', 'backoffice_home');
+        yield MenuItem::section();
+        yield MenuItem::linkToRoute('Déconnexion', 'fas fa-power-off', 'app_logout');
+
     }
 }
