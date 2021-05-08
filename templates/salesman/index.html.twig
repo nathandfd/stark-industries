@@ -5,37 +5,37 @@
 <link rel="stylesheet" href="{{ asset("build/contratlisting_style.css") }}">
 {% endblock %}
 {% block body %}
-    <h1>Mes contrats</h1>
-    <div class="h-screen overflow-hidden flex items-center justify-center" style="background: #edf2f7;">
-        <div class="flex items-center justify-center">
+
+    <div class="bg-gray-100 p-6 relative md:ml-64 min-h-screen overflow-x-hidden">
+        <h1 class="order-1 text-gray-900 text-3xl font-extrabold tracking-tight">Mes contrats</h1>
             {% if contrats is not empty %}
-            <div id="contrats-list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-                <div class="search-forms">
-                <input class="search" placeholder="Rechercher un contrat" /><br>
+
+
+            <div id="contrats-list" class="grid grid-cols-1 gap-6">
+                <div class="search-forms w-full grid grid-cols-1 grid-rows-2">
                 <!-- class="sort" automagically makes an element a sort buttons. The date-sort value decides what to sort by. -->
-                Trier par : <button class="sort" data-sort="list-numcontrat">
-                    N° Contrat
-                </button>
-                    <button class="sort" data-sort="list-status">
-                        Statut
-                    </button>
-                    <button class="sort" data-sort="list-datecontrat">
-                        Date
-                    </button>
-                    <button class="sort" data-sort="list-nom">
-                        Nom
-                    </button>
+                    <div class="row-start-2 grid grid-cols-1 grid-rows-2">
+                        <p class="row-start-1">Trier par :</p>
+                        <div class="row-start-2 flex justify-between md:justify-start">
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-numcontrat">Contrat</button>
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-status">Statut</button>
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-datecontrat">Date</button>
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-nom">Nom</button>
+                        </div>
+                    </div>
+                    <input class="search row-start-1 phone w-full py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-purple-800 outline-none my-3" placeholder="Rechercher un contrat" /><br>
+
                 </div>
-                <ul class="list">
+                <ul class="list w-full flex flex-wrap justify-around">
                     {% for contrat in contrats %}
                 <!-- 1 card -->
-                        <li>
-                <div class="contract-item relative bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-xl" style="margin: 20px; min-width: 300px;">
-                    <div class=" text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-black left-4 -top-6">
+                        <li class="m-5">
+                            <div class="contract-item relative bg-white py-6 px-6 rounded-3xl w-72 my-4 shadow-xl" >
+                   {# <div class="text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-black left-4 -top-6">
                         <i class="far fa-clipboard fa-2x"></i>
-                    </div>
-                    <div class="mt-8">
-                        <p class="text-xl font-semibold my-2 ">Contrat n°<span class="list-numcontrat">{{ contrat.getNumContrat() }}</span></p>
+                    </div>#}
+                    <div class="{#mt-8#}">
+                        <p class="text-xl font-semibold mb-5">Contrat n°<span class="list-numcontrat">{{ contrat.getNumContrat() }}</span></p>
                         <div class="flex space-x-2 text-gray-400 text-sm">
                             <i class="fas fa-user"></i>
                             <p>{% if contrat.getInfoClient()['gender'] == 'F' %}
@@ -49,67 +49,64 @@
                             <i class="far fa-calendar-alt"></i>
                             <p>Fait le <span class="list-datecontrat timestamp" data-timestamp="{{ contrat.getCreated() }}">{{ contrat.getCreated() }}</span></p>
                         </div>
-                        <div class="border-t-2"></div>
+                        <div class="h-px mt-5 bg-gray-300"></div>
 
-                        <div class="flex justify-between">
-                            <div class="my-2">
-                                <p class="font-semibold text-base mb-2"></p>
-                                <div class="flex space-x-2">
-                                    <button class="detail_button" data-value="contrat{{ contrat.getNumContrat() }}">Détails</button>
-                                </div>
-                            </div>
-                            <div class="my-2">
-                                <p class="font-semibold text-base mb-2">Statut</p>
-                                <div class="text-base text-gray-400 font-semibold">
-                                    <p class="list-status">
+                        <div>
+                            <div class="mt-2 w-full text-center">
+                                {# <p class="font-semibold text-base">Statut</p> #}
+                                <div class="my-5 text-base font-semibold uppercase">
                                         {% if contrat.getStatus() == '1' %}
-                                                En attente client
+                                            <p class="list-status text-gray-400">En attente client</p>
                                         {% elseif contrat.getStatus() == '2' %}
-                                                En attente back-office
+                                            <p class="list-status text-yellow-400">En attente back-office</p>
                                         {% elseif contrat.getStatus() == '3' %}
-                                                Validé
+                                            <p class="list-status text-green-600">Validé</p>
                                         {% elseif contrat.getStatus() == '4' %}
-                                                Rétracté
+                                            <p class="list-status text-red-600">Rétracté</p>
                                         {% elseif contrat.getStatus() == '5' %}
-                                                Injoignable
+                                            <p class="list-status text-red-600">Injoignable</p>
+                                        {% elseif contrat.getStatus() == '6' %}
+                                            <p class="list-status text-red-600">Impayé</p>
                                         {% else %}
-                                                Erreur
+                                            <p class="list-status text-red-900">Erreur</p>
                                         {% endif %}
-                                    </p>
                                 </div>
                             </div>
+                            <button class="w-full detail_button py-2 px-10 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-value="contrat{{ contrat.getNumContrat() }}">Détails</button>
                         </div>
                     </div>
                 </div>
-                        <div class="contrat_details" id="contrat{{ contrat.getNumContrat() }}">
-                            <div class="min-h-screen bg-gray-300 bg-opa py-6 flex flex-col justify-center sm:py-12">
-                                <div class="py-3 sm:max-w-xl sm:mx-auto">
-                                    <div class="bg-white min-w-1xl flex flex-col rounded-xl shadow-lg">
-                                        <div class="px-12 py-5">
+                            <div class="contrat_details w-screen h-screen z-50 hidden fixed m-0 left-0 top-0" id="contrat{{ contrat.getNumContrat() }}">
+                            <div class="w-full h-full bg-gray-300 bg-opacity-50 flex flex-col justify-center">
+                                <div class="py-3 min-w-1/2 sm:mx-auto">
+                                    <div class="bg-white min-w-1xl flex flex-col rounded-xl shadow-lg p-5">
+                                        <div class="ml-10 px-12 py-5">
                                             <h2 class="text-gray-800 text-3xl font-semibold">Contrat n°{{ contrat.getNumContrat() }}</h2>
                                         </div>
-                                        <div class="flex space-x-2 text-gray-400 text-sm">
-                                            <i class="fas fa-info-circle dtp"></i>
-                                            <p>{% if contrat.getStatus() == '1' %}
-                                                    En attente client
-                                                {% elseif contrat.getStatus() == '2' %}
-                                                    En attente back-office
-                                                {% elseif contrat.getStatus() == '3' %}
-                                                    Validé
-                                                {% elseif contrat.getStatus() == '4' %}
-                                                    Rétracté
-                                                {% elseif contrat.getStatus() == '5' %}
-                                                    Injoignable
-                                                {% else %}
-                                                    Erreur
-                                                {% endif %}</p>
+                                        <div class="ml-10 flex space-x-2 text-sm my-1">
+
+                                            {% if contrat.getStatus() == '1' %}
+                                                <i class="fas fa-info-circle dtp text-gray-400"></i><p class="list-status text-gray-400 uppercase">En attente client</p>
+                                            {% elseif contrat.getStatus() == '2' %}
+                                                <i class="fas fa-info-circle dtp text-yellow-400"></i><p class="list-status text-yellow-400 uppercase">En attente back-office</p>
+                                            {% elseif contrat.getStatus() == '3' %}
+                                                <i class="fas fa-info-circle dtp text-green-600"></i><p class="list-status text-green-600 uppercase">Validé</p>
+                                            {% elseif contrat.getStatus() == '4' %}
+                                                <i class="fas fa-info-circle dtp text-red-600"></i><p class="list-status text-red-600 uppercase">Rétracté</p>
+                                            {% elseif contrat.getStatus() == '5' %}
+                                                <i class="fas fa-info-circle dtp text-red-600"></i><p class="list-status text-red-600 uppercase">Injoignable</p>
+                                            {% elseif contrat.getStatus() == '6' %}
+                                                <i class="fas fa-info-circle dtp text-red-600"></i><p class="list-status text-red-600 uppercase">Impayé</p>
+                                            {% else %}
+                                                <i class="fas fa-info-circle dtp text-red-900"></i><p class="list-status text-red-900 uppercase">Erreur</p>
+                                            {% endif %}
                                         </div>
-                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                        <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="far fa-calendar-alt dtp"></i>
                                             <p>Fait le {{ contrat.getCreated() }}</p>
                                         </div>
-                                        <div class="border-t-2"></div>
-                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                        <div class="h-0.5 bg-gray-300 w-1/2 mx-auto my-5"></div>
+                                        <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="fas fa-user dtp"></i>
                                             <p>{% if contrat.getInfoClient()['gender'] == 'F' %}
                                                     Mme
@@ -117,39 +114,41 @@
                                                     M.
                                                 {% endif %} {{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</p>
                                         </div>
-                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                        <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="fas fa-calendar-day dtp"></i>
                                             <p>Né{% if contrat.getInfoClient()['gender'] == 'F' %}e{% endif%} le {{ contrat.getInfoClient()['birthdate'] }}</p>
                                         </div>
-                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                        <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="fas fa-map-marker-alt dtp"></i>
                                             <p>{{ contrat.getInfoClient()['address'] }}</p>
                                         </div>
-                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                        <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="fas fa-envelope dtp2"></i>
                                             <p>{{ contrat.getInfoClient()['zipcode'] }} {{ contrat.getInfoClient()['city'] }}</p>
-                                               <i class="far fa-flag dtp2"></i>
+                                        </div>
+                                        <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
+                                            <i class="far fa-flag dtp2"></i>
                                             <p>{{ contrat.getInfoClient()['country'] }}</p>
                                         </div>
                                         {% if contrat.getInfoClient()['phone'] %}
-                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                        <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="fas fa-phone dtp"></i>
                                             <p>{{ contrat.getInfoClient()['phone'] }}</p>
                                         </div>
                                         {% endif %}
                                         {% if contrat.getInfoClient()['mobile'] %}
-                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                        <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="fas fa-mobile-alt dtp"></i>
                                             <p>{{ contrat.getInfoClient()['mobile'] }}</p>
                                         </div>
                                         {% endif %}
-                                        <div class="flex space-x-2 text-gray-400 text-sm">
+                                        <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="fas fa-at dtp"></i>
                                             <p>{{ contrat.getInfoClient()['mail'] }}</p>
                                         </div>
-                                        <div class="border-t-2"></div>
+                                        <div class="h-0.5 bg-gray-300 w-1/2 mx-auto my-5"></div>
                                         <div class="h-20 flex items-center justify-center">
-                                            <a href="#" class="text-gray-600 back-button">Retour</a>
+                                            <a href="#" class="back-button py-2 px-10 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Retour</a>
                                         </div>
                                     </div>
                                 </div>
@@ -158,13 +157,18 @@
                         </li>
                     {% endfor %}
                 </ul>
-                <ul class="pagination"></ul>
+                <ul class="pagination w-full flex flex-wrap justify-center items-center"></ul>
             </div>
+
+
             {% else %}
-                <h2 class="text-center font-bold text-3xl w-screen">Vous n'avez encore réalisé aucun contrat.</h2>
+                <div class="justify-center items-center flex mt-80">
+                    <h2 class="text-center text-gray-900 font-bold text-2xl">Vous n'avez encore réalisé aucun contrat.</h2>
+                </div>
             {% endif %}
-        </div>
     </div>
+
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
     <script>
         let button_details = document.querySelectorAll('.detail_button')
@@ -188,10 +192,25 @@
                 'list-numcontrat',
                 {name: 'list-datecontrat', attr: 'data-timestamp'}
             ],
-            page: 25,
+            page: 15,
             pagination: true
         };
         var contratsList = new List('contrats-list', options);
+
+        pagination()
+       function pagination(){
+           let linkPage = document.querySelectorAll('.page')
+           linkPage.forEach((page)=>{
+               page.setAttribute('class', 'page py-2 px-4 mx-2 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500')
+           })
+
+           let linkPageActive = document.querySelectorAll('.active.page')
+           linkPageActive.forEach((pageActive)=>{
+               pageActive.setAttribute('class', 'bg-yellow-500')
+           })
+       }
+
+
     </script>
 
 {% endblock %}
