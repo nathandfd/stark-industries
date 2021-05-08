@@ -57,7 +57,7 @@ class User implements UserInterface
     private $contracts;
 
     /**
-     * @ORM\ManyToOne(targetEntity=distributor::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Distributor::class, inversedBy="users")
      */
     private $distributor;
 

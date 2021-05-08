@@ -25,7 +25,7 @@ class Distributor
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="distributor")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="Distributor")
      */
     private $users;
 
