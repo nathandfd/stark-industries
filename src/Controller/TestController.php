@@ -17,7 +17,7 @@ class TestController extends AbstractController
     public function index(MailerInterface $mailer)
     {
         $form = $this->createForm(ChangePasswordFormType::class);
-        return $this->render('reset_password/reset.html.twig', [
+        return $this->render('', [
             'resetForm' => $form->createView(),
         ]);
     }

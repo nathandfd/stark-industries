@@ -5,11 +5,15 @@ namespace App\EventSubscriber;
 
 
 use App\Controller\ResetPasswordController;
+use App\Entity\Distributor;
 use App\Entity\ResetPasswordRequest;
 use App\Entity\User;
 use App\Service\NewPasswordGenerator;
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityPersistedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Exception\ForbiddenActionException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -32,15 +36,8 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            BeforeEntityPersistedEvent::class => ['setUserEntity'],
-            AfterEntityPersistedEvent::class => ['sendMailAfterRegistration']
+            AfterEntityPersistedEvent::class => ['sendMailAfterRegistration'],
         ];
-    }
-
-    public function setUserEntity(BeforeEntityPersistedEvent $event){
-        if ($event->getEntityInstance() instanceof User){
-            $user = $event->getEntityInstance();
-        }
     }
 
     public function sendMailAfterRegistration(AfterEntityPersistedEvent $event){

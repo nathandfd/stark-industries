@@ -25,7 +25,7 @@ class Distributor
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="Distributor")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="distributor")
      */
     private $users;
 
@@ -57,6 +57,11 @@ class Distributor
     public function getUsers(): Collection
     {
         return $this->users;
+    }
+
+    public function isUsed()
+    {
+        return $this->users->isEmpty();
     }
 
     public function addUser(User $user): self
