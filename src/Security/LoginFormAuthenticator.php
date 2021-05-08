@@ -64,7 +64,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException('Délai d\'authentification dépassé, merci d\'actualiser votre page');
+            //throw new InvalidCsrfTokenException('Délai d\'authentification dépassé, merci d\'actualiser votre page');
+            throw new CustomUserMessageAuthenticationException('Délai d\'authentification dépassé, merci d\'actualiser votre page');
         }
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
