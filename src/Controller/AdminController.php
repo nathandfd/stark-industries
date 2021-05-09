@@ -48,7 +48,6 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Back-office', 'fas fa-file-signature', 'backoffice_home');
         yield MenuItem::section();
-        yield MenuItem::linkToRoute('Déconnexion', 'fas fa-power-off', 'app_logout');
-
+        yield MenuItem::linkToLogout('Déconnexion', 'fas fa-power-off');
     }
 }
