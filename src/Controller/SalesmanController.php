@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,7 @@ use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\NewContratRequestFormType;
+use Symfony\Component\Validator\Exception\ValidatorException;
 
 /**
  * @Route("/salesman")
@@ -110,6 +112,7 @@ class SalesmanController extends AbstractController
                     'contractId'=>$contractId
                 ]));
             }
+            $form->addError(new FormError('Le numéro de vérification est incorrect, un nouveau code va vous être envoyé par SMS'));
         }
 
         $secureCode = mt_rand(100000,999999);

@@ -4,9 +4,17 @@
 
 
 {% block body %}
-    <div class="bg-gray-100 p-6 relative md:ml-64">
-        <h1 class="order-1 text-gray-900 text-3xl font-extrabold tracking-tight mt-2">Vérification par SMS</h1>
-            {{ form(form) }}
+    <div class="bg-gray-100 p-6 relative md:ml-64 flex-1 h-screen flex justify-center items-center flex-col">
+        <h1 class="text-gray-900 text-3xl font-extrabold tracking-tight mt-2">Vérification par SMS</h1>
+        <div class="mt-6 text-red-500">
+            {{ form_errors(form) }}
+        </div>
+        <div class="w-56 flex-col flex justify-center items-center space-y-8 mt-12">
+            {{ form_start(form) }}
+                {{ form_row(form.secure_code) }}
+                {{ form_row(form.save) }}
+            {{ form_end(form) }}
+        </div>
     </div>
 
     <script>
