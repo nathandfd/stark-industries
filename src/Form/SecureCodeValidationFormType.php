@@ -37,8 +37,10 @@ class SecureCodeValidationFormType extends AbstractType
 				'mapped'=>false,
                 'required'=>true,
                 'attr' => [
-                    'class' => 'secure_code_input phone w-full py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none my-3 mb-6',
-                    'placeholder'=>'Ex. 123456'
+                    'value'=>'',
+                    'class' => 'secure_code_input w-full text-center phone py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none my-3 mb-6',
+                    'placeholder'=>'Ex. 123456',
+                    'autocomplete'=>'off'
                 ],
 			])
 			->add('save', SubmitType::class,[
