@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Entity\Contract;
+use App\Repository\ContractRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,10 +17,19 @@ class BackofficeController extends AbstractController
     /**
      * @Route("/", name="backoffice_home")
      */
-    public function index(): Response
+    public function index(UserRepository $userRepository, ContractRepository $contractRepository): Response
     {
+        $backoffice =  $userRepository->findByRoles(['ROLE_BACKOFFICE']);
+        $salesman = $userRepository->findByRoles(['ROLE_SALESMAN']);
+
+
+
+        $contrats = $contractRepository->findAll();
         return $this->render('backoffice/index.html.twig', [
             'controller_name' => 'BackofficeController',
+            'salesman' => $salesman,
+            'contrats' => $contrats,
+            'backoffice' => $backoffice
         ]);
     }
 }

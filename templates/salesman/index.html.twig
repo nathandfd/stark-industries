@@ -30,13 +30,10 @@
                     {% for contrat in contrats %}
                 <!-- 1 card -->
                         <li class="m-5">
-                            <div class="contract-item relative bg-white py-6 px-6 rounded-3xl w-72 my-4 shadow-xl" >
-                   {# <div class="text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-black left-4 -top-6">
-                        <i class="far fa-clipboard fa-2x"></i>
-                    </div>#}
-                    <div class="{#mt-8#}">
+                            <div class="contract-item relative bg-white py-6 px-6 rounded-3xl w-72 my-4 shadow-lg">
+                    <div>
                         <p class="text-xl font-semibold mb-5">Contrat n°<span class="list-numcontrat">{{ contrat.getNumContrat() }}</span></p>
-                        <div class="flex space-x-2 text-gray-400 text-sm">
+                        <div class="flex items-center space-x-2 text-gray-400 text-sm">
                             <i class="fas fa-user"></i>
                             <p>{% if contrat.getInfoClient()['gender'] == 'F' %}
                                 Mme
@@ -45,7 +42,7 @@
                                     {% endif %}
                                 {{ contrat.getInfoClient()['firstname'] }} <span class="list-nom">{{ contrat.getInfoClient()['lastname'] }}</span></p>
                         </div>
-                        <div class="flex space-x-2 text-gray-400 text-sm my-3">
+                        <div class="flex items-center space-x-2 text-gray-400 text-sm my-3">
                             <i class="far fa-calendar-alt"></i>
                             <p>Fait le <span class="list-datecontrat timestamp" data-timestamp="{{ contrat.getCreated() }}">{{ contrat.getCreated() }}</span></p>
                         </div>
@@ -133,18 +130,18 @@
                                         {% if contrat.getInfoClient()['phone'] %}
                                         <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="fas fa-phone dtp"></i>
-                                            <p>{{ contrat.getInfoClient()['phone'] }}</p>
+                                            <a class="hover:text-yellow-500" href="tel:{{ contrat.getInfoClient()['phone'] }}">{{ contrat.getInfoClient()['phone'] }}</a>
                                         </div>
                                         {% endif %}
                                         {% if contrat.getInfoClient()['mobile'] %}
                                         <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="fas fa-mobile-alt dtp"></i>
-                                            <p>{{ contrat.getInfoClient()['mobile'] }}</p>
+                                            <a class="hover:text-yellow-500" href="tel:{{ contrat.getInfoClient()['mobile'] }}">{{ contrat.getInfoClient()['mobile'] }}</a>
                                         </div>
                                         {% endif %}
                                         <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                             <i class="fas fa-at dtp"></i>
-                                            <p>{{ contrat.getInfoClient()['mail'] }}</p>
+                                            <a class="hover:text-yellow-500" href="mailto:{{ contrat.getInfoClient()['mail'] }}">{{ contrat.getInfoClient()['mail'] }}</a>
                                         </div>
                                         <div class="h-0.5 bg-gray-300 w-1/2 mx-auto my-5"></div>
                                         <div class="h-20 flex items-center justify-center">

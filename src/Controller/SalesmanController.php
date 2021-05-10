@@ -73,7 +73,7 @@ class SalesmanController extends AbstractController
 
 			$contrat->setInfoPrelevement($infoPrelevement);
 			$contrat->setNumeroVerif(1234);
-			$contrat->setCreated(new \DateTime());
+			$contrat->setCreated(new \DateTime('now'));
 			$em->persist($contrat);
 			$em->flush();
 			$em->refresh($contrat);
