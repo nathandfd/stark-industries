@@ -111,20 +111,24 @@
     <script>
         var cleaveIban = new Cleave('.iban', {
             blocks: [4, 4, 4, 4, 4, 4, 3],
-            uppercase: true
+            uppercase: true,
+            swapHiddenInput:true
         });
 
         var cleavePhone = new Cleave('.mobile2', {
             blocks: [2, 2, 2, 2, 2],
             numericOnly: true,
+            swapHiddenInput:true
         });
         var cleaveMobile = new Cleave('.mobile', {
             blocks: [2, 2, 2, 2, 2],
             numericOnly: true,
+            swapHiddenInput:true
         });
         var cleaveBic = new Cleave('.bic', {
             blocks: [11],
             numericOnly: true,
+            swapHiddenInput:true
         });
     </script>
 {% endblock %}

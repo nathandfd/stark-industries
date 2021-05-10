@@ -3,9 +3,9 @@ framework:
         #chatter_transports:
         #    slack: '%env(SLACK_DSN)%'
         #    telegram: '%env(TELEGRAM_DSN)%'
-        #texter_transports:
+        texter_transports:
         #    twilio: '%env(TWILIO_DSN)%'
-        #    nexmo: '%env(NEXMO_DSN)%'
+            ovhcloud: '%env(OVHCLOUD_DSN)%'
         channel_policy:
             # use chat/slack, chat/telegram, sms/twilio or sms/nexmo
             urgent: ['email']

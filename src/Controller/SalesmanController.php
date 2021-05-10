@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Contract;
 use App\Entity\User;
+use App\Form\SecureCodeValidationFormType;
 use App\Repository\ContractRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,6 +17,8 @@ use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Message;
+use Symfony\Component\Notifier\Message\SmsMessage;
+use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\NewContratRequestFormType;
 
@@ -82,7 +85,7 @@ class SalesmanController extends AbstractController
 			$num_contrat .= str_pad($contrat->getId(), 4, 0, STR_PAD_LEFT);;
 			$contrat->setNumContrat($num_contrat);
 			$em->flush();
-			return new RedirectResponse($this->generateUrl('new-contract-validated',[
+			return new RedirectResponse($this->generateUrl('new-contract-validation',[
                 'contractId'=>$contrat->getId()
             ]));
 		}
@@ -91,7 +94,39 @@ class SalesmanController extends AbstractController
     }
 
     /**
-     * @Route("/new-contract-validated/{contractId}", name="new-contract-validated")
+     * @Route("/new-contract-validation/{contractId}",name="new-contract-validation")
+     */
+    public function validNewContract(Request $request, TexterInterface $texter, ContractRepository $contractRepository, EntityManagerInterface $em, $contractId){
+        $contract = $contractRepository->find($contractId);
+
+        $form=$this->createForm(SecureCodeValidationFormType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            if ($contract->getNumeroVerif() == $form->get('secure_code')->getData()){
+                $contract->setStatus(2);
+                $em->flush();
+                return new RedirectResponse($this->generateUrl('new-contract-valid',[
+                    'contractId'=>$contractId
+                ]));
+            }
+        }
+
+        $secureCode = mt_rand(100000,999999);
+        $contract->setNumeroVerif($secureCode);
+        $clientInfos = $contract->getInfoClient();
+        $em->flush();
+//        $sms = new SmsMessage(
+//            '+33'.(int)$clientInfos['mobile'],
+//            'Afin de finaliser votre adhésion chez Stark Industries, veuillez communiquer le code suivant à votre conseiller : '.$secureCode.'. Merci de votre confiance.'
+//        );
+//        $sentMessage = $texter->send($sms);
+
+        return $this->render('salesman/new-contract-validation.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/new-contract-valid/{contractId}", name="new-contract-valid")
      */
     public function sendMailNewContract(MailerInterface $mailer, ContractRepository $contractRepository, $contractId){
         $contract = $contractRepository->find($contractId);

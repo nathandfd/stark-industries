@@ -44,7 +44,7 @@ class Contract
     private $info_declaration = [];
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="integer")
      */
     private $numero_verif;
 

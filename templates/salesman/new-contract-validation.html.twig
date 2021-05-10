@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vérification | Stark Industries{% endblock %}
+
+
+{% block body %}
+    <div class="bg-gray-100 p-6 relative md:ml-64">
+        <h1 class="order-1 text-gray-900 text-3xl font-extrabold tracking-tight mt-2">Vérification par SMS</h1>
+            {{ form(form) }}
+    </div>
+
+    <script>
+        new Cleave('.secure_code_input', {
+            blocks: [1, 1, 1, 1, 1, 1],
+            delimiter: '-',
+            delimiterLazyShow: true,
+            numericOnly: true,
+            swapHiddenInput:true
+        });
+    </script>
+{% endblock %}
+
+
