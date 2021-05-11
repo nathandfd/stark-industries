@@ -72,8 +72,8 @@ class SalesmanController extends AbstractController
 			$contrat->setInfoClient($infoClient);
 
 			$infoPrelevement = [
-				'gender'=>$form->get('gender')->getData(),
-				'lastname'=>$form->get('lastname')->getData(),
+				'iban'=>$form->get('iban')->getData(),
+				'bic'=>$form->get('bic')->getData(),
 			];
 
 			$contrat->setInfoPrelevement($infoPrelevement);

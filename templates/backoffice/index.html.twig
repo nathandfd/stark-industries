@@ -76,7 +76,7 @@
 {#                                                {% endif %}#}
 
                                                 <select name="status" class="
-                                                w-full font-bold py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none
+                                                status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none
                                                     {% if contrat.getStatus() == '1' %} text-gray-400
                                                     {% elseif contrat.getStatus() == '2' %} text-yellow-400
                                                     {% elseif contrat.getStatus() == '3' %} text-green-600
@@ -84,7 +84,7 @@
                                                     {% elseif contrat.getStatus() == '5' %} text-red-600
                                                     {% elseif contrat.getStatus() == '6' %} text-red-600
                                                     {% endif %}
-                                                ">
+                                                " data-status-url="{{ path('status_update', { 'contratid': contrat.getId(),'newstatus':1 }) }}">
 
                                                     <option value="1" class="text-gray-400" {% if contrat.getStatus() == '1' %} selected  {% endif %}>En attente client</option>
                                                     <option value="2" class="text-yellow-400" {% if contrat.getStatus() == '2' %} selected  {% endif %}>En attente back-office</option>
@@ -208,6 +208,15 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
     <script>
         let button_details = document.querySelectorAll('.detail_button')
+        let status = document.querySelectorAll('.status')
+
+        status.forEach((value => {
+            let urlTemp = value.getAttribute('data-status-url')
+            let url = urlTemp.slice(0,-1)
+            value.onchange = ()=>{
+                fetch(url+value.value)
+            }
+        }))
 
         button_details.forEach((button)=>{
             button.addEventListener('click',(e)=>{
@@ -246,7 +255,6 @@
                 pageActive.setAttribute('class', 'bg-yellow-500')
             })
         }
-
 
     </script>
 
