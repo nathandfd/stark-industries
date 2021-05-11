@@ -149,7 +149,7 @@ class Contract
 
     public function getCreated(): string
     {
-        return $this->created->format('d/m/Y à H:i');
+        return $this->created->format('d/m/Y');
     }
 
     public function setCreated(\DateTimeInterface $created): self
