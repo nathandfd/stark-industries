@@ -6,8 +6,12 @@ use App\Entity\User;
 use App\Entity\Contract;
 use App\Repository\ContractRepository;
 use App\Repository\UserRepository;
+use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 /**
@@ -47,5 +51,33 @@ class BackofficeController extends AbstractController
         $contract->setStatus($newstatus);
         $entityManager->flush();
         return new Response(true);
+    }
+
+    /**
+     * @Route("/export", name="backoffice_export")
+     */
+    public function exportPdf(EntityManagerInterface $entityManager,Request $request, Pdf $pdf): Response
+    {
+        $contract = $entityManager->getRepository(Contract::class)->find($request->query->get('contratid'));
+
+        return $this->render(
+            'backoffice/export.html.twig',
+            array(
+                'controller_name' => 'BackofficeController',
+                'contrat' => $contract
+            ));
+
+        $pdf->setBinary("\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\"");
+        $html = $this->render(
+            'backoffice/export.html.twig',
+            array(
+                'controller_name' => 'BackofficeController',
+                'contrat' => $contract
+            )
+        );
+        return new PdfResponse(
+            $pdf->getOutputFromHtml($html),
+            'contrat_'.$contract->getNumContrat().'.pdf'
+        );
     }
 }

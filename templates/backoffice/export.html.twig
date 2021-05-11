@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.0.2/cleave.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" href="{{ absolute_url(asset('assets/images/favicon.png')) }}" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <title>Bon de souscription</title>
+    <link rel="stylesheet" href="{{ absolute_url(asset("build/style.css")) }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <style>
+        body {
+            size: 21cm 29.7cm;
+            margin: 0;
+            top: 0;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        h1 {
+            font-size: 30px;
+            font-variant: small-caps;
+            padding-top: 30px;
+        }
+        .logo_stark {
+            position: absolute;
+            width: 200px;
+            left: 4%;
+            top: 0;
+        }
+        #main {
+            width: 90%;
+            text-align: center;
+        }
+        ul {
+            width: 60%;
+            margin-left: 20%;
+            margin-top: 20px;
+            list-style-type: none;
+            display: flex;
+            justify-content: space-between;
+        }
+        .element {
+            border: black solid 1px;
+            border-radius: 10px;
+            margin-top: 30px;
+            padding: 20px;
+        }
+        h2 {
+            font-variant: small-caps;
+            font-size: 20px;
+            padding-bottom: 10px;
+        }
+        .grid div {
+            text-align: left;
+        }
+        .grid {
+            width: 80%;
+            margin-left: 15%;
+            text-align: center;
+        }
+        .element ul {
+            width: 40%;
+            margin-left: 30%;
+        }
+        .conditions{
+            font-size: 12px;
+            width: 90%;
+            display: inline-block;
+            text-align: left;
+        }
+        .col-right {
+            margin-left: 20%;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100">
+<div id="main" class="">
+    <img class="logo_stark" src="{{ absolute_url(asset("assets/images/logo_stark_full.png")) }}">
+    <h1>Bon de souscription </h1>
+    <div id="header">
+        <ul>
+            <li>Distributeur : JLDistrib</li>
+            <li>Conseiller : {{ contrat.getSalesman().getFirstname() }} {{ contrat.getSalesman().getName() }}</li>
+            <li>Code : {{ contrat.getSalesman().getMatricule() }}</li>
+        </ul>
+    </div>
+    <div class="element bg-white bg-opacity-60">
+        <h2><i class="fas fa-address-card"></i> Adhérent{% if contrat.getInfoClient()['gender'] == 'F' %}e{% endif%}</h2>
+        <div class="grid grid-cols-2 grid-rows-3">
+            <div><i class="fas fa-user dtp"></i>
+                {% if contrat.getInfoClient()['gender'] == 'F' %}
+                    Mme
+                {% else %}
+                    M.
+                {% endif %}
+                {{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}
+            </div>
+            <div class="col-right"><i class="fas fa-calendar-day dtp"></i> Né{% if contrat.getInfoClient()['gender'] == 'F' %}e{% endif%} le {{ contrat.getInfoClient()['birthdate'] }}
+            </div>
+            <div><i class="fas fa-map-marker-alt dtp"></i> {{ contrat.getInfoClient()['address'] }}</div>
+            <div class="col-right"><i class="fas fa-envelope dtp2"></i> {{ contrat.getInfoClient()['zipcode'] }} {{ contrat.getInfoClient()['city'] }}, {{ contrat.getInfoClient()['country'] }}</div>
+            <div><i class="fas fa-phone dtp"></i>
+                {% if contrat.getInfoClient()['phone'] %}
+                    {{ contrat.getInfoClient()['phone'] }}<br>
+                {% else %}
+                    Non renseigné
+                {% endif %}
+            </div>
+            <div class="col-right"><i class="fas fa-mobile-alt dtp"></i>
+                {{ contrat.getInfoClient()['mobile'] }}
+            </div>
+            <div><i class="fas fa-at dtp"></i> {{ contrat.getInfoClient()['mail'] }}</div>
+        </div>
+    </div>
+    <div class="element bg-white bg-opacity-60">
+        <h2>Votre garantie électricité, gaz, plomberie</h2>
+        <i class="fas fa-check-square"></i> Pack assistance / cotisation : 9,99 € TTC par mois
+    </div>
+    <div class="element bg-white bg-opacity-60">
+        <h2><i class="fas fa-file-signature"></i> Déclaration de l'adhérent{% if contrat.getInfoClient()['gender'] == 'F' %}e{% endif%}</h2>
+        {% if contrat.status >= 2 %}
+            <i class="fas fa-check-square"></i>
+        {% else %}
+            <i class="far fa-square"></i>
+        {% endif %} Je choisis d’adhérer à l’Assistance électricité, gaz, plomberie présentée et souscrite par Stark Industries moyennant une cotisation mensuelle de
+        9,99 € payable dès la souscription du contrat, puis à chaque échéance secondaire mensuelle, et je déclare avoir reçu et pris connaissance, accepté et
+        conservé les conditions générales de vente valant notice d’information indiqués au dos du présent contrat.<br>
+
+        <ul>
+            <li>Fait à Troyes</li>
+            <li>Le {{ contrat.getCreated() }}</li>
+        </ul>
+        <br>
+        <span class="conditions">L’adhésion démarre à la date d’effet du présent bulletin d’adhésion à Stark Industries, qui est la date de votre accord, sous réserve du paiement de la
+            cotisation. Elle dure un an et se renouvelle tacitement à chaque échéance annuelle.</span>
+    </div>
+    <div class="element bg-white bg-opacity-60">
+        <h2>Mandat de prélèvement SEPA</h2>
+        <span class="conditions">En signant ce formulaire de mandat, vous autorisez Stark Industries à envoyer de sinstructions à votre banque pour débiter votre compte, et votre banque
+        à débiter votre compte conformément aux instructions Stark Industries.<br>
+        Vous bénéficiez du droit d’être remboursé par votre banque selon les conditions décrites dans la convention que vous avez passée avec passée avec elle.
+            Une demande de remboursement doit être présentée dans les 8 semaines suivant la date de débit de votre compte pour un prélèvement autorisé.</span><br><br>
+        <div class="grid grid-cols-2 grid-rows-3">
+            <div>Débiteur</div>
+            <div class="col-right">Créancier</div>
+            <div>{{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</div>
+            <div class="col-right">Stark Industries</div>
+            <div>{{ contrat.getInfoClient()['address'] }}</div>
+            <div class="col-right">66 Avenue des Champs-Élysées - CS 40152</div>
+            <div>{{ contrat.getInfoClient()['zipcode'] }} {{ contrat.getInfoClient()['city'] }}, {{ contrat.getInfoClient()['country'] }}</div>
+            <div class="col-right">75008 PARIS, France</div>
+        </div>
+        <br>
+        <div class="grid grid-cols-2 grid-rows-3">
+            <div>IBAN : {{ contrat.getInfoPrelevement()['iban'] }}</div>
+            <div class="col-right">BIC : {{ contrat.getInfoPrelevement()['bic'] }}</div>
+            <div class="conditions">Paiement récurrent le 5 de chaque mois</div><div></div>
+            <div>A Troyes le {{ contrat.getCreated() }}</div><div></div>
+            <div>Identifiant ICS : FR31ZZZ86E5CE</div>
+            <div class="col-right">N° de Contrat et RUM : {{ contrat.getNumContrat() }}</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
