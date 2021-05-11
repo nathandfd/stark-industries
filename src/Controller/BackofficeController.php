@@ -63,7 +63,7 @@ class BackofficeController extends AbstractController
 
         $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
-        $html = $this->render(
+        $html = $this->renderView(
             'backoffice/export.html.twig',
             array(
                 'controller_name' => 'BackofficeController',
