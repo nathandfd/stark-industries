@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Contract;
 use App\Repository\ContractRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,5 +32,20 @@ class BackofficeController extends AbstractController
             'contrats' => $contrats,
             'backoffice' => $backoffice
         ]);
+    }
+
+    /**
+     * @Route("/status-update/{contratid}/{newstatus}", name="status_update")
+     */
+    public function updateStatus(
+        $contratid,
+        $newstatus,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $contract = $entityManager->getRepository(Contract::class)->find($contratid);
+        $contract->setStatus($newstatus);
+        $entityManager->flush();
+        return new Response(true);
     }
 }
