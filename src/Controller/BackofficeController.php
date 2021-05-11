@@ -12,6 +12,7 @@ use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 /**
@@ -45,12 +46,12 @@ class BackofficeController extends AbstractController
         $contratid,
         $newstatus,
         EntityManagerInterface $entityManager
-    ): Response {
+    ): JsonResponse {
 
         $contract = $entityManager->getRepository(Contract::class)->find($contratid);
         $contract->setStatus($newstatus);
         $entityManager->flush();
-        return new Response(true);
+        return new JsonResponse(true);
     }
 
     /**

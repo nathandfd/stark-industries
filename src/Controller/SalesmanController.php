@@ -6,6 +6,7 @@ use App\Entity\Contract;
 use App\Entity\User;
 use App\Form\SecureCodeValidationFormType;
 use App\Repository\ContractRepository;
+use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -145,5 +146,17 @@ class SalesmanController extends AbstractController
         ;
         $mailer->send($email);
         return new RedirectResponse($this->generateUrl('salesman_home'));
+    }
+
+    /**
+     * @Route("/documents",name="salesman_documents")
+     */
+    public function listDocuments(DocumentRepository $documentRepository){
+
+        $documents = $documentRepository->findAll();
+
+        return $this->render('salesman/document.html.twig',[
+            'documents'=>$documents
+        ]);
     }
 }
