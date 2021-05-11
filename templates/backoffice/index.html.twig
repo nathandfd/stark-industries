@@ -214,7 +214,32 @@
             let urlTemp = value.getAttribute('data-status-url')
             let url = urlTemp.slice(0,-1)
             value.onchange = ()=>{
-                fetch(url+value.value)
+                fetch(url+value.value).then(data=>data.json()).then((response)=>{
+                    if (!response){
+                        alert('Une erreur est survenue avec le serveur, Veuillez contacter un administrateur')
+                    }
+                })
+
+                switch(value.value) {
+                    case '1':
+                        value.setAttribute('class', 'status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none text-gray-400')
+                        break;
+                    case '2':
+                        value.setAttribute('class', 'status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none text-yellow-400')
+                        break;
+                    case '3':
+                        value.setAttribute('class', 'status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none text-green-600')
+                        break;
+                    case '4':
+                        value.setAttribute('class', 'status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none text-red-600')
+                        break;
+                    case '5':
+                        value.setAttribute('class', 'status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none text-red-600')
+                        break;
+                    case '6':
+                        value.setAttribute('class', 'status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none text-red-600')
+                        break;
+                }
             }
         }))
 
