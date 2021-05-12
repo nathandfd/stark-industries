@@ -24,6 +24,7 @@ Encore
     .addEntry('sidebar', './public/assets/styles/sidebar.js')
     .addEntry('contratlisting_style', './public/assets/styles/contratlisting_style.js')
     .addEntry('showdistributor', './public/assets/scripts/showdistributor.js')
+    .addEntry('pdf_export', './public/assets/styles/pdf_export.js')
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
