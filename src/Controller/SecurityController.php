@@ -32,11 +32,8 @@ class SecurityController extends AbstractController
                  case 'ROLE_SALESMAN':
                      return $this->redirectToRoute('salesman_home');
                      break;
-                 case 'ROLE_BACKOFFICE':
-                     return $this->redirectToRoute('backoffice_home');
-                     break;
                  case 'ROLE_ADMIN':
-                     return $this->redirectToRoute('admin_home');
+                     return $this->redirectToRoute('backoffice_home');
                      break;
                  default:
                      return $this->redirectToRoute('error');

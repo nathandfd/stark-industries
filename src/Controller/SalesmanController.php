@@ -49,8 +49,8 @@ class SalesmanController extends AbstractController
     /**
      * @Route("/new-contract", name="new-contract")
      */
-    public function newContract(Request $request){
-		$contrat = new Contract();
+    public function newContract(Request $request, ContractRepository $contractRepository){
+        $contrat = new Contract();
 		$form=$this->createForm(NewContratRequestFormType::class,$contrat);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
@@ -72,12 +72,23 @@ class SalesmanController extends AbstractController
                 'mobile'=>$form->get('mobile')->getData(),
                 'mail'=>$form->get('mail')->getData(),
 			];
+
 			$contrat->setInfoClient($infoClient);
 
 			$infoPrelevement = [
 				'iban'=>$form->get('iban')->getData(),
 				'bic'=>$form->get('bic')->getData(),
 			];
+
+			$hasUnpaidStatus = $contractRepository->hasUnpaidStatus([
+                'mail'=>$infoClient['mail'],
+                'mobile'=>$infoClient['mobile'],
+                'iban'=>$infoPrelevement['iban']
+            ]);
+			if ($hasUnpaidStatus){
+                $form->addError(new FormError('Cette personne a déjà eu un impayé auparavant, impossible de souscrire à un nouveau contrat'));
+                return $this->render('salesman/new-contract.html.twig', ['form' => $form->createView()]);
+			}
 
 			$contrat->setInfoPrelevement($infoPrelevement);
 			$contrat->setNumeroVerif(000000);
@@ -87,7 +98,7 @@ class SalesmanController extends AbstractController
 			$em->refresh($contrat);
 
 			$num_contrat = $this->getUser()->getMatricule();
-			$num_contrat .= str_pad($contrat->getId(), 4, 0, STR_PAD_LEFT);;
+			$num_contrat .= str_pad($contractRepository->getNb($this->getUser()->getId()), 4, 0, STR_PAD_LEFT);;
 			$contrat->setNumContrat($num_contrat);
 			$em->flush();
 			return new RedirectResponse($this->generateUrl('new-contract-validation',[
