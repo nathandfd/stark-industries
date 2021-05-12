@@ -36,15 +36,27 @@ class ContractRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Contract
+
+    public function hasUnpaidStatus($value)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+        $qb = $this->createQueryBuilder('c');
+        return $qb
+            ->where('c.status = 6')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'c.info_client LIKE :mobile',
+                    $qb->expr()->orX(
+                        'c.info_client LIKE :mail',
+                        'c.info_prelevement LIKE :iban'
+                    )
+                )
+            )
+            ->setParameter('mobile', '%'.serialize($value['mobile']).'%')
+            ->setParameter('mail', '%'.serialize($value['mail']).'%')
+            ->setParameter('iban', '%'.serialize($value['iban']).'%')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
+
     }
-    */
 }
