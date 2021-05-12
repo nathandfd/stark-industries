@@ -51,9 +51,9 @@ class ContractRepository extends ServiceEntityRepository
                     )
                 )
             )
-            ->setParameter('mobile', '%'.serialize($value['mobile']).'%')
-            ->setParameter('mail', '%'.serialize($value['mail']).'%')
-            ->setParameter('iban', '%'.serialize($value['iban']).'%')
+            ->setParameter('mobile', '%'.$value['mobile'].'%')
+            ->setParameter('mail', '%'.$value['mail'].'%')
+            ->setParameter('iban', '%'.$value['iban'].'%')
             ->getQuery()
             ->getResult()
         ;
