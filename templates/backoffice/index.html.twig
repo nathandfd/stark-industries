@@ -14,7 +14,7 @@
             <div id="contrats-list" class="grid grid-cols-1 gap-6">
                 <div class="search-forms w-full grid grid-cols-1 grid-rows-2">
                     <!-- class="sort" automagically makes an element a sort buttons. The date-sort value decides what to sort by. -->
-                    <div class="row-start-2 grid grid-cols-1 grid-rows-2">
+                    <div class="row-start-2 grid grid-cols-2 grid-rows-2">
                         <p class="row-start-1">Trier par :</p>
                         <div class="row-start-2 flex justify-between md:justify-start">
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-numcontrat">Contrat</button>
@@ -22,10 +22,12 @@
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-datecontrat">Date</button>
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-salesman">Commercial</button>
                         </div>
+                        <div class="row-start-2 col-start-2 flex justify-between md:justify-end">
+                            <button class="w-36 py-2 px-auto border border-transparent text-sm font-medium rounded-md text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><a href="{{ path('backoffice_export', {'contratid': -1}) }}"><i class="fas fa-arrow-down"></i> Tout exporter</a></button>
+                        </div>
                     </div>
                     <input class="search row-start-1 phone w-full py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-600 outline-none my-3" placeholder="Rechercher un contrat" /><br>
-
-                </div>
+                    </div>
                 <ul class="list w-full flex flex-wrap justify-around">
                     {% for contrat in contrats %}
                         <!-- 1 card -->
