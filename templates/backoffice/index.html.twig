@@ -30,7 +30,7 @@
                     {% for contrat in contrats %}
                         <!-- 1 card -->
                         <li class="m-5">
-                            <div class="contract-item relative bg-white py-6 px-6 rounded-3xl w-72 my-4 shadow-lg">
+                            <div class="contract-item relative bg-white py-6 px-6 rounded-md w-72 my-4 shadow-lg">
                                 <div>
                                     <p class="text-xl font-bold mb-2">Contrat n°<span class="list-numcontrat">{{ contrat.getNumContrat() }}</span></p>
                                     <div class="flex items-center space-x-2 text-gray-400 font-bold text-base">
@@ -96,7 +96,7 @@
 
                                             </div>
                                         </div>
-                                        <div class="w-full text-center">
+                                        <div class="w-full text-center flex flex-row justify-between">
                                         <button class="w-5/12 detail_button py-2 px-auto border border-transparent text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-value="contrat{{ contrat.getNumContrat() }}">Détails</button>
                                         <button class="w-5/12 py-2 px-auto border border-transparent text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"><a href="{{ path('backoffice_export', {'contratid': contrat.getId()}) }}">Exporter</a></button>
                                         </div>
@@ -116,7 +116,7 @@
                             <div class="contrat_details w-screen h-screen z-50 hidden fixed m-0 left-0 top-0" id="contrat{{ contrat.getNumContrat() }}">
                                 <div class="w-full h-full bg-gray-300 bg-opacity-50 flex flex-col justify-center">
                                     <div class="py-3 min-w-1/2 sm:mx-auto">
-                                        <div class="bg-white min-w-1xl flex flex-col rounded-xl shadow-lg p-5">
+                                        <div class="bg-white min-w-1xl flex flex-col rounded-md shadow-lg p-5">
                                             <div class="ml-10 px-12 py-5">
                                                 <h2 class="text-gray-800 text-3xl font-semibold">Contrat n°{{ contrat.getNumContrat() }}</h2>
                                             </div>
