@@ -19,6 +19,8 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
+use ZipArchive;
+
 /**
  * @Route("/backoffice")
  */
@@ -80,6 +82,7 @@ class BackofficeController extends AbstractController
 
         $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
+
         $html = $this->renderView(
             'backoffice/export.html.twig',
             array(
@@ -93,5 +96,40 @@ class BackofficeController extends AbstractController
         );
         $pdf->removeTemporaryFiles();
         return $response;
+    }
+
+    /**
+     * @Route("/export-all", name="backoffice_export_all")
+     */
+    public function exportAllPdf(EntityManagerInterface $entityManager,Request $request, Pdf $pdf)
+    {
+        $contracts = $entityManager->getRepository(Contract::class)->findAll();
+
+        $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
+        $pdf->setTemporaryFolder("../var/cache");
+        $filename = $pdf->getTemporaryFolder()."/contrats_export.zip";
+        $zip = new \ZipArchive();
+        if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
+            exit("Impossible d'ouvrir le fichier <$filename>\n");
+        }
+
+        foreach ($contracts as $key=>$contract){
+            $html = $this->renderView(
+                'backoffice/export.html.twig',
+                array(
+                    'controller_name' => 'BackofficeController',
+                    'contrat' => $contract
+                )
+            );
+            $pdf->generateFromHtml(
+                $html,
+                $pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf'
+            );
+            $zip->addFile($pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf');
+            unlink($pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf');
+        }
+        $zip->close();
+        $pdf->removeTemporaryFiles();
+        return $this->file($filename);
     }
 }
