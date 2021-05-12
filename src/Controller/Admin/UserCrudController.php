@@ -47,8 +47,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('firstname', 'Prénom'),
             ChoiceField::new('role','Rôle')
                 ->setChoices([
-                    "Administrateur"=>"ROLE_ADMIN",
-                    "Back-office"=>"ROLE_BACKOFFICE",
+                    "Back-office"=>"ROLE_ADMIN",
                     "Commercial"=>"ROLE_SALESMAN"
                     ])
                 ->addCssClass('role-input'),
