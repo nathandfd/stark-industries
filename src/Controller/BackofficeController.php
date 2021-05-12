@@ -12,6 +12,7 @@ use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 /**
@@ -45,12 +46,12 @@ class BackofficeController extends AbstractController
         $contratid,
         $newstatus,
         EntityManagerInterface $entityManager
-    ): Response {
+    ): JsonResponse {
 
         $contract = $entityManager->getRepository(Contract::class)->find($contratid);
         $contract->setStatus($newstatus);
         $entityManager->flush();
-        return new Response(true);
+        return new JsonResponse(true);
     }
 
     /**
@@ -60,24 +61,28 @@ class BackofficeController extends AbstractController
     {
         $contract = $entityManager->getRepository(Contract::class)->find($request->query->get('contratid'));
 
-        return $this->render(
-            'backoffice/export.html.twig',
-            array(
-                'controller_name' => 'BackofficeController',
-                'contrat' => $contract
-            ));
+//        return $this->render(
+//            'backoffice/export.html.twig',
+//            array(
+//                'controller_name' => 'BackofficeController',
+//                'contrat' => $contract
+//            )
+//        );
 
-        $pdf->setBinary("\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\"");
-        $html = $this->render(
+        $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
+        $pdf->setTemporaryFolder("../var/cache");
+        $html = $this->renderView(
             'backoffice/export.html.twig',
             array(
                 'controller_name' => 'BackofficeController',
                 'contrat' => $contract
             )
         );
-        return new PdfResponse(
+        $response = new PdfResponse(
             $pdf->getOutputFromHtml($html),
             'contrat_'.$contract->getNumContrat().'.pdf'
         );
+        $pdf->removeTemporaryFiles();
+        return $response;
     }
 }

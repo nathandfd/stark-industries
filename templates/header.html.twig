@@ -28,6 +28,7 @@
                     {% if is_granted('ROLE_SALESMAN') %}
                         <li class="items-center"><a class="text-gray-900 opacity-75 hover:text-yellow-500 text-sm uppercase py-3 font-bold block" href="{{ path('salesman_home') }}"><i class="fas fa-home mr-2 text-sm"></i>Contrats</a></li>
                         <li class="items-center"><a class="text-gray-900 opacity-75 hover:text-yellow-500 text-sm uppercase py-3 font-bold block" href="{{ path('new-contract') }}"><i class="fas fa-edit mr-2 text-sm"></i>Nouveau contrat</a></li>
+                        <li class="items-center"><a class="text-gray-900 opacity-75 hover:text-yellow-500 text-sm uppercase py-3 font-bold block" href="{{ path('salesman_documents') }}"><i class="fas fa-file-alt mr-2 text-sm"></i>Documents</a></li>
                     {% endif %}
                 </ul>
                 <ul class="md:flex-col md:min-w-full flex flex-col list-none">
