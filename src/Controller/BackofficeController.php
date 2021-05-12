@@ -109,6 +109,9 @@ class BackofficeController extends AbstractController
         $pdf->setTemporaryFolder("../var/cache");
         $filename = $pdf->getTemporaryFolder()."/contrats_export.zip";
         $zip = new \ZipArchive();
+        if (file_exists($filename)){
+            unlink($filename);
+        }
         if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
             exit("Impossible d'ouvrir le fichier <$filename>\n");
         }
@@ -123,13 +126,26 @@ class BackofficeController extends AbstractController
             );
             $pdf->generateFromHtml(
                 $html,
-                $pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf'
+                $pdf->getTemporaryFolder().'/temp_pdf/contrat_'.$contract->getNumContrat().'.pdf'
             );
-            $zip->addFile($pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf');
-            unlink($pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf');
+            $zip->addFile($pdf->getTemporaryFolder().'/temp_pdf/contrat_'.$contract->getNumContrat().'.pdf','contrat_'.$contract->getNumContrat().'.pdf');
         }
         $zip->close();
         $pdf->removeTemporaryFiles();
+        $this->removeDir($pdf->getTemporaryFolder().'/temp_pdf');
         return $this->file($filename);
+    }
+
+    private function removeDir($dir) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir."/".$object) == "dir") rmdir($dir."/".$object); else unlink($dir."/".$object);
+                }
+            }
+            reset($objects);
+            rmdir($dir);
+        }
     }
 }
