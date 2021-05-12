@@ -9,6 +9,8 @@ use App\Repository\ContractRepository;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -47,8 +49,8 @@ class SalesmanController extends AbstractController
     /**
      * @Route("/new-contract", name="new-contract")
      */
-    public function newContract(Request $request){
-		$contrat = new Contract();
+    public function newContract(Request $request, ContractRepository $contractRepository){
+        $contrat = new Contract();
 		$form=$this->createForm(NewContratRequestFormType::class,$contrat);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
@@ -70,6 +72,7 @@ class SalesmanController extends AbstractController
                 'mobile'=>$form->get('mobile')->getData(),
                 'mail'=>$form->get('mail')->getData(),
 			];
+
 			$contrat->setInfoClient($infoClient);
 
 			$infoPrelevement = [
@@ -77,15 +80,25 @@ class SalesmanController extends AbstractController
 				'bic'=>$form->get('bic')->getData(),
 			];
 
+			$hasUnpaidStatus = $contractRepository->hasUnpaidStatus([
+                'mail'=>$infoClient['mail'],
+                'mobile'=>$infoClient['mobile'],
+                'iban'=>$infoPrelevement['iban']
+            ]);
+			if ($hasUnpaidStatus){
+                $form->addError(new FormError('Cette personne a déjà eu un impayé auparavant, impossible de souscrire à un nouveau contrat'));
+                return $this->render('salesman/new-contract.html.twig', ['form' => $form->createView()]);
+			}
+
 			$contrat->setInfoPrelevement($infoPrelevement);
-			$contrat->setNumeroVerif(1234);
+			$contrat->setNumeroVerif(000000);
 			$contrat->setCreated(new \DateTime('now'));
 			$em->persist($contrat);
 			$em->flush();
 			$em->refresh($contrat);
 
 			$num_contrat = $this->getUser()->getMatricule();
-			$num_contrat .= str_pad($contrat->getId(), 4, 0, STR_PAD_LEFT);;
+			$num_contrat .= str_pad($contractRepository->getNb($this->getUser()->getId()), 4, 0, STR_PAD_LEFT);;
 			$contrat->setNumContrat($num_contrat);
 			$em->flush();
 			return new RedirectResponse($this->generateUrl('new-contract-validation',[
@@ -132,8 +145,19 @@ class SalesmanController extends AbstractController
     /**
      * @Route("/new-contract-valid/{contractId}", name="new-contract-valid")
      */
-    public function sendMailNewContract(MailerInterface $mailer, ContractRepository $contractRepository, $contractId){
+    public function sendMailNewContract(Pdf $pdf, MailerInterface $mailer, ContractRepository $contractRepository, $contractId){
         $contract = $contractRepository->find($contractId);
+        $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
+        $pdf->setTemporaryFolder("../var/cache");
+        $pdf->generateFromHtml(
+            $this->renderView(
+                'backoffice/export.html.twig',
+                array(
+                    'controller_name' => 'BackofficeController',
+                    'contrat' => $contract
+                )),
+            $pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf'
+        );
         $email = (new TemplatedEmail())
             ->from(new Address('contact@groupe-stark-industries.fr', 'Stark industries'))
             ->to($contract->getInfoClient()['mail'])
@@ -142,9 +166,11 @@ class SalesmanController extends AbstractController
             ->context([
                 'name'=> $contract->getInfoClient()['firstname']
             ])
-            ->attachFromPath('../var/documents/00020011.pdf', 'contrat_stark_industries.pdf')
+            ->attachFromPath($pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf', 'contrat_stark_industries.pdf')
         ;
         $mailer->send($email);
+        $pdf->removeTemporaryFiles();
+        unlink($pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf');
         return new RedirectResponse($this->generateUrl('salesman_home'));
     }
 

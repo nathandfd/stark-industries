@@ -34,7 +34,7 @@ class ChangePasswordFormType extends AbstractType
                         'class'=>'sr-only',
                     ],
                     'attr'=>[
-                        'class'=>'w-full p-2 border rounded-md outline-none focus:border-purple-600',
+                        'class'=>'w-full p-2 border rounded-md outline-none focus:border-yellow-600',
                         'placeholder' => 'Nouveau mot de passe'
                     ],
                 ],
@@ -44,7 +44,7 @@ class ChangePasswordFormType extends AbstractType
                         'class'=>'sr-only',
                     ],
                     'attr'=>[
-                        'class'=>'w-full p-2 border rounded-md outline-none focus:border-purple-600',
+                        'class'=>'w-full p-2 border rounded-md outline-none focus:border-yellow-600',
                         'placeholder' => 'Confirmation du mot de passe'
                     ],
                 ],

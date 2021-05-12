@@ -34,12 +34,12 @@ class Contract
     private $num_contrat;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $info_client = [];
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $info_declaration = [];
 
@@ -49,7 +49,7 @@ class Contract
     private $numero_verif;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $info_prelevement = [];
 

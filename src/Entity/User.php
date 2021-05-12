@@ -26,7 +26,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $roles = ["ROLE_SALESMAN"];
 
@@ -167,7 +167,7 @@ class User implements UserInterface
 
     public function setName(string $name): self
     {
-        $lower = strtolower($name);
+        $lower = mb_strtolower($name);
         $capitalize = ucfirst($lower);
         $this->name = $capitalize;
 
@@ -181,7 +181,7 @@ class User implements UserInterface
 
     public function setFirstname(string $firstname): self
     {
-        $lower = strtolower($firstname);
+        $lower = mb_strtolower($firstname);
         $capitalize = ucfirst($lower);
         $this->firstname = $capitalize;
 

@@ -43,12 +43,12 @@ class AdminController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        yield MenuItem::linkToRoute('Retour au back-office', 'fas fa-arrow-left', 'backoffice_home');
+        yield MenuItem::section();
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', Admin\UserCrudController::getEntityFqcn());
         yield MenuItem::linkToCrud('Distributeurs', 'fas fa-building', Admin\DistributorCrudController::getEntityFqcn());
         yield MenuItem::section();
         yield MenuItem::linkToCrud('Documents', 'fas fa-file-alt', Admin\DocumentsCrudController::getEntityFqcn());
-        yield MenuItem::section();
-        yield MenuItem::linkToRoute('Back-office', 'fas fa-file-signature', 'backoffice_home');
         yield MenuItem::section();
         yield MenuItem::linkToLogout('Déconnexion', 'fas fa-power-off');
     }
