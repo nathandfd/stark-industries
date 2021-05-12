@@ -31,17 +31,11 @@ class BackofficeController extends AbstractController
      */
     public function index(UserRepository $userRepository, ContractRepository $contractRepository): Response
     {
-        $backoffice =  $userRepository->findByRoles(['ROLE_BACKOFFICE']);
-        $salesman = $userRepository->findByRoles(['ROLE_SALESMAN']);
-
-
-
         $contrats = $contractRepository->findAll();
+
         return $this->render('backoffice/index.html.twig', [
             'controller_name' => 'BackofficeController',
-            'salesman' => $salesman,
             'contrats' => $contrats,
-            'backoffice' => $backoffice
         ]);
     }
 

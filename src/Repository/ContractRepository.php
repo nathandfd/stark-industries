@@ -59,4 +59,15 @@ class ContractRepository extends ServiceEntityRepository
         ;
 
     }
+
+    public function getNb($salesmanId) {
+
+        return $this->createQueryBuilder('l')
+            ->select('COUNT(l)')
+            ->where('l.salesman = :salesmanId')
+            ->setParameter('salesmanId', $salesmanId)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+    }
 }

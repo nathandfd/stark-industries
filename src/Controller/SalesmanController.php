@@ -50,7 +50,7 @@ class SalesmanController extends AbstractController
      * @Route("/new-contract", name="new-contract")
      */
     public function newContract(Request $request, ContractRepository $contractRepository){
-		$contrat = new Contract();
+        $contrat = new Contract();
 		$form=$this->createForm(NewContratRequestFormType::class,$contrat);
 		$form->handleRequest($request);
 		if($form->isSubmitted() && $form->isValid()){
@@ -98,7 +98,7 @@ class SalesmanController extends AbstractController
 			$em->refresh($contrat);
 
 			$num_contrat = $this->getUser()->getMatricule();
-			$num_contrat .= str_pad($contrat->getId(), 4, 0, STR_PAD_LEFT);;
+			$num_contrat .= str_pad($contractRepository->getNb($this->getUser()->getId()), 4, 0, STR_PAD_LEFT);;
 			$contrat->setNumContrat($num_contrat);
 			$em->flush();
 			return new RedirectResponse($this->generateUrl('new-contract-validation',[
