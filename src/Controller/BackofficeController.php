@@ -133,7 +133,7 @@ class BackofficeController extends AbstractController
         $zip->close();
         $pdf->removeTemporaryFiles();
         $this->removeDir($pdf->getTemporaryFolder().'/temp_pdf');
-        return $this->file($filename);
+        return $this->file($filename,'contrats_export.zip');
     }
 
     private function removeDir($dir) {
