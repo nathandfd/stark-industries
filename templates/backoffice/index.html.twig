@@ -23,7 +23,7 @@
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-salesman">Commercial</button>
                         </div>
                         <div class="row-start-2 col-start-2 flex justify-between md:justify-end">
-                            <button class="w-36 py-2 px-auto border border-transparent text-sm font-medium rounded-md text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><a href="{{ path('backoffice_export_all') }}"><i class="fas fa-arrow-down"></i> Tout exporter</a></button>
+                            <a href="{{ path('backoffice_export_all') }}"><button class="w-36 py-2 px-auto border border-transparent text-sm font-medium rounded-md text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-arrow-down"></i> Tout exporter</button></a>
                         </div>
                     </div>
                     <input class="search row-start-1 phone w-full py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-600 outline-none my-3" placeholder="Rechercher un contrat" /><br>
@@ -100,17 +100,8 @@
                                         </div>
                                         <div class="w-full text-center flex flex-row justify-between">
                                         <button class="w-5/12 detail_button py-2 px-auto border border-transparent text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-value="contrat{{ contrat.getNumContrat() }}">Détails</button>
-                                        <button class="w-5/12 py-2 px-auto border border-transparent text-sm font-medium rounded-md text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><a href="{{ path('backoffice_export', {'contratid': contrat.getId()}) }}"><i class="fas fa-arrow-down"></i> Exporter</a></button>
+                                            <a class="w-5/12" href="{{ path('backoffice_export', {'contratid': contrat.getId()}) }}"><button class="w-full py-2 px-auto border border-transparent text-sm font-medium rounded-md text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-arrow-down"></i> Exporter</button></a>
                                         </div>
-{#                                        <select name="status" class="w-full font-bold py-1 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none my-3">#}
-{#                                            <option value="1" {% if contrat.getStatus() == '1' %} selected  {% endif %}>En attente client</option>#}
-{#                                            <option value="2" {% if contrat.getStatus() == '2' %} selected  {% endif %}>En attente back-office</option>#}
-{#                                            <option value="3" {% if contrat.getStatus() == '3' %} selected  {% endif %}>Validé</option>#}
-{#                                            <option value="4" {% if contrat.getStatus() == '4' %} selected  {% endif %}>Rétracté</option>#}
-{#                                            <option value="5" {% if contrat.getStatus() == '5' %} selected  {% endif %}>Injoignable</option>#}
-{#                                            <option value="6" {% if contrat.getStatus() == '6' %} selected  {% endif %}>Impayé</option>#}
-{#                                        </select>#}
-
                                     </div>
                                 </div>
                             </div>
