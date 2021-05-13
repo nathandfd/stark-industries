@@ -20,9 +20,9 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addStyleEntry('style', './public/assets/styles/style.js')
-    .addStyleEntry('sidebar', './public/assets/styles/sidebar.js')
-    .addStyleEntry('contratlisting_style', './public/assets/styles/contratlisting_style.js')
+    .addStyleEntry('style', './public/assets/styles/style.css')
+    .addStyleEntry('sidebar', './public/assets/styles/sidebar.css')
+    .addStyleEntry('contratlisting_style', './public/assets/styles/contratlisting_style.css')
     .addEntry('showdistributor', './public/assets/scripts/showdistributor.js')
 
 
