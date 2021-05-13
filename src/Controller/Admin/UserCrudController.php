@@ -66,6 +66,7 @@ class UserCrudController extends AbstractCrudController
     {
         $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->remove(Crud::PAGE_INDEX, Action::BATCH_DELETE)
             ->update(Crud::PAGE_INDEX, Action::NEW, function(Action $action){
                 return $action->setLabel("Créer un nouvel utilisateur");
                 })
