@@ -74,7 +74,7 @@ class BackofficeController extends AbstractController
     {
         $contract = $entityManager->getRepository(Contract::class)->find($request->query->get('contratid'));
 
-        $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
+        //$pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
 
         $html = $this->renderView(
@@ -99,7 +99,7 @@ class BackofficeController extends AbstractController
     {
         $contracts = $entityManager->getRepository(Contract::class)->findAll();
 
-        $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
+        //$pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
         $filename = $pdf->getTemporaryFolder()."/contrats_export.zip";
         $zip = new ZipArchive();
