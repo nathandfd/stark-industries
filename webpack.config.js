@@ -20,9 +20,9 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('style', './public/assets/styles/style.js')
-    .addEntry('sidebar', './public/assets/styles/sidebar.js')
-    .addEntry('contratlisting_style', './public/assets/styles/contratlisting_style.js')
+    .addStyleEntry('style', './public/assets/styles/style.css')
+    .addStyleEntry('sidebar', './public/assets/styles/sidebar.css')
+    .addStyleEntry('contratlisting_style', './public/assets/styles/contratlisting_style.css')
     .addEntry('showdistributor', './public/assets/scripts/showdistributor.js')
     .addEntry('pdf_export', './public/assets/styles/pdf_export.js')
 
@@ -49,7 +49,7 @@ Encore
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
-    .enableVersioning(Encore.isProduction())
+    //.enableVersioning(Encore.isProduction())
 
     .configureBabel((config) => {
         config.plugins.push('@babel/plugin-proposal-class-properties');

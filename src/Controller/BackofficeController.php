@@ -102,7 +102,7 @@ class BackofficeController extends AbstractController
         $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
         $filename = $pdf->getTemporaryFolder()."/contrats_export.zip";
-        $zip = new \ZipArchive();
+        $zip = new ZipArchive();
         if (file_exists($filename)){
             unlink($filename);
         }

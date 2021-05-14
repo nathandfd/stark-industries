@@ -12,9 +12,12 @@ document.addEventListener('DOMContentLoaded',()=>{
 function isSalesman(role){
     if (role === "ROLE_SALESMAN"){
         document.querySelector('.distributor-input select').removeAttribute('disabled')
+        document.querySelector('.distributor-input select').setAttribute('required','true')
     }
     else {
         document.querySelector('.distributor-input select').setAttribute('disabled','')
-
+        document.querySelector('.distributor-input select').removeAttribute('required')
+        document.querySelector('.distributor-input select').selectedIndex = -1
+        document.querySelector('.distributor-input select').dispatchEvent(new Event('change'))
     }
 }

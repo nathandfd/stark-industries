@@ -2,7 +2,6 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js" integrity="sha512-KaIyHb30iXTXfGyI9cyKFUIRSSuekJt6/vqXtyQKhQP6ozZEGY8nOtRS6fExqE4+RbYHus2yGyYg1BrqxzV6YA==" crossorigin="anonymous"></script>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}" />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
@@ -11,6 +10,8 @@
         <link rel="stylesheet" href="{{ asset("build/style.css") }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
         {% block stylesheets %}
+        {% endblock %}
+        {% block scripts %}
         {% endblock %}
     </head>
     <body class="font-sans">

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ContractRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,12 +35,12 @@ class Contract
     private $num_contrat;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $info_client = [];
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $info_declaration = [];
 
@@ -49,7 +50,7 @@ class Contract
     private $numero_verif;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $info_prelevement = [];
 
@@ -152,7 +153,7 @@ class Contract
         return $this->created->format('d/m/Y');
     }
 
-    public function setCreated(\DateTimeInterface $created): self
+    public function setCreated(DateTimeInterface $created): self
     {
         $this->created = $created;
 
