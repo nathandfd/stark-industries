@@ -74,18 +74,6 @@ class BackofficeController extends AbstractController
     {
         $contract = $entityManager->getRepository(Contract::class)->find($request->query->get('contratid'));
 
-<<<<<<< HEAD
-//        return $this->render(
-//            'backoffice/export.html.twig',
-//            array(
-//                'controller_name' => 'BackofficeController',
-//                'contrat' => $contract
-//            ));
-=======
-        $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
-        $pdf->setTemporaryFolder("../var/cache");
->>>>>>> bb818b08ade0ba39f134d4ec20279561b60c1ca4
-
         $html = $this->renderView(
             'backoffice/export.html.twig',
             array(
