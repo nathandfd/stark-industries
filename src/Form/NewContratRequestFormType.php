@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function date;
 
 class NewContratRequestFormType extends AbstractType
 {
@@ -52,7 +53,7 @@ class NewContratRequestFormType extends AbstractType
 				'label'=>'Date de naissance',
 				'mapped'=>false,
                 'days' => range(1,31),
-                'years' =>  range(\date("Y") - 18, \date("Y") - 75),
+                'years' =>  range(date("Y") - 18, date("Y") - 75),
 				'placeholder' => [
 					'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
 				]

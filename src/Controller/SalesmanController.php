@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\SecureCodeValidationFormType;
 use App\Repository\ContractRepository;
 use App\Repository\DocumentRepository;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
@@ -92,14 +93,14 @@ class SalesmanController extends AbstractController
 
 			$contrat->setInfoPrelevement($infoPrelevement);
 			$contrat->setNumeroVerif(000000);
-			$contrat->setCreated(new \DateTime('now'));
+			$contrat->setCreated(new DateTime('now'));
 			$em->persist($contrat);
 			$em->flush();
 			$em->refresh($contrat);
 
 			$num_contrat = $this->getUser()->getMatricule();
-			$num_contrat .= str_pad($contractRepository->getNb($this->getUser()->getId()), 4, 0, STR_PAD_LEFT);;
-			$contrat->setNumContrat($num_contrat);
+			$num_contrat .= str_pad($contractRepository->getNb($this->getUser()->getId()), 4, 0, STR_PAD_LEFT);
+            $contrat->setNumContrat($num_contrat);
 			$em->flush();
 			return new RedirectResponse($this->generateUrl('new-contract-validation',[
                 'contractId'=>$contrat->getId()
