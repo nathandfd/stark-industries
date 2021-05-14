@@ -134,11 +134,11 @@ class SalesmanController extends AbstractController
         $contract->setNumeroVerif($secureCode);
         $clientInfos = $contract->getInfoClient();
         $em->flush();
-//        $sms = new SmsMessage(
-//            '+33'.(int)$clientInfos['mobile'],
-//            'Afin de finaliser votre adhésion chez Stark Industries, veuillez communiquer le code suivant à votre conseiller : '.$secureCode.'. Merci de votre confiance.'
-//        );
-//        $sentMessage = $texter->send($sms);
+        $sms = new SmsMessage(
+            '+33'.(int)$clientInfos['mobile'],
+            'Afin de finaliser votre adhésion chez Stark Industries, veuillez communiquer le code suivant à votre conseiller : '.$secureCode.'. Merci de votre confiance.'
+        );
+        $texter->send($sms);
 
         return $this->render('salesman/new-contract-validation.html.twig', ['form' => $form->createView()]);
     }
