@@ -181,6 +181,9 @@
                                 <td class="pl-6">{{ contrat.getInfoClient()['address'] }}</td>
                             </tr>
                             <tr class="h-8 pl-6">
+                                <td class="pl-6">{{ contrat.getInfoClient()['zipcode'] }} {{ contrat.getInfoClient()['city'] }}, {{ contrat.getInfoClient()['country'] }}</td>
+                            </tr>
+                            <tr class="h-8 pl-6">
                                 <td class="pl-6">IBAN : {{ contrat.getInfoPrelevement()['iban'] }}</td>
                             </tr>
                             <tr class="h-8 pl-6">
@@ -190,7 +193,7 @@
                                 <td class="pl-6">Paiement récurrent le 5 de chaque mois</td>
                             </tr>
                             <tr class="h-8 pl-6">
-                               <td class="pl-6">A Troyes le {{ contrat.getCreated() }}</td>
+                               <td class="pl-6">A {{ contrat.getInfoClient()['city'] }} le {{ contrat.getCreated() }}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -205,9 +208,6 @@
                             </tr>
                             <tr class="h-8 pl-6">
                                 <td class="pl-6">66 Avenue des Champs-Élysées - CS 40152</td>
-                            </tr>
-                            <tr class="h-8 pl-6">
-                                <td class="pl-6">{{ contrat.getInfoClient()['zipcode'] }} {{ contrat.getInfoClient()['city'] }}, {{ contrat.getInfoClient()['country'] }}</td>
                             </tr>
                             <tr class="h-8 pl-6">
                                 <td class="pl-6">75008 PARIS, France</td>
