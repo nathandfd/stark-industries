@@ -53,6 +53,7 @@ class BackofficeController extends AbstractController
         }
         $contract = $entityManager->getRepository(Contract::class)->find($contratid);
         $contract->setStatus($newstatus);
+        $contract->setDuplicate(false);
         $entityManager->flush();
         if ($newstatus == 4){
             $email = (new TemplatedEmail())

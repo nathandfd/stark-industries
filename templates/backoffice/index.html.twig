@@ -34,6 +34,9 @@
                         <li class="m-5">
                             <div class="contract-item relative bg-white py-6 px-6 rounded-sm w-72 my-4 shadow-lg">
                                 <div>
+                                    {% if contrat.getDuplicate() %}
+                                        <p class="text-red-500 text-sm"><i class="fas fa-exclamation-circle"> Contrat doublon</i></p>
+                                    {% endif %}
                                     <p class="text-xl font-bold mb-2">Contrat n°<span class="list-numcontrat">{{ contrat.getNumContrat() }}</span></p>
                                     <div class="flex items-center space-x-2 text-gray-400 font-bold text-base">
 {#                                        <i class="fas fa-user-tie"></i>#}
@@ -61,22 +64,6 @@
                                         <div class="mt-2 w-full text-center">
                                             {# <p class="font-semibold text-base">Statut</p> #}
                                             <div class="my-5 text-base font-semibold uppercase">
-{#                                                {% if contrat.getStatus() == '1' %}#}
-{#                                                    <p class="list-status text-gray-400">En attente client</p>#}
-{#                                                {% elseif contrat.getStatus() == '2' %}#}
-{#                                                    <p class="list-status text-yellow-400">En attente back-office</p>#}
-{#                                                {% elseif contrat.getStatus() == '3' %}#}
-{#                                                    <p class="list-status text-green-600">Validé</p>#}
-{#                                                {% elseif contrat.getStatus() == '4' %}#}
-{#                                                    <p class="list-status text-red-600">Rétracté</p>#}
-{#                                                {% elseif contrat.getStatus() == '5' %}#}
-{#                                                    <p class="list-status text-red-600">Injoignable</p>#}
-{#                                                {% elseif contrat.getStatus() == '6' %}#}
-{#                                                    <p class="list-status text-red-600">Impayé</p>#}
-{#                                                {% else %}#}
-{#                                                    <p class="list-status text-red-900">Erreur</p>#}
-{#                                                {% endif %}#}
-
                                                 <select name="status" class="
                                                 status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-500 outline-none
                                                     {% if contrat.getStatus() == '1' %} text-gray-400

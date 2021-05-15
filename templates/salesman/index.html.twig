@@ -32,6 +32,9 @@
                         <li class="m-5">
                             <div class="contract-item relative bg-white py-6 px-6 rounded-sm w-72 my-4 shadow-lg">
                     <div>
+                        {% if contrat.getDuplicate() %}
+                            <p class="text-red-500 text-sm"><i class="fas fa-exclamation-circle"> Contrat doublon</i></p>
+                        {% endif %}
                         <p class="text-xl font-semibold mb-5">Contrat n°<span class="list-numcontrat">{{ contrat.getNumContrat() }}</span></p>
                         <div class="flex items-center space-x-2 text-gray-400 text-sm">
                             <i class="fas fa-user"></i>

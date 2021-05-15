@@ -91,6 +91,20 @@ class SalesmanController extends AbstractController
                 return $this->render('salesman/new-contract.html.twig', ['form' => $form->createView()]);
 			}
 
+            $isDuplicate = $contractRepository->isDuplicate([
+                'mail'=>$infoClient['mail'],
+                'mobile'=>$infoClient['mobile'],
+                'iban'=>$infoPrelevement['iban']
+            ]);
+
+            if ($isDuplicate){
+                $contrat->setDuplicate(true);
+                $this->addFlash('warning','Ce contrat est considéré comme doublon, il sera signalé au backoffice');
+            }
+            else{
+                $contrat->setDuplicate(false);
+            }
+
 			$contrat->setInfoPrelevement($infoPrelevement);
 			$contrat->setNumeroVerif(000000);
 			$contrat->setCreated(new DateTime('now'));
@@ -138,7 +152,7 @@ class SalesmanController extends AbstractController
             '+33'.(int)$clientInfos['mobile'],
             'Afin de finaliser votre adhésion chez Stark Industries, veuillez communiquer le code suivant à votre conseiller : '.$secureCode.'. Merci de votre confiance.'
         );
-        $texter->send($sms);
+        //$texter->send($sms);
 
         return $this->render('salesman/new-contract-validation.html.twig', ['form' => $form->createView()]);
     }
