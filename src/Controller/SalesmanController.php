@@ -91,6 +91,20 @@ class SalesmanController extends AbstractController
                 return $this->render('salesman/new-contract.html.twig', ['form' => $form->createView()]);
 			}
 
+            $isDuplicate = $contractRepository->isDuplicate([
+                'mail'=>$infoClient['mail'],
+                'mobile'=>$infoClient['mobile'],
+                'iban'=>$infoPrelevement['iban']
+            ]);
+
+            if ($isDuplicate){
+                $contrat->setDuplicate(true);
+                $this->addFlash('warning','Ce contrat est considéré comme doublon, il sera signalé au backoffice');
+            }
+            else{
+                $contrat->setDuplicate(false);
+            }
+
 			$contrat->setInfoPrelevement($infoPrelevement);
 			$contrat->setNumeroVerif(000000);
 			$contrat->setCreated(new DateTime('now'));
@@ -134,11 +148,11 @@ class SalesmanController extends AbstractController
         $contract->setNumeroVerif($secureCode);
         $clientInfos = $contract->getInfoClient();
         $em->flush();
-//        $sms = new SmsMessage(
-//            '+33'.(int)$clientInfos['mobile'],
-//            'Afin de finaliser votre adhésion chez Stark Industries, veuillez communiquer le code suivant à votre conseiller : '.$secureCode.'. Merci de votre confiance.'
-//        );
-//        $sentMessage = $texter->send($sms);
+        $sms = new SmsMessage(
+            '+33'.(int)$clientInfos['mobile'],
+            'Afin de finaliser votre adhésion chez Stark Industries, veuillez communiquer le code suivant à votre conseiller : '.$secureCode.'. Merci de votre confiance.'
+        );
+        //$texter->send($sms);
 
         return $this->render('salesman/new-contract-validation.html.twig', ['form' => $form->createView()]);
     }
@@ -148,7 +162,7 @@ class SalesmanController extends AbstractController
      */
     public function sendMailNewContract(Pdf $pdf, MailerInterface $mailer, ContractRepository $contractRepository, $contractId){
         $contract = $contractRepository->find($contractId);
-        $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
+        //$pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
         $pdf->generateFromHtml(
             $this->renderView(

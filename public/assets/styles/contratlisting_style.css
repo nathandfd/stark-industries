@@ -99,7 +99,7 @@
         @apply border-transparent;
         @apply text-sm;
         @apply font-medium;
-        @apply rounded-md;
+        @apply rounded-sm;
         @apply text-white;
         @apply bg-yellow-400;
     }
@@ -123,7 +123,7 @@
         @apply border-transparent;
         @apply text-sm;
         @apply font-medium;
-        @apply rounded-md;
+        @apply rounded-sm;
         @apply text-white;
         @apply bg-yellow-600;
     }

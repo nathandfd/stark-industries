@@ -60,6 +60,28 @@ class ContractRepository extends ServiceEntityRepository
 
     }
 
+    public function isDuplicate($value)
+    {
+        $qb = $this->createQueryBuilder('c');
+        return $qb
+            ->andWhere(
+                $qb->expr()->orX(
+                    'c.info_client LIKE :mobile',
+                    $qb->expr()->orX(
+                        'c.info_client LIKE :mail',
+                        'c.info_prelevement LIKE :iban'
+                    )
+                )
+            )
+            ->setParameter('mobile', '%'.$value['mobile'].'%')
+            ->setParameter('mail', '%'.$value['mail'].'%')
+            ->setParameter('iban', '%'.$value['iban'].'%')
+            ->getQuery()
+            ->getResult()
+            ;
+
+    }
+
     public function getNb($salesmanId) {
 
         return $this->createQueryBuilder('l')

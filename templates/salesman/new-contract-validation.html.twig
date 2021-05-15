@@ -5,6 +5,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js" integrity="sha512-KaIyHb30iXTXfGyI9cyKFUIRSSuekJt6/vqXtyQKhQP6ozZEGY8nOtRS6fExqE4+RbYHus2yGyYg1BrqxzV6YA==" crossorigin="anonymous"></script>
 {% endblock %}
 {% block body %}
+    {% for label, messages in app.flashes(['warning']) %}
+        {% for message in messages %}
+            <div class="z-10 bg-white rounded-lg border-gray-300 border p-3 shadow-lg w-96 absolute top-0 right-0">
+                <div class="flex flex-row items-center justify-center">
+                    <div class="px-2">
+                        <i class="fas fa-exclamation-triangle fa-4x text-yellow-600"></i>
+                    </div>
+                    <div class="ml-2 mr-6">
+                        <span class="font-semibold">Attention !</span>
+                        <span class="block text-gray-500">{{ message }}</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
     <div class="bg-gray-100 p-6 relative md:ml-64 flex-1 h-screen flex justify-center items-center flex-col">
         <h1 class="text-gray-900 text-3xl font-extrabold tracking-tight mt-2">Vérification par SMS</h1>
         <div class="mt-6 text-red-500">
