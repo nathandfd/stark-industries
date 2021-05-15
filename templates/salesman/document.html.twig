@@ -12,12 +12,12 @@
                     <ul class="list w-full flex flex-wrap justify-around m-6">
                         {% for document in documents %}
                             <li>
-                                <div class="document flex flex-col justify-center items-center bg-grey bg-white py-6 px-16 rounded-xl w-72 shadow-lg">
+                                <div class="document flex flex-col justify-center items-center bg-grey bg-white py-6 px-16 rounded-sm w-72 shadow-lg">
                                     <p class="text-xl font-semibold mb-5 text-center">
                                         {{ document.getName() }}
                                     </p>
                                     <i class="fas fa-file-alt fa-10x text-yellow-500"></i>
-                                    <a href="{{ asset('assets/documents/'~ document.getPath()) }}" target="_blank" class="w-full text-center mt-6 detail_button py-2 px-10 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                                    <a href="{{ asset('assets/documents/'~ document.getPath()) }}" target="_blank" class="w-full text-center mt-6 detail_button py-2 px-10 border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                                         Ouvrir
                                     </a>
                                 </div>
@@ -47,7 +47,7 @@
        function pagination(){
            let linkPage = document.querySelectorAll('.page')
            linkPage.forEach((page)=>{
-               page.setAttribute('class', 'page py-2 px-4 mx-2 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500')
+               page.setAttribute('class', 'page py-2 px-4 mx-2 border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500')
            })
 
            let linkPageActive = document.querySelectorAll('.active.page')
