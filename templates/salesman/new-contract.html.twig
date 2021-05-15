@@ -7,7 +7,7 @@
 {% block body %}
     <div class="bg-gray-100 p-6 relative md:ml-64">
         <h1 class="order-1 text-gray-900 text-3xl font-extrabold tracking-tight mt-2">Nouveau contrat</h1>
-            {{ form_start (form,{ 'attr': {'id': 'newContrat'} }) }}
+            {{ form_start (form,{ 'attr': {'id': 'newContrat','autocomplete':'off'} }) }}
 
             <div class="container bg-white shadow overflow-hidden sm:rounded-sm my-5 p-10">
                 {% if form_errors(form) %}
