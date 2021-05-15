@@ -48,7 +48,9 @@ class BackofficeController extends AbstractController
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
     ): JsonResponse {
-
+        if ($newstatus != 3 && $newstatus != 4 && $newstatus != 5 && $newstatus != 6){
+            return new JsonResponse(false);
+        }
         $contract = $entityManager->getRepository(Contract::class)->find($contratid);
         $contract->setStatus($newstatus);
         $entityManager->flush();
@@ -74,7 +76,6 @@ class BackofficeController extends AbstractController
     {
         $contract = $entityManager->getRepository(Contract::class)->find($request->query->get('contratid'));
 
-        //$pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
 
         $html = $this->renderView(
@@ -98,8 +99,6 @@ class BackofficeController extends AbstractController
     public function exportAllPdf(EntityManagerInterface $entityManager,Request $request, Pdf $pdf)
     {
         $contracts = $entityManager->getRepository(Contract::class)->findAll();
-
-        //$pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
         $filename = $pdf->getTemporaryFolder()."/contrats_export.zip";
         $zip = new ZipArchive();
