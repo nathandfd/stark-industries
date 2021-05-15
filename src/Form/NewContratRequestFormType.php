@@ -34,7 +34,7 @@ class NewContratRequestFormType extends AbstractType
 
 			->add('gender', ChoiceType::class,[
 			    'attr'=>[
-			        'autocomplete'=>'chrome-off'
+			        'autocomplete'=>'off'
                 ],
 				'label'=>'Genre',
 				'mapped'=>false,
@@ -47,21 +47,21 @@ class NewContratRequestFormType extends AbstractType
 			])
 			->add('lastname', TextType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Nom',
 				'mapped'=>false,
 			])
 			->add('firstname', TextType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Prénom',
 				'mapped'=>false,
 			])
 			->add('birthday', BirthdayType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Date de naissance',
 				'mapped'=>false,
@@ -73,28 +73,28 @@ class NewContratRequestFormType extends AbstractType
 			])
 			->add('address', TextType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Adresse',
 				'mapped'=>false,
 			])
 			->add('zipcode', IntegerType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Code postal',
 				'mapped'=>false,
 			])
 			->add('city', TextType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Ville',
 				'mapped'=>false,
 			])
 			->add('country', ChoiceType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Pays',
 				'mapped'=>false,
@@ -369,7 +369,7 @@ class NewContratRequestFormType extends AbstractType
 
 			->add('phone', TelType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Téléphone fixe',
 				'mapped'=>false,
@@ -377,14 +377,14 @@ class NewContratRequestFormType extends AbstractType
 			])
 			->add('mobile', TelType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Téléphone mobile',
 				'mapped'=>false,
 			])
 			->add('mail', EmailType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Adresse mail',
 				'mapped'=>false,
@@ -394,7 +394,7 @@ class NewContratRequestFormType extends AbstractType
 
 			->add('iban', TextType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'IBAN',
 				'mapped'=>false,
@@ -402,7 +402,7 @@ class NewContratRequestFormType extends AbstractType
 			])
 			->add('bic', TextType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'BIC',
 				'mapped'=>false,
@@ -410,7 +410,7 @@ class NewContratRequestFormType extends AbstractType
 			])
 			->add('save', SubmitType::class,[
                 'attr'=>[
-                    'autocomplete'=>'chrome-off'
+                    'autocomplete'=>'off'
                 ],
 				'label'=>'Valider le contrat'
 			]);
