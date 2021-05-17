@@ -29,7 +29,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
          if ($this->getUser()) {
              switch ($this->getUser()->getRoles()[0]){
@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
                      break;
                  default:
                      $this->get('security.context')->setToken(null);
-                     $request->getSession()->invalidate();
+                     //$request->getSession()->invalidate();
                      throw new AuthenticationServiceException("Vous n'êtes pas autorisé à acceder au système, s'il s'agit d'une erreur veuillez contacter un administrateur");
                      break;
              }
