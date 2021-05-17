@@ -48,7 +48,8 @@ class UserCrudController extends AbstractCrudController
             ChoiceField::new('role','Rôle')
                 ->setChoices([
                     "Back-office"=>"ROLE_ADMIN",
-                    "Commercial"=>"ROLE_SALESMAN"
+                    "Commercial"=>"ROLE_SALESMAN",
+                    "Distributeur"=>"ROLE_DISTRIBUTOR"
                     ])
                 ->addCssClass('role-input'),
             TextField::new('matricule','Matricule')
@@ -59,6 +60,9 @@ class UserCrudController extends AbstractCrudController
             AssociationField::new('distributor', 'Distributeur')
                 ->addCssClass('distributor-input')
                 ->addJsFiles('/build/showdistributor.js')
+                ->formatValue(function($value){
+                    return $value?:'Aucun distributeur associé';
+                })
         ];
     }
 

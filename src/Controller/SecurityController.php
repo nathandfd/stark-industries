@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Form\UserRegistrationFormType;
 use App\Entity\Contract;
@@ -28,17 +29,21 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
          if ($this->getUser()) {
-             //return $this->redirectToRoute('target_path');
-             switch ($this->getUser()->getRoles()[0]){
-                 case 'ROLE_SALESMAN':
-                     return $this->redirectToRoute('salesman_home');
-                     break;
-                 case 'ROLE_ADMIN':
-                     return $this->redirectToRoute('backoffice_home');
-                     break;
-                 default:
-                     return $this->redirectToRoute('error');
-                     break;
+             if ($this->getUser()->isActive()){
+                 switch ($this->getUser()->getRoles()[0]){
+                     case 'ROLE_SALESMAN':
+                         return $this->redirectToRoute('salesman_home');
+                         break;
+                     case 'ROLE_ADMIN':
+                         return $this->redirectToRoute('backoffice_home');
+                         break;
+                     default:
+                         throw new CustomUserMessageAccountStatusException("Vous n'êtes pas autorisé à acceder au système, s'il s'agit d'une erreur veuillez contacter un administrateur");
+                         break;
+                 }
+             }
+             else{
+                 throw new CustomUserMessageAccountStatusException("Votre compte est désactivé, s'il s'agit d'une erreur veuillez contacter un administrateur");
              }
          }
 
