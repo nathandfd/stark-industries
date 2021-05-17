@@ -95,6 +95,7 @@ class UserCrudController extends AbstractCrudController
 
     public function disableUser(AdminContext $adminContext){
         $user = $adminContext->getEntity()->getInstance();
+        dd($user);
         $user->setActive(false);
         return new Response(true);
     }
