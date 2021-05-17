@@ -30,21 +30,16 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
          if ($this->getUser()) {
-             if ($this->getUser()->isActive()){
-                 switch ($this->getUser()->getRoles()[0]){
-                     case 'ROLE_SALESMAN':
-                         return $this->redirectToRoute('salesman_home');
-                         break;
-                     case 'ROLE_ADMIN':
-                         return $this->redirectToRoute('backoffice_home');
-                         break;
-                     default:
-                         throw new CustomUserMessageAuthenticationException("Vous n'êtes pas autorisé à acceder au système, s'il s'agit d'une erreur veuillez contacter un administrateur");
-                         break;
-                 }
-             }
-             else{
-                 throw new CustomUserMessageAuthenticationException("Votre compte est désactivé, s'il s'agit d'une erreur veuillez contacter un administrateur");
+             switch ($this->getUser()->getRoles()[0]){
+                 case 'ROLE_SALESMAN':
+                     return $this->redirectToRoute('salesman_home');
+                     break;
+                 case 'ROLE_ADMIN':
+                     return $this->redirectToRoute('backoffice_home');
+                     break;
+                 default:
+                     throw new CustomUserMessageAuthenticationException("Vous n'êtes pas autorisé à acceder au système, s'il s'agit d'une erreur veuillez contacter un administrateur");
+                     break;
              }
          }
 
