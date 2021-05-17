@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="h-screen w-screen flex items-center justify-center bg-gray-50 flex-col">
-       <div class="w-full max-w-lg flex items-center justify-center flex-col p-16 rounded-2xl space-y-9">
+       <div class="w-full max-w-lg flex items-center justify-center flex-col p-16 rounded-sm space-y-9">
            <img src="{{ asset('assets/images/logo_stark.png') }}" class="h-auto w-56" alt="">
            <h1 class="text-2xl font-extrabold text-gray-900">Réinitialisation du mot de passe</h1>
 
@@ -13,14 +13,14 @@
            {% endfor %}
 
            {{ form_start(requestForm, {'attr':{'class':'space-y-6'}}) }}
-           {{ form_row(requestForm.email, {'attr':{'class':'phone w-full py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-purple-800 outline-none ' }, 'label_attr':{'class':'sr-only'} } ) }}
+           {{ form_row(requestForm.email, {'attr':{'class':'phone w-full py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-purple-800 outline-none ' }, 'label_attr':{'class':'sr-only'} } ) }}
            <div>
                <small >
                    Entrez votre identifiant et nous vous enverrons un lien pour réinitialiser votre mot de passe
                </small>
            </div>
 
-           <button class="w-full bg-yellow-500 hover:bg-yellow-600 text-white rounded-md p-2 font-medium">Envoyer le mail de réinitialisation</button>
+           <button class="w-full bg-yellow-500 hover:bg-yellow-600 text-white rounded-sm p-2 font-medium">Envoyer le mail de réinitialisation</button>
            {{ form_end(requestForm) }}
            <a class="text-base text-yellow-600 hover:text-yellow-500 font-medium" href="{{ path('app_login') }}"><i class="fa fa-arrow-left"></i> Retour à la connexion</a>
        </div>

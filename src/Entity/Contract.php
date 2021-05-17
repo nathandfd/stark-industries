@@ -39,10 +39,6 @@ class Contract
      */
     private $info_client = [];
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $info_declaration = [];
 
     /**
      * @ORM\Column(type="integer")
@@ -58,6 +54,11 @@ class Contract
      * @ORM\Column(type="datetime")
      */
     private $created;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $duplicate;
 
     public function getId(): ?int
     {
@@ -112,18 +113,6 @@ class Contract
         return $this;
     }
 
-    public function getInfoDeclaration(): ?array
-    {
-        return $this->info_declaration;
-    }
-
-    public function setInfoDeclaration(array $info_declaration): self
-    {
-        $this->info_declaration = $info_declaration;
-
-        return $this;
-    }
-
     public function getNumeroVerif(): ?int
     {
         return $this->numero_verif;
@@ -156,6 +145,18 @@ class Contract
     public function setCreated(DateTimeInterface $created): self
     {
         $this->created = $created;
+
+        return $this;
+    }
+
+    public function getDuplicate(): ?bool
+    {
+        return $this->duplicate;
+    }
+
+    public function setDuplicate(bool $duplicate): self
+    {
+        $this->duplicate = $duplicate;
 
         return $this;
     }

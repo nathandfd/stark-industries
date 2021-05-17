@@ -32,13 +32,13 @@ class SecureCodeValidationFormType extends AbstractType
 
 			//ADHÉRENT
 
-			->add('secure_code', TextType::class,[
+			->add('secure_code', IntegerType::class,[
 				'label'=>'Numéro de vérification',
 				'mapped'=>false,
                 'required'=>true,
                 'attr' => [
                     'value'=>'',
-                    'class' => 'secure_code_input w-full text-center phone py-2 px-3 placeholder-gray-500 rounded-md border border-solid border-gray-300 focus:border-yellow-500 outline-none my-3 mb-6',
+                    'class' => 'secure_code_input w-full text-center phone py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-500 outline-none my-3 mb-6',
                     'placeholder'=>'Ex. 123456',
                     'autocomplete'=>'off'
                 ],
@@ -46,7 +46,7 @@ class SecureCodeValidationFormType extends AbstractType
 			->add('save', SubmitType::class,[
 				'label'=>'Valider',
                 'attr' => [
-                    'class' => 'focus:outline-none text-white text-sm m-auto py-2.5 px-8 w-full rounded-md bg-yellow-500 hover:bg-yellow-600 hover:shadow-lg',
+                    'class' => 'focus:outline-none text-white text-sm m-auto py-2.5 px-8 w-full rounded-sm bg-yellow-500 hover:bg-yellow-600 hover:shadow-lg',
                 ],
 			]);
 		}
