@@ -97,7 +97,7 @@ class UserCrudController extends AbstractCrudController
             })
             ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action){
                 return $action->displayIf(function($entity){
-                    return $entity->getRole() != "ROLE_SALESMAN";
+                    return $entity->getRole() != "ROLE_SALESMAN" && $this->getUser() != $entity;
                 });
             })
             ->reorder(Crud::PAGE_INDEX, [Action::DETAIL, Action::EDIT, Action::DELETE, 'enableUser', 'disableUser'])
