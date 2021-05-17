@@ -151,8 +151,12 @@
                             </p>
                         </tr>
                         <tr class="text-center w-full ">
-                            <p class="w-full text-center my-3">Fait à {{ contrat.getInfoClient()['city'] }} le {{ contrat.getCreated() }}</p>
-                            <p class="w-full text-center my-3" style="font-family: 'Dawning of a New Day', cursive; font-size: 32px;">{{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</p>
+                            <td>
+                                <p class="w-full text-center my-3">Fait à {{ contrat.getInfoClient()['city'] }} le {{ contrat.getCreated() }}</p>
+                            </td>
+                            <td>
+                                <p class="w-full text-center my-3" style="font-family: 'Dawning of a New Day', cursive; font-size: 32px;">{{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</p>
+                            </td>
                         </tr>
                         <tr>
                             <p class="text-xs text-justify font-italic m-auto w-4/4">L’adhésion démarre à la date d’effet du présent bulletin d’adhésion à Stark Industries, qui est la date de votre accord, sous réserve du paiement de la cotisation. Elle dure un an et se renouvelle tacitement à chaque échéance annuelle.</p>
