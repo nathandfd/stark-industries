@@ -70,7 +70,10 @@ class UserCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $disableUser = Action::new('disableUser','Désactiver')
-            ->linkToCrudAction('disableUser');
+            ->linkToCrudAction('disableUser')
+            ->displayIf(function($entity){
+                return $entity->getRole() != "ROLE_BACKOFFICE" && $entity->getRole() != "ROLE_ADMIN";
+            });
 
         $actions
             ->add(Crud::PAGE_INDEX, $disableUser)
