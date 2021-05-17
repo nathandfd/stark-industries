@@ -73,11 +73,20 @@ class UserCrudController extends AbstractCrudController
         $disableUser = Action::new('disableUser','Désactiver')
             ->linkToCrudAction('disableUser')
             ->displayIf(function($entity){
-                return $entity->getRole() != "ROLE_BACKOFFICE" && $entity->getRole() != "ROLE_ADMIN";
-            });
+                return $entity->getRole() != "ROLE_BACKOFFICE" && $entity->getRole() != "ROLE_ADMIN" && $entity->isActive();
+            })
+            ->addCssClass("text-red-500");;
+
+        $enableUser = Action::new('enableUser','Activer')
+            ->linkToCrudAction('enableUser')
+            ->displayIf(function($entity){
+                return $entity->getRole() != "ROLE_BACKOFFICE" && $entity->getRole() != "ROLE_ADMIN" && !$entity->isActive();
+            })
+            ->addCssClass("text-green-500");
 
         $actions
             ->add(Crud::PAGE_INDEX, $disableUser)
+            ->add(Crud::PAGE_INDEX, $enableUser)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->remove(Crud::PAGE_INDEX, Action::BATCH_DELETE)
             ->update(Crud::PAGE_INDEX, Action::NEW, function(Action $action){
@@ -97,6 +106,13 @@ class UserCrudController extends AbstractCrudController
     public function disableUser(AdminContext $adminContext){
         $user = $adminContext->getEntity()->getInstance();
         $user->setActive(false);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirect($adminContext->getReferrer());
+    }
+
+    public function enableUser(AdminContext $adminContext){
+        $user = $adminContext->getEntity()->getInstance();
+        $user->setActive(true);
         $this->getDoctrine()->getManager()->flush();
         return $this->redirect($adminContext->getReferrer());
     }
