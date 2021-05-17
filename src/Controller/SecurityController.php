@@ -40,8 +40,8 @@ class SecurityController extends AbstractController
                      return $this->redirectToRoute('backoffice_home');
                      break;
                  default:
-                     session_destroy();
-                     throw new AuthenticationServiceException("Vous n'êtes pas autorisé à acceder au système, s'il s'agit d'une erreur veuillez contacter un administrateur");
+
+                     //throw new AuthenticationServiceException("Vous n'êtes pas autorisé à acceder au système, s'il s'agit d'une erreur veuillez contacter un administrateur");
                      break;
              }
          }
