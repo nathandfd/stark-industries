@@ -75,14 +75,14 @@ class UserCrudController extends AbstractCrudController
             ->displayIf(function($entity){
                 return $entity->getRole() != "ROLE_BACKOFFICE" && $entity->getRole() != "ROLE_ADMIN" && $entity->isActive();
             })
-            ->addCssClass("text-red-500");;
+            ->addCssClass("text-danger");;
 
         $enableUser = Action::new('enableUser','Activer')
             ->linkToCrudAction('enableUser')
             ->displayIf(function($entity){
                 return $entity->getRole() != "ROLE_BACKOFFICE" && $entity->getRole() != "ROLE_ADMIN" && !$entity->isActive();
             })
-            ->addCssClass("text-green-500");
+            ->addCssClass("text-success");
 
         $actions
             ->add(Crud::PAGE_INDEX, $disableUser)
