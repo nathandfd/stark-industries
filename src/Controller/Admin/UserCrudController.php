@@ -73,14 +73,14 @@ class UserCrudController extends AbstractCrudController
         $disableUser = Action::new('disableUser','Désactiver')
             ->linkToCrudAction('disableUser')
             ->displayIf(function($entity){
-                return $entity->getRole() != "ROLE_BACKOFFICE" && $entity->getRole() != "ROLE_ADMIN" && $entity->isActive();
+                return $entity->getRole() == "ROLE_SALESMAN" && $entity->isActive();
             })
             ->addCssClass("text-danger");;
 
         $enableUser = Action::new('enableUser','Activer')
             ->linkToCrudAction('enableUser')
             ->displayIf(function($entity){
-                return $entity->getRole() != "ROLE_BACKOFFICE" && $entity->getRole() != "ROLE_ADMIN" && !$entity->isActive();
+                return $entity->getRole() == "ROLE_SALESMAN" && !$entity->isActive();
             })
             ->addCssClass("text-success");
 
@@ -97,7 +97,7 @@ class UserCrudController extends AbstractCrudController
             })
             ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action){
                 return $action->displayIf(function($entity){
-                    return $entity->getRole() == "ROLE_BACKOFFICE" || $entity->getRole() == "ROLE_ADMIN";
+                    return $entity->getRole() != "ROLE_SALESMAN";
                 });
             })
             ->reorder(Crud::PAGE_INDEX, [Action::DETAIL, Action::EDIT, Action::DELETE, 'enableUser', 'disableUser'])
