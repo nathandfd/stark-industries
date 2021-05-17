@@ -40,10 +40,11 @@ class SecurityController extends AbstractController
                  case 'ROLE_ADMIN':
                      return $this->redirectToRoute('backoffice_home');
                      break;
+                 case 'ROLE_DISTRIBUTOR':
+                     return $this->redirectToRoute('distributor_home');
+                     break;
                  default:
-                     $this->get('security.token_storage')->setToken(null);
-                     $request->getSession()->invalidate();
-                     throw new AuthenticationServiceException("Vous n'êtes pas autorisé à acceder au système, s'il s'agit d'une erreur veuillez contacter un administrateur");
+                     return $this->redirectToRoute('error');
                      break;
              }
          }
