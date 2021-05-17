@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
                      return $this->redirectToRoute('backoffice_home');
                      break;
                  default:
-                     $this->get('security.context')->setToken(null);
+                     $this->get('security.token_storage')->setToken(null);
                      $request->getSession()->invalidate();
                      throw new AuthenticationServiceException("Vous n'êtes pas autorisé à acceder au système, s'il s'agit d'une erreur veuillez contacter un administrateur");
                      break;
