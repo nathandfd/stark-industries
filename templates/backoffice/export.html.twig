@@ -6,9 +6,10 @@
     <link rel="icon" type="image/png" href="{{ absolute_url(asset('assets/images/favicon.png')) }}" />
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
     <title>Bon de souscription</title>
-    <link rel="stylesheet" href="{{ absolute_url(asset('build/style.css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset("build/pdf_export.css")) }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dawning+of+a+New+Day&display=swap');
         *{
             border: none!important;
         }
@@ -151,6 +152,7 @@
                         </tr>
                         <tr class="text-center w-full ">
                             <p class="w-full text-center my-3">Fait à {{ contrat.getInfoClient()['city'] }} le {{ contrat.getCreated() }}</p>
+                            <p class="w-full text-center my-3" style="font-family: 'Dawning of a New Day', cursive; font-size: 32px;">{{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</p>
                         </tr>
                         <tr>
                             <p class="text-xs text-justify font-italic m-auto w-4/4">L’adhésion démarre à la date d’effet du présent bulletin d’adhésion à Stark Industries, qui est la date de votre accord, sous réserve du paiement de la cotisation. Elle dure un an et se renouvelle tacitement à chaque échéance annuelle.</p>
