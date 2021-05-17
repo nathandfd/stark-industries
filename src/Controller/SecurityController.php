@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Form\UserRegistrationFormType;
 use App\Entity\Contract;
@@ -38,12 +39,12 @@ class SecurityController extends AbstractController
                          return $this->redirectToRoute('backoffice_home');
                          break;
                      default:
-                         throw new CustomUserMessageAccountStatusException("Vous n'êtes pas autorisé à acceder au système, s'il s'agit d'une erreur veuillez contacter un administrateur");
+                         throw new CustomUserMessageAuthenticationException("Vous n'êtes pas autorisé à acceder au système, s'il s'agit d'une erreur veuillez contacter un administrateur");
                          break;
                  }
              }
              else{
-                 throw new CustomUserMessageAccountStatusException("Votre compte est désactivé, s'il s'agit d'une erreur veuillez contacter un administrateur");
+                 throw new CustomUserMessageAuthenticationException("Votre compte est désactivé, s'il s'agit d'une erreur veuillez contacter un administrateur");
              }
          }
 
