@@ -28,7 +28,7 @@
 
                 </div>
                 <ul class="list w-full flex flex-wrap justify-around">
-                    {% for contrat in contrats|sort((a) => a.created) %}
+                    {% for contrat in contrats %}
                         {% if contrat.getCreated() < date("-30 days") %}
                 <!-- 1 card -->
                         <li class="m-5">
@@ -201,6 +201,8 @@
             pagination: true
         };
         var contratsList = new List('contrats-list', options);
+        contratsList.sort('list-datecontrat',{order:"desc"})
+
     </script>
 
 {% endblock %}
