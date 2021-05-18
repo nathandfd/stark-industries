@@ -7,7 +7,7 @@
 {% block body %}
     <div class="bg-gray-100 p-6 relative md:ml-64">
         <h1 class="order-1 text-gray-900 text-3xl font-extrabold tracking-tight mt-2">Nouveau contrat</h1>
-            {{ form_start (form,{ 'attr': {'id': 'newContrat'} }) }}
+            {{ form_start (form,{ 'attr': {'id': 'newContrat','autocomplete':'off'} }) }}
 
             <div class="container bg-white shadow overflow-hidden sm:rounded-sm my-5 p-10">
                 {% if form_errors(form) %}
@@ -33,17 +33,18 @@
                         {{ form_widget(form.firstname, {'attr': {'class': 'phone w-full py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-500 outline-none my-3'}}) }}
                     </div>
 
-                    <div class="grid md:grid-cols-6 md:gap-10 md:col-span-8 col-span-1 grid-cols-1 gap-2">
+                    <div class="grid md:grid-cols-6 md:gap-10 md:col-span-8 col-span-1 grid-cols-1 gap-2 relative">
+                        <label class="md:absolute md:-top-7 block text-sm font-medium text-gray-700">Date de naissance</label>
                         <div class="md:col-span-1 col-span-1">
-                        {{ form_label(form.birthday.day, 'Jour', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+{#                        {{ form_label(form.birthday.day, 'Jour', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}#}
                         {{ form_widget(form.birthday.day, {'attr': {'class': 'mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-sm shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm'}}) }}
                         </div>
                         <div class="md:col-span-1 col-span-1">
-                        {{ form_label(form.birthday.month, 'Mois', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+{#                        {{ form_label(form.birthday.month, 'Mois', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}#}
                         {{ form_widget(form.birthday.month, {'attr': {'class': 'mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-sm shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm'}}) }}
                         </div>
                         <div class="md:col-span-1 col-span-1">
-                        {{ form_label(form.birthday.year, 'Année', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+{#                        {{ form_label(form.birthday.year, 'Année', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}#}
                         {{ form_widget(form.birthday.year, {'attr': {'class': 'mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-sm shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm'}}) }}
                         </div>
                     </div>
@@ -115,23 +116,19 @@
         var cleaveIban = new Cleave('.iban', {
             blocks: [4, 4, 4, 4, 4, 4, 3],
             uppercase: true,
-            swapHiddenInput:true
         });
 
         var cleavePhone = new Cleave('.mobile2', {
             blocks: [2, 2, 2, 2, 2],
             numericOnly: true,
-            swapHiddenInput:true
         });
         var cleaveMobile = new Cleave('.mobile', {
             blocks: [2, 2, 2, 2, 2],
             numericOnly: true,
-            swapHiddenInput:true
         });
         var cleaveBic = new Cleave('.bic', {
             blocks: [11],
-            numericOnly: true,
-            swapHiddenInput:true
+            uppercase: true,
         });
     </script>
 {% endblock %}

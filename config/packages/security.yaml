@@ -47,3 +47,4 @@ security:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/backoffice, roles: ROLE_BACKOFFICE }
          - { path: ^/salesman, roles: ROLE_SALESMAN }
+         - { path: ^/distributor, roles: ROLE_DISTRIBUTOR }

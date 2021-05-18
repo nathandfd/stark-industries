@@ -69,22 +69,22 @@ class SalesmanController extends AbstractController
                 'zipcode'=>$form->get('zipcode')->getData(),
                 'city'=>$form->get('city')->getData(),
                 'country'=>$form->get('country')->getData(),
-                'phone'=>$form->get('phone')->getData(),
-                'mobile'=>$form->get('mobile')->getData(),
+                'phone'=>str_replace(" ","",$form->get('phone')->getData()),
+                'mobile'=>str_replace(" ","",$form->get('mobile')->getData()),
                 'mail'=>$form->get('mail')->getData(),
 			];
 
 			$contrat->setInfoClient($infoClient);
 
 			$infoPrelevement = [
-				'iban'=>$form->get('iban')->getData(),
-				'bic'=>$form->get('bic')->getData(),
+				'iban'=>str_replace(" ","",$form->get('iban')->getData()),
+				'bic'=>str_replace(" ","",$form->get('bic')->getData()),
 			];
 
 			$hasUnpaidStatus = $contractRepository->hasUnpaidStatus([
                 'mail'=>$infoClient['mail'],
-                'mobile'=>$infoClient['mobile'],
-                'iban'=>$infoPrelevement['iban']
+                'mobile'=>str_replace(" ","",$form->get('mobile')->getData()),
+                'iban'=>str_replace(" ","",$form->get('iban')->getData())
             ]);
 			if ($hasUnpaidStatus){
                 $form->addError(new FormError('Cette personne a déjà eu un impayé auparavant, impossible de souscrire à un nouveau contrat'));
@@ -93,8 +93,8 @@ class SalesmanController extends AbstractController
 
             $isDuplicate = $contractRepository->isDuplicate([
                 'mail'=>$infoClient['mail'],
-                'mobile'=>$infoClient['mobile'],
-                'iban'=>$infoPrelevement['iban']
+                'mobile'=>str_replace(" ","",$form->get('mobile')->getData()),
+                'iban'=>str_replace(" ","",$form->get('iban')->getData())
             ]);
 
             if ($isDuplicate){
@@ -152,7 +152,7 @@ class SalesmanController extends AbstractController
             '+33'.(int)$clientInfos['mobile'],
             'Afin de finaliser votre adhésion chez Stark Industries, veuillez communiquer le code suivant à votre conseiller : '.$secureCode.'. Merci de votre confiance.'
         );
-        //$texter->send($sms);
+        $texter->send($sms);
 
         return $this->render('salesman/new-contract-validation.html.twig', ['form' => $form->createView()]);
     }

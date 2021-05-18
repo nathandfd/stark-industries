@@ -32,7 +32,7 @@ class SecureCodeValidationFormType extends AbstractType
 
 			//ADHÉRENT
 
-			->add('secure_code', TextType::class,[
+			->add('secure_code', IntegerType::class,[
 				'label'=>'Numéro de vérification',
 				'mapped'=>false,
                 'required'=>true,

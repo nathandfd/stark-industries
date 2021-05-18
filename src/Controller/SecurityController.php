@@ -4,9 +4,14 @@ namespace App\Controller;
 
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Form\UserRegistrationFormType;
 use App\Entity\Contract;
@@ -25,16 +30,18 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
          if ($this->getUser()) {
-             //return $this->redirectToRoute('target_path');
              switch ($this->getUser()->getRoles()[0]){
                  case 'ROLE_SALESMAN':
                      return $this->redirectToRoute('salesman_home');
                      break;
                  case 'ROLE_ADMIN':
                      return $this->redirectToRoute('backoffice_home');
+                     break;
+                 case 'ROLE_DISTRIBUTOR':
+                     return $this->redirectToRoute('distributor_home');
                      break;
                  default:
                      return $this->redirectToRoute('error');
