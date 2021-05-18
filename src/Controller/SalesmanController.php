@@ -162,7 +162,7 @@ class SalesmanController extends AbstractController
      */
     public function sendPrecontract(Pdf $pdf, MailerInterface $mailer, ContractRepository $contractRepository, $contractId){
         $contract = $contractRepository->find($contractId);
-        $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
+        //$pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
         $pdf->generateFromHtml(
             $this->renderView(
