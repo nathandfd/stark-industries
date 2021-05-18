@@ -116,7 +116,7 @@ class SalesmanController extends AbstractController
 			$num_contrat .= str_pad($contractRepository->getNb($this->getUser()->getId()), 4, 0, STR_PAD_LEFT);
             $contrat->setNumContrat($num_contrat);
 			$em->flush();
-			return new RedirectResponse($this->generateUrl('new-contract-validation',[
+			return new RedirectResponse($this->generateUrl('precontract-send',[
                 'contractId'=>$contrat->getId()
             ]));
 		}
@@ -155,6 +155,40 @@ class SalesmanController extends AbstractController
         $texter->send($sms);
 
         return $this->render('salesman/new-contract-validation.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/precontract-send/{contractId}",name="precontract-send")
+     */
+    public function sendPrecontract(Pdf $pdf, MailerInterface $mailer, ContractRepository $contractRepository, $contractId){
+        $contract = $contractRepository->find($contractId);
+        $pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
+        $pdf->setTemporaryFolder("../var/cache");
+        $pdf->generateFromHtml(
+            $this->renderView(
+                'backoffice/export.html.twig',
+                array(
+                    'controller_name' => 'BackofficeController',
+                    'contrat' => $contract
+                )),
+            $pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf'
+        );
+        $email = (new TemplatedEmail())
+            ->from(new Address('contact@groupe-stark-industries.fr', 'Stark industries'))
+            ->to($contract->getInfoClient()['mail'])
+            ->subject('Pré-contrat Stark industries')
+            ->htmlTemplate('mail_template/precontract.html.twig')
+            ->context([
+                'name'=> $contract->getInfoClient()['firstname']
+            ])
+            ->attachFromPath($pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf', 'contrat_stark_industries.pdf')
+        ;
+        $mailer->send($email);
+        $pdf->removeTemporaryFiles();
+        unlink($pdf->getTemporaryFolder().'/contrat_'.$contract->getNumContrat().'.pdf');
+        return new RedirectResponse($this->generateUrl('new-contract-validation',[
+            'contractId'=>$contract->getId()
+        ]));
     }
 
     /**

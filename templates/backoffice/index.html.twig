@@ -19,8 +19,11 @@
                         <div class="row-start-2 flex justify-between md:justify-start">
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-numcontrat">Contrat</button>
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-status">Statut</button>
-                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-datecontrat">Date</button>
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-order="desc" data-sort="list-datecontrat">Date</button>
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-nom">Nom client</button>
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-salesman">Commercial</button>
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-distributeur">Distributeur</button>
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-order="desc" data-sort="list-doublon">Doublons</button>
                         </div>
                         <div class="row-start-2 col-start-2 flex justify-between md:justify-end">
                             <a href="{{ path('backoffice_export_all') }}"><button class="w-36 py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-arrow-down"></i> Tout exporter</button></a>
@@ -29,18 +32,18 @@
                     <input class="search row-start-1 phone w-full py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-600 outline-none my-3" placeholder="Rechercher un contrat" /><br>
                     </div>
                 <ul class="list w-full flex flex-wrap justify-around">
-                    {% for contrat in contrats %}
+                    {% for contrat in contrats | sort((a) => a.created) %}
                         <!-- 1 card -->
                         <li class="m-5">
                             <div class="contract-item relative bg-white py-6 px-6 rounded-sm w-72 my-4 shadow-lg">
                                 <div>
                                     {% if contrat.getDuplicate() %}
-                                        <p class="text-red-500 text-sm"><i class="fas fa-exclamation-circle"> Contrat doublon</i></p>
+                                        <p class="text-red-500 text-sm"><i class="fas fa-exclamation-circle list-doublon"> Contrat doublon</i></p>
                                     {% endif %}
                                     <p class="text-xl font-bold mb-2">Contrat n°<span class="list-numcontrat">{{ contrat.getNumContrat() }}</span></p>
                                     <div class="flex items-center space-x-2 text-gray-400 font-bold text-base">
 {#                                        <i class="fas fa-user-tie"></i>#}
-                                        <p class="list-salesman">{{ contrat.getSalesman().getFirstname() }} {{ contrat.getSalesman().getName() }} </p>
+                                        <p class="list-salesman">{{ contrat.getSalesman().getFirstname() }} {{ contrat.getSalesman().getName() }} </p><span class="list-distributeur hidden">{{ contrat.getSalesman().getDistributor() }}</span>
                                     </div>
                                     <div class="h-px my-5 bg-gray-300"></div>
 
@@ -122,6 +125,14 @@
                                                 <i class="far fa-calendar-alt dtp"></i>
                                                 <p>Fait le {{ contrat.getCreated() }}</p>
                                             </div>
+                                            <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
+                                                <i class="fas fa-briefcase"></i>
+                                                <p class="list-salesman">{{ contrat.getSalesman().getFirstname() }} {{ contrat.getSalesman().getName() }} </p>
+                                            </div>
+                                            <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
+                                                <i class="fas fa-building"></i>
+                                                <p class="list-distributeur text-sm">{{ contrat.getSalesman().getDistributor() }}</p>
+                                            </div>
                                             <div class="h-0.5 bg-gray-300 w-1/2 mx-auto my-5"></div>
                                             <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                                 <i class="fas fa-user dtp"></i>
@@ -164,6 +175,11 @@
                                                 <a class="hover:text-yellow-500" href="mailto:{{ contrat.getInfoClient()['mail'] }}">{{ contrat.getInfoClient()['mail'] }}</a>
                                             </div>
                                             <div class="h-0.5 bg-gray-300 w-1/2 mx-auto my-5"></div>
+                                            <div class="flex items-center space-x-2 text-gray-400 font-bold text-base">
+                                                {#                                        <i class="fas fa-user-tie"></i>#}
+                                                <p class="list-salesman">{{ contrat.getSalesman().getFirstname() }} {{ contrat.getSalesman().getName() }} </p>
+                                                <p class="list-distributeur text-sm">{{ contrat.getSalesman().getDistributor() }}</p>
+                                            </div>
                                             <div class="h-20 flex items-center justify-center">
                                                 <a href="#" class="back-button py-2 px-10 border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Retour</a>
                                             </div>
@@ -242,7 +258,10 @@
                 'list-salesman',
                 'list-status',
                 'list-numcontrat',
-                {name: 'list-datecontrat', attr: 'data-timestamp'}
+                {name: 'list-datecontrat', attr: 'data-timestamp'},
+                'list-doublon',
+                'list-distributeur',
+                'list-nom'
             ],
             page: 15,
             pagination: true
