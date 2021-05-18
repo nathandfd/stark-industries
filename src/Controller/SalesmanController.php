@@ -152,7 +152,7 @@ class SalesmanController extends AbstractController
             '+33'.(int)$clientInfos['mobile'],
             'Afin de finaliser votre adhésion chez Stark Industries, veuillez communiquer le code suivant à votre conseiller : '.$secureCode.'. Merci de votre confiance.'
         );
-        //$texter->send($sms);
+        $texter->send($sms);
 
         return $this->render('salesman/new-contract-validation.html.twig', ['form' => $form->createView()]);
     }
