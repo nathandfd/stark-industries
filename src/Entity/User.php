@@ -61,6 +61,11 @@ class User implements UserInterface
      */
     private $distributor;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active = true;
+
     public function __construct()
     {
         $this->contracts = new ArrayCollection();
@@ -238,6 +243,18 @@ class User implements UserInterface
     public function setDistributor(?distributor $distributor): self
     {
         $this->distributor = $distributor;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

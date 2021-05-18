@@ -75,6 +75,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new CustomUserMessageAuthenticationException('Identifiant introuvable');
         }
 
+        if(!$user->isActive()){
+            throw new CustomUserMessageAuthenticationException("Votre compte est désactivé, s'il s'agit d'une erreur veuillez contacter un administrateur");
+        }
+
         return $user;
     }
 
