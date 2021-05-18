@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil de {{ salesman.firstname }} | Stark Industries{% endblock %}
+{% block title %}Contrats de {{ salesman.firstname }} | Stark Industries{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset("build/contratlisting_style.css") }}">
 {% endblock %}
@@ -20,7 +20,8 @@
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-numcontrat">Contrat</button>
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-status">Statut</button>
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-datecontrat">Date</button>
-                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-nom">Nom</button>
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-nom">Nom client</button>
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-order="desc" data-sort="list-doublon">Doublons</button>
                         </div>
                     </div>
                     <input class="search row-start-1 phone w-full py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-600 outline-none my-3" placeholder="Rechercher un contrat" /><br>
@@ -28,12 +29,13 @@
                 </div>
                 <ul class="list w-full flex flex-wrap justify-around">
                     {% for contrat in contrats %}
+                        {% if contrat.getCreated() > date("-30 days") %}
                 <!-- 1 card -->
                         <li class="m-5">
                             <div class="contract-item relative bg-white py-6 px-6 rounded-sm w-72 my-4 shadow-lg">
                     <div>
                         {% if contrat.getDuplicate() %}
-                            <p class="text-red-500 text-sm"><i class="fas fa-exclamation-circle"> Contrat doublon</i></p>
+                            <p class="text-red-500 text-sm"><i class="fas fa-exclamation-circle list-doublon"> Contrat doublon</i></p>
                         {% endif %}
                         <p class="text-xl font-semibold mb-5">Contrat n°<span class="list-numcontrat">{{ contrat.getNumContrat() }}</span></p>
                         <div class="flex items-center space-x-2 text-gray-400 text-sm">
@@ -155,6 +157,7 @@
                             </div>
                         </div>
                         </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
                 <ul class="pagination w-full flex flex-wrap justify-center items-center"></ul>
@@ -191,6 +194,7 @@
                 'list-nom',
                 'list-status',
                 'list-numcontrat',
+                'list-doublon',
                 {name: 'list-datecontrat', attr: 'data-timestamp'}
             ],
             page: 15,
