@@ -28,7 +28,7 @@
 
                 </div>
                 <ul class="list w-full flex flex-wrap justify-around">
-                    {% for contrat in contrats %}
+                    {% for contrat in contrats|sort((a) => a.created) %}
                         {% if contrat.getCreated() < date("-30 days") %}
                 <!-- 1 card -->
                         <li class="m-5">
