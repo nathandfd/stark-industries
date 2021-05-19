@@ -13,8 +13,19 @@ class DistributorController extends AbstractController
      */
     public function index(): Response
     {
+        $contracts = [];
+        $distributor = $this->getUser()->getDistributor();
+        $salesmans = $distributor->getUsers();
+        foreach ($salesmans as $key=>$salesman){
+            if ($salesman->getRole() == "ROLE_SALESMAN"){
+                foreach ($salesman->getContracts() as $key => $contract)
+                $contracts[] = $contract;
+            }
+        }
         return $this->render('distributor/index.html.twig', [
             'controller_name' => 'DistributorController',
+            'distributor'=>$distributor,
+            'contracts'=>$contracts
         ]);
     }
 }
