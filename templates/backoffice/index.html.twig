@@ -28,7 +28,7 @@
                         <div class="row-start-2 col-start-2 flex justify-between md:justify-end">
                             <div class="relative inline-block text-left">
                                 <div>
-                                    <button type="button" class="inline-flex justify-center w-full rounded-md border border-none shadow-sm px-4 py-2 bg-green-500 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-100 focus:ring-green-500" id="export-selection-button" aria-expanded="false" aria-haspopup="true">
+                                    <button type="button" class="inline-flex justify-center w-full rounded-sm border border-none shadow-sm px-4 py-2 bg-green-500 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-100 focus:ring-green-500" id="export-selection-button" aria-expanded="false" aria-haspopup="true">
                                         Exportation
                                         <!-- Heroicon name: solid/chevron-down -->
                                         <svg style="pointer-events: none" class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -47,13 +47,13 @@
                                     From: "transform opacity-100 scale-100"
                                     To: "transform opacity-0 scale-95"
                                 -->
-                                <div class="z-10 hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none" id="export-selection-menu" role="menu" aria-orientation="vertical" aria-labelledby="export-selection-button" tabindex="-1">
+                                <div class="z-10 hidden origin-top-right absolute right-0 mt-2 w-56 rounded-sm shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none" id="export-selection-menu" role="menu" aria-orientation="vertical" aria-labelledby="export-selection-button" tabindex="-1">
                                     <div class="py-1" role="none">
                                         <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                                         <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-0">Exporter la page courante</a>
                                     </div>
                                     <div class="py-1" role="none">
-                                        <a href="{{ url('backoffice_export_all') }}" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-1">Exporter toute la base</a>
+                                        <a href="{{ url('backoffice_export_all') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-1">Exporter toute la base</a>
                                     </div>
                                 </div>
                             </div>
@@ -217,6 +217,33 @@
                     {% endfor %}
                 </ul>
                 <ul class="pagination w-full flex flex-wrap justify-center items-center"></ul>
+                <!-- This example requires Tailwind CSS v2.0+ -->
+                <div id="waiting-modal" class="hidden z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <!-- Heroicon name: outline/exclamation -->
+                                        <i class="text-yellow-500 fas fa-hourglass-half"></i>
+                                    </div>
+                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                            Exportation en cours
+                                        </h3>
+                                        <div class="mt-2">
+                                            <p class="text-sm text-gray-500">
+                                                Exportation en cours, veuillez patienter...
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -279,7 +306,7 @@
             })
         })
 
-        var options = {
+        let options = {
             valueNames: [
                 'list-salesman',
                 'list-status',
@@ -292,7 +319,7 @@
             page: 30,
             pagination: true
         };
-        var contratsList = new List('contrats-list', options);
+        let contratsList = new List('contrats-list', options);
 
         contratsList.sort('list-datecontrat',{order:"desc"})
         contratsList.on('updated',()=>{
@@ -345,7 +372,7 @@
         })
 
         document.getElementById('export-selection-item-0').addEventListener('click',(e)=> {
-
+            let waitingModal = document.getElementById('waiting-modal')
             let contracts = {
                 'contracts':contratsList.visibleItems
             }
@@ -356,9 +383,14 @@
                     'Content-Type': 'application/json'
                 }
             }
+
+            waitingModal.classList.add('fixed')
+            waitingModal.classList.remove('hidden')
             fetch('{{ url('backoffice_export_selection') }}', paramFetch)
                 .then( res => res.blob() )
                 .then( blob => {
+                    waitingModal.classList.add('hidden')
+                    waitingModal.classList.remove('fixed')
                     let file = window.URL.createObjectURL(blob);
                     let a = document.createElement('a')
                     a.href = file;
