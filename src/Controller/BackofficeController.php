@@ -99,7 +99,6 @@ class BackofficeController extends AbstractController
      */
     public function exportSelection(Request $request, Pdf $pdf, ContractRepository $contractRepository){
         $numContracts = json_decode($request->getContent(),true)["contracts"];
-        $pdf->setBinary('"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe"'); //TODO jarter ça
         $pdf->setTemporaryFolder("../var/cache");
         $filename = $pdf->getTemporaryFolder()."/contrats_export.zip";
         $zip = new ZipArchive();
