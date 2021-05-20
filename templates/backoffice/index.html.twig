@@ -26,21 +26,34 @@
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-order="desc" data-sort="list-doublon">Doublons</button>
                         </div>
                         <div class="row-start-2 col-start-2 flex justify-between md:justify-end">
-                            <div class="row-start-2 col-start-2 flex justify-between md:justify-end relative inline-block text-left">
-                                <div class="row-start-2 col-start-2 flex justify-between md:justify-end">
-                                    <button type="button" id="dropdown-export-close" class="inline-flex justify-center w-36 py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                            <div class="relative inline-block text-left">
+                                <div>
+                                    <button type="button" class="inline-flex justify-center w-full rounded-md border border-none shadow-sm px-4 py-2 bg-green-500 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-100 focus:ring-green-500" id="export-selection-button" aria-expanded="false" aria-haspopup="true">
                                         Exportation
                                         <!-- Heroicon name: solid/chevron-down -->
-                                        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <svg style="pointer-events: none" class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                         </svg>
                                     </button>
                                 </div>
 
-                                <div id="dropdown-export-select" class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                                    <div class="" role="none">
-                                        <a href="{{ path('backoffice_export_all') }}"><button class="w-full py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-gray-500 bg-white hover:text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-arrow-down"></i> Exporter toute la page</button></a>
-                                        <a href="{{ path('backoffice_export_all') }}"><button class="w-full py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-gray-500 bg-white hover:text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-arrow-down"></i> Exporter tous les contrats</button></a>
+                                <!--
+                                  Dropdown menu, show/hide based on menu state.
+
+                                  Entering: "transition ease-out duration-100"
+                                    From: "transform opacity-0 scale-95"
+                                    To: "transform opacity-100 scale-100"
+                                  Leaving: "transition ease-in duration-75"
+                                    From: "transform opacity-100 scale-100"
+                                    To: "transform opacity-0 scale-95"
+                                -->
+                                <div class="z-10 hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none" id="export-selection-menu" role="menu" aria-orientation="vertical" aria-labelledby="export-selection-button" tabindex="-1">
+                                    <div class="py-1" role="none">
+                                        <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Exporter la page courante</a>
+                                    </div>
+                                    <div class="py-1" role="none">
+                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-6">Exporter toute la base</a>
                                     </div>
                                 </div>
                             </div>
@@ -310,23 +323,31 @@
         }
 
         //Exportation dropdown JS
-        let dropdownClose = document.getElementById('dropdown-export-close')
-        let dropdownOpen = document.getElementById('dropdown-export-open')
-        let dropdownselect = document.getElementById('dropdown-export-select')
+        let dropdownButton = document.getElementById('export-selection-button')
+        let dropdownMenu = document.getElementById('export-selection-menu')
 
-        if (dropdownClose != null){
-            dropdownClose.addEventListener('click',()=>{
-                dropdownselect.setAttribute('class', 'block origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none')
-                dropdownselect.setAttribute('id', 'dropdown-export-open')
+        const closeMenu = (e)=>{
+            if (e.target !== dropdownMenu && e.target !== dropdownButton){
+                dropdownMenu.classList.add('hidden')
+                dropdownMenu.classList.remove('block')
+                dropdownButton.setAttribute('aria-expanded',"false")
+                window.removeEventListener('click',closeMenu)
+            }
+        }
 
-            })
-        }
-        if (dropdownOpen != null){
-            dropdownOpen.addEventListener('click',()=>{
-                dropdownselect.setAttribute('class', 'hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none')
-                dropdownselect.setAttribute('id', 'dropdown-export-close')
-            })
-        }
+        dropdownButton.addEventListener('click',(e)=>{
+            if (dropdownButton.getAttribute('aria-expanded') === "true"){
+                dropdownMenu.classList.add('hidden')
+                dropdownMenu.classList.remove('block')
+                dropdownButton.setAttribute('aria-expanded',"false")
+                window.removeEventListener('click',closeMenu)
+            }else{
+                dropdownMenu.classList.add('block')
+                dropdownMenu.classList.remove('hidden')
+                dropdownButton.setAttribute('aria-expanded',"true")
+                window.addEventListener('click',closeMenu)
+            }
+        })
 
     </script>
 
