@@ -95,6 +95,43 @@ class BackofficeController extends AbstractController
     }
 
     /**
+     * @Route("/export-selection",name="backoffice_export_selection")
+     */
+    public function exportSelection(Request $request, Pdf $pdf, ContractRepository $contractRepository){
+        $numContracts = json_decode($request->getContent(),true)["contracts"];
+
+        $pdf->setTemporaryFolder("../var/cache");
+        $filename = $pdf->getTemporaryFolder()."/contrats_export.zip";
+        $zip = new ZipArchive();
+        if (file_exists($filename)){
+            unlink($filename);
+        }
+        if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
+            exit("Impossible d'ouvrir le fichier <$filename>\n");
+        }
+
+        foreach ($numContracts as $key=>$numContract){
+            $contract = $contractRepository->findOneBy(['num_contract'=>$numContract]);
+            $html = $this->renderView(
+                'backoffice/export.html.twig',
+                array(
+                    'controller_name' => 'BackofficeController',
+                    'contrat' => $contract
+                )
+            );
+            $pdf->generateFromHtml(
+                $html,
+                $pdf->getTemporaryFolder().'/temp_pdf/contrat_'.$contract->getNumContrat().'.pdf'
+            );
+            $zip->addFile($pdf->getTemporaryFolder().'/temp_pdf/contrat_'.$contract->getNumContrat().'.pdf','contrat_'.$contract->getNumContrat().'.pdf');
+        }
+        $zip->close();
+        $pdf->removeTemporaryFiles();
+        $this->removeDir($pdf->getTemporaryFolder().'/temp_pdf');
+        return $this->file($filename);
+    }
+
+    /**
      * @Route("/export-all", name="backoffice_export_all")
      */
     public function exportAllPdf(EntityManagerInterface $entityManager,Request $request, Pdf $pdf)
