@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <input class="search row-start-1 phone w-full py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-600 outline-none my-3" placeholder="Rechercher un contrat" /><br>
-
+                    <p class="text-gray-500">Nombre de résultats : <span id="nb_contracts"></span></p>
                 </div>
                 <ul class="list w-full flex flex-wrap justify-around">
                     {% for contrat in contrats %}
@@ -49,7 +49,7 @@
                                                 {% else %}
                                                     M.
                                                 {% endif %}
-                                                {{ contrat.getInfoClient()['firstname'] }} <span class="list-nom">{{ contrat.getInfoClient()['lastname'] }}</span></p>
+                                                <span class="list-nom">{{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</span></p>
                                         </div>
                                         <div class="flex items-center space-x-2 text-gray-400 text-sm my-3">
                                             <i class="far fa-calendar-alt"></i>
@@ -211,6 +211,14 @@
         };
         var contratsList = new List('contrats-list', options);
         contratsList.sort('list-datecontrat',{order:"desc"})
+        contratsList.on('updated',()=>{
+            updateNbContracts(contratsList.visibleItems.length)
+        })
+
+        updateNbContracts(contratsList.visibleItems.length)
+        function updateNbContracts(nbContracts){
+            document.querySelector('#nb_contracts').innerHTML = nbContracts
+        }
 
     </script>
 
