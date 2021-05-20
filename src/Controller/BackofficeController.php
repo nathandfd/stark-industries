@@ -99,7 +99,7 @@ class BackofficeController extends AbstractController
      */
     public function exportSelection(Request $request, Pdf $pdf, ContractRepository $contractRepository){
         $numContracts = json_decode($request->getContent(),true)["contracts"];
-
+        $pdf->setBinary('"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe"'); //TODO jarter ça
         $pdf->setTemporaryFolder("../var/cache");
         $filename = $pdf->getTemporaryFolder()."/contrats_export.zip";
         $zip = new ZipArchive();
@@ -111,7 +111,7 @@ class BackofficeController extends AbstractController
         }
 
         foreach ($numContracts as $key=>$numContract){
-            $contract = $contractRepository->findOneBy(['num_contract'=>$numContract]);
+            $contract = $contractRepository->findOneBy(['num_contrat'=>$numContract['_values']['list-numcontrat']]);
             $html = $this->renderView(
                 'backoffice/export.html.twig',
                 array(
