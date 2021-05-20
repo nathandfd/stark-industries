@@ -27,6 +27,7 @@
                         </div>
                         <div class="row-start-2 col-start-2 flex justify-between md:justify-end">
                             <a href="{{ path('backoffice_export_all') }}"><button class="w-36 py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-arrow-down"></i> Tout exporter</button></a>
+                            <a><button id="pute" class="w-36 py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-arrow-down"></i> test export</button></a>
                         </div>
                     </div>
                     <input class="search row-start-1 phone w-full py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-600 outline-none my-3" placeholder="Rechercher un contrat" /><br>
@@ -176,17 +177,13 @@
                                                 <a class="hover:text-yellow-500" href="mailto:{{ contrat.getInfoClient()['mail'] }}">{{ contrat.getInfoClient()['mail'] }}</a>
                                             </div>
                                             <div class="h-0.5 bg-gray-300 w-1/2 mx-auto my-5"></div>
-                                            <div class="flex items-center space-x-2 text-gray-400 font-bold text-base">
-                                                {#                                        <i class="fas fa-user-tie"></i>#}
-                                                <p class="list-salesman">{{ contrat.getSalesman().getFirstname() }} {{ contrat.getSalesman().getName() }} </p>
-                                                <p class="list-distributeur text-sm">{{ contrat.getSalesman().getDistributor() }}</p>
-                                            </div>
                                             <div class="h-20 flex items-center justify-center">
                                                 <a href="#" class="back-button py-2 px-10 border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Retour</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </div>
                         </li>
                     {% endfor %}
@@ -254,7 +251,31 @@
             })
         })
 
-        var options = {
+        document.getElementById('pute').addEventListener('click',(e)=> {
+
+            let contracts = {
+                'contracts':contratsList.visibleItems
+            }
+            const paramFetch = {
+                method: 'POST',
+                body: JSON.stringify(contracts),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            fetch('{{ url('backoffice_export_selection') }}', paramFetch)
+                .then( res => res.blob() )
+                .then( blob => {
+                    let file = window.URL.createObjectURL(blob);
+                    let a = document.createElement('a')
+                    a.href = file;
+                    a.download = 'contrats_stark_industries';
+                    a.click();
+                    window.URL.revokeObjectURL(file);
+                })
+        })
+
+        let options = {
             valueNames: [
                 'list-salesman',
                 'list-status',
@@ -267,7 +288,7 @@
             page: 30,
             pagination: true
         };
-        var contratsList = new List('contrats-list', options);
+        let contratsList = new List('contrats-list', options);
 
         contratsList.sort('list-datecontrat',{order:"desc"})
         contratsList.on('updated',()=>{
