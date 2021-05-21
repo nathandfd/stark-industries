@@ -20,6 +20,8 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
 use ZipArchive;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * @Route("/backoffice")
@@ -172,32 +174,27 @@ class BackofficeController extends AbstractController
     public function exportAllCsv(EntityManagerInterface $entityManager,Request $request)
     {
         $contracts = $entityManager->getRepository(Contract::class)->findAll();
-        $tempFolder = "../var/cache";
-        $filename = $tempFolder."/contrats_export.csv";
-        if (file_exists($filename)){
-            unlink($filename);
-        }
-        if (0) {
-            exit("Impossible d'ouvrir le fichier <$filename>\n");
-        }
-        $csvFile = fopen($filename,'w');
 
-        $header = [
-            'Numéro de contrat',
-            'Commercial',
-            'Distributeur',
-            'Client',
-            'Adresse',
-            'Code postal',
-            'Ville',
-            'Numéro de téléphone',
-            'Mail',
-            'Date de signature',
-            'Status du contrat',
-            'RIB',
-            'BIC'
-        ];
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $filename = '../var/cache/contrats_export.xlsx';
 
+        $sheet->setTitle('Contrats Stark industries');
+        $sheet->getCell('A1')->setValue('Numéro de contrat');
+        $sheet->getCell('B1')->setValue('Commercial');
+        $sheet->getCell('C1')->setValue('Distributeur');
+        $sheet->getCell('D1')->setValue('Client');
+        $sheet->getCell('E1')->setValue('Adresse');
+        $sheet->getCell('F1')->setValue('Code postal');
+        $sheet->getCell('G1')->setValue('Ville');
+        $sheet->getCell('H1')->setValue('Numéro de téléphone');
+        $sheet->getCell('I1')->setValue('Mail');
+        $sheet->getCell('J1')->setValue('Date de signature');
+        $sheet->getCell('K1')->setValue('Status du contrat');
+        $sheet->getCell('L1')->setValue('RIB');
+        $sheet->getCell('M1')->setValue('BIC');
+
+        $data = [];
         foreach ($contracts as $key=>$contract){
             switch ($contract->getStatus()){
                 case '1':
@@ -222,7 +219,7 @@ class BackofficeController extends AbstractController
                     $status = 'Erreur';
                     break;
             }
-            $data = [
+            $data[] = [
                 $contract->getNumContrat(),
                 $contract->getSalesman()->getFirstname().' '.$contract->getSalesman()->getName(),
                 $contract->getSalesman()->getDistributor()->getName(),
@@ -237,9 +234,13 @@ class BackofficeController extends AbstractController
                 $contract->getInfoPrelevement()['iban'],
                 $contract->getInfoPrelevement()['bic'],
             ];
-            fputcsv($csvFile,$data);
         }
-        fclose($csvFile);
+
+        $sheet->fromArray($data,' - ','A2');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filename);
+
         return $this->file($filename);
     }
 
