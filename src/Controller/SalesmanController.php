@@ -166,7 +166,7 @@ class SalesmanController extends AbstractController
         $pdf->setTemporaryFolder("../var/cache");
         $pdf->generateFromHtml(
             $this->renderView(
-                'backoffice/export.html.twig',
+                'export/export.html.twig',
                 array(
                     'controller_name' => 'BackofficeController',
                     'contrat' => $contract
@@ -200,7 +200,7 @@ class SalesmanController extends AbstractController
         $pdf->setTemporaryFolder("../var/cache");
         $pdf->generateFromHtml(
             $this->renderView(
-                'backoffice/export.html.twig',
+                'export/export.html.twig',
                 array(
                     'controller_name' => 'BackofficeController',
                     'contrat' => $contract

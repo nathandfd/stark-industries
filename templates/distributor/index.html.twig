@@ -14,16 +14,51 @@
             <div id="contrats-list" class="grid grid-cols-1 gap-6">
                 <div class="search-forms w-full grid grid-cols-1 grid-rows-2">
                     <!-- class="sort" automagically makes an element a sort buttons. The date-sort value decides what to sort by. -->
-                    <div class="row-start-2 grid grid-cols-1 grid-rows-2">
+                    <div class="row-start-2 grid grid-cols-2 grid-rows-2">
                         <p class="row-start-1">Trier par :</p>
                         <div class="row-start-2 flex justify-between md:justify-start">
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-numcontrat">Contrat</button>
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-status">Statut</button>
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-datecontrat">Date</button>
-                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-nom">Nom client</button>
+                            <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-nom">Nom</button>
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-sort="list-salesman">Commercial</button>
                             <button class="sort py-2 px-4 md:mr-5 border border-transparent text-sm font-bold rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-order="desc" data-sort="list-doublon">Doublons</button>
                         </div>
+                    <div class="row-start-2 col-start-2 flex justify-between md:justify-end">
+                        <div class="relative inline-block text-left">
+                            <div>
+                                <button type="button" class="inline-flex justify-center w-full rounded-sm border border-none shadow-sm px-4 py-2 bg-green-500 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-100 focus:ring-green-500" id="export-selection-button" aria-expanded="false" aria-haspopup="true">
+                                    Exportation
+                                    <!-- Heroicon name: solid/chevron-down -->
+                                    <svg style="pointer-events: none" class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!--
+                              Dropdown menu, show/hide based on menu state.
+
+                              Entering: "transition ease-out duration-100"
+                                From: "transform opacity-0 scale-95"
+                                To: "transform opacity-100 scale-100"
+                              Leaving: "transition ease-in duration-75"
+                                From: "transform opacity-100 scale-100"
+                                To: "transform opacity-0 scale-95"
+                            -->
+                            <div class="z-10 hidden origin-top-right absolute right-0 mt-2 w-56 rounded-sm shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none" id="export-selection-menu" role="menu" aria-orientation="vertical" aria-labelledby="export-selection-button" tabindex="-1">
+                                <div class="py-1" role="none">
+                                    <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-0">Exporter la page courante en PDF</a>
+                                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-3">Exporter la page courante en XLSX</a>
+                                </div>
+                                <div class="py-1" role="none">
+                                    <a href="{{ url('export_all') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-1">Exporter tous les contrats en PDF</a>
+                                    <a href="{{ url('export_all_xlsx') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-2">Exporter tous les contrats en XLSX</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                     <input class="search row-start-1 phone w-full py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-600 outline-none my-3" placeholder="Rechercher un contrat" /><br>
                     <p class="text-gray-500">Nombre de résultats : <span id="nb_contracts"></span></p>
@@ -78,7 +113,10 @@
                                                     {% endif %}
                                                 </div>
                                             </div>
-                                            <button class="w-full detail_button py-2 px-10 border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-value="contrat{{ contrat.getNumContrat() }}">Détails</button>
+                                            <div class="w-full text-center flex flex-row justify-between">
+                                                <button class="w-5/12 detail_button py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-value="contrat{{ contrat.getNumContrat() }}">Détails</button>
+                                                <a class="w-5/12" href="{{ path('export_app', {'contratid': contrat.getId()}) }}"><button class="w-full py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-arrow-down"></i> Exporter</button></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -158,7 +196,7 @@
                                                 </div>
                                                 <div class="h-0.5 bg-gray-300 w-1/2 mx-auto my-5"></div>
                                                 <div class="h-20 flex items-center justify-center">
-                                                    <a href="#" class="back-button py-2 px-10 border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Retour</a>
+                                                    <a class="back-button py-2 px-10 border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Retour</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -178,6 +216,33 @@
                 <h2 class="text-center text-gray-900 font-bold text-2xl">Vous n'avez encore réalisé aucun contrat ce mois-ci.</h2>
             </div>
         {% endif %}
+        <!-- This example requires Tailwind CSS v2.0+ -->
+        <div id="waiting-modal" class="hidden z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <!-- Heroicon name: outline/exclamation -->
+                                <i class="text-yellow-500 fas fa-hourglass-half"></i>
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                    Exportation en cours
+                                </h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500">
+                                        Exportation en cours, veuillez patienter...
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -220,6 +285,94 @@
             document.querySelector('#nb_contracts').innerHTML = nbContracts
         }
 
+        //Exportation dropdown JS
+        let dropdownButton = document.getElementById('export-selection-button')
+        let dropdownMenu = document.getElementById('export-selection-menu')
+
+        const closeMenu = (e)=>{
+            if (e.target !== dropdownMenu && e.target !== dropdownButton){
+                dropdownMenu.classList.add('hidden')
+                dropdownMenu.classList.remove('block')
+                dropdownButton.setAttribute('aria-expanded',"false")
+                window.removeEventListener('click',closeMenu)
+            }
+        }
+
+        dropdownButton.addEventListener('click',(e)=>{
+            if (dropdownButton.getAttribute('aria-expanded') === "true"){
+                dropdownMenu.classList.add('hidden')
+                dropdownMenu.classList.remove('block')
+                dropdownButton.setAttribute('aria-expanded',"false")
+                window.removeEventListener('click',closeMenu)
+            }else{
+                dropdownMenu.classList.add('block')
+                dropdownMenu.classList.remove('hidden')
+                dropdownButton.setAttribute('aria-expanded',"true")
+                window.addEventListener('click',closeMenu)
+            }
+        })
+
+        //Export current page in PDF
+
+        document.getElementById('export-selection-item-0').addEventListener('click',(e)=> {
+            let waitingModal = document.getElementById('waiting-modal')
+            let contracts = {
+                'contracts':contratsList.visibleItems
+            }
+            const paramFetch = {
+                method: 'POST',
+                body: JSON.stringify(contracts),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+
+            waitingModal.classList.add('fixed')
+            waitingModal.classList.remove('hidden')
+            fetch('{{ url('export_selection') }}', paramFetch)
+                .then( res => res.blob() )
+                .then( blob => {
+                    waitingModal.classList.add('hidden')
+                    waitingModal.classList.remove('fixed')
+                    let file = window.URL.createObjectURL(blob);
+                    let a = document.createElement('a')
+                    a.href = file;
+                    a.download = 'contrats_stark_industries';
+                    a.click();
+                    window.URL.revokeObjectURL(file);
+                })
+        })
+
+        //Export current page in XLSX
+
+        document.getElementById('export-selection-item-3').addEventListener('click',(e)=> {
+            let waitingModal = document.getElementById('waiting-modal')
+            let contracts = {
+                'contracts':contratsList.visibleItems
+            }
+            const paramFetch = {
+                method: 'POST',
+                body: JSON.stringify(contracts),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+
+            waitingModal.classList.add('fixed')
+            waitingModal.classList.remove('hidden')
+            fetch('{{ url('export_selection_xlsx') }}', paramFetch)
+                .then( res => res.blob() )
+                .then( blob => {
+                    waitingModal.classList.add('hidden')
+                    waitingModal.classList.remove('fixed')
+                    let file = window.URL.createObjectURL(blob);
+                    let a = document.createElement('a')
+                    a.href = file;
+                    a.download = 'contrats_stark_industries';
+                    a.click();
+                    window.URL.revokeObjectURL(file);
+                })
+        })
     </script>
 
 {% endblock %}

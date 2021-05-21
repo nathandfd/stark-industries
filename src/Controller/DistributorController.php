@@ -8,10 +8,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/distributor")
+ */
 class DistributorController extends AbstractController
 {
     /**
-     * @Route("/distributor", name="distributor_home")
+     * @Route("/", name="distributor_home")
      */
     public function index(EntityManagerInterface $em, UserRepository $userRepository): Response
     {

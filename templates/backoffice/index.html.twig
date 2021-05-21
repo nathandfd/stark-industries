@@ -54,8 +54,8 @@
                                         <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-3">Exporter la page courante en XLSX</a>
                                     </div>
                                     <div class="py-1" role="none">
-                                        <a href="{{ url('backoffice_export_all') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-1">Exporter tous les contrats en PDF</a>
-                                        <a href="{{ url('backoffice_export_all_xlsx') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-2">Exporter tous les contrats en XLSX</a>
+                                        <a href="{{ url('export_all') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-1">Exporter tous les contrats en PDF</a>
+                                        <a href="{{ url('export_all_xlsx') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-2">Exporter tous les contrats en XLSX</a>
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                                         </div>
                                         <div class="w-full text-center flex flex-row justify-between">
                                         <button class="w-5/12 detail_button py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" data-value="contrat{{ contrat.getNumContrat() }}">Détails</button>
-                                            <a class="w-5/12" href="{{ path('backoffice_export', {'contratid': contrat.getId()}) }}"><button class="w-full py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-arrow-down"></i> Exporter</button></a>
+                                            <a class="w-5/12" href="{{ path('export_app', {'contratid': contrat.getId()}) }}"><button class="w-full py-2 px-auto border border-transparent text-sm font-medium rounded-sm text-white bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-arrow-down"></i> Exporter</button></a>
                                         </div>
                                     </div>
                                 </div>
@@ -209,7 +209,7 @@
                                             </div>
                                             <div class="h-0.5 bg-gray-300 w-1/2 mx-auto my-5"></div>
                                             <div class="h-20 flex items-center justify-center">
-                                                <a href="#" class="back-button py-2 px-10 border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Retour</a>
+                                                <a class="back-button py-2 px-10 border border-transparent text-sm font-medium rounded-sm text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Retour</a>
                                             </div>
                                         </div>
                                     </div>
@@ -219,33 +219,6 @@
                     {% endfor %}
                 </ul>
                 <ul class="pagination w-full flex flex-wrap justify-center items-center"></ul>
-                <!-- This example requires Tailwind CSS v2.0+ -->
-                <div id="waiting-modal" class="hidden z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                <div class="sm:flex sm:items-start">
-                                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <!-- Heroicon name: outline/exclamation -->
-                                        <i class="text-yellow-500 fas fa-hourglass-half"></i>
-                                    </div>
-                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                            Exportation en cours
-                                        </h3>
-                                        <div class="mt-2">
-                                            <p class="text-sm text-gray-500">
-                                                Exportation en cours, veuillez patienter...
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
 
@@ -255,6 +228,33 @@
                 <h2 class="text-center text-gray-900 font-bold text-2xl">Aucun contrat n'a été réalisé.</h2>
             </div>
         {% endif %}
+        <!-- This example requires Tailwind CSS v2.0+ -->
+        <div id="waiting-modal" class="hidden z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <!-- Heroicon name: outline/exclamation -->
+                                <i class="text-yellow-500 fas fa-hourglass-half"></i>
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                    Exportation en cours
+                                </h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500">
+                                        Exportation en cours, veuillez patienter...
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -390,7 +390,7 @@
 
             waitingModal.classList.add('fixed')
             waitingModal.classList.remove('hidden')
-            fetch('{{ url('backoffice_export_selection') }}', paramFetch)
+            fetch('{{ url('export_selection') }}', paramFetch)
                 .then( res => res.blob() )
                 .then( blob => {
                     waitingModal.classList.add('hidden')
@@ -421,7 +421,7 @@
 
             waitingModal.classList.add('fixed')
             waitingModal.classList.remove('hidden')
-            fetch('{{ url('backoffice_export_selection_xlsx') }}', paramFetch)
+            fetch('{{ url('export_selection_xlsx') }}', paramFetch)
                 .then( res => res.blob() )
                 .then( blob => {
                     waitingModal.classList.add('hidden')

@@ -48,3 +48,4 @@ security:
          - { path: ^/backoffice, roles: ROLE_BACKOFFICE }
          - { path: ^/salesman, roles: ROLE_SALESMAN }
          - { path: ^/distributor, roles: ROLE_DISTRIBUTOR }
+         - { path: ^/export, roles: [ROLE_DISTRIBUTOR, ROLE_BACKOFFICE] }
