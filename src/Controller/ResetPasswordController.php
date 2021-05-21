@@ -139,6 +139,7 @@ class ResetPasswordController extends AbstractController
 
         // Do not reveal whether a user account was found or not.
         if (!$user) {
+            $this->addFlash('reset_password_error', 'Désolé, cet identifiant n\'existe pas. S\'il s\'agit d\'une erreur vous pouvez contacter un administrateur');
             return $this->redirectToRoute('app_check_email');
         }
 
