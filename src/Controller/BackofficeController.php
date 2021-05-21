@@ -133,6 +133,84 @@ class BackofficeController extends AbstractController
     }
 
     /**
+     * @Route("/export-selection-xlsx", name="backoffice_export_selection_xlsx")
+     */
+    public function exportSelectionXlsx(EntityManagerInterface $entityManager,Request $request, ContractRepository $contractRepository)
+    {
+        $numContracts = json_decode($request->getContent(),true)["contracts"];
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $filename = '../var/cache/contrats_export.xlsx';
+
+        $sheet->setTitle('Contrats Stark industries');
+        $sheet->getCell('A1')->setValue('Numéro de contrat');
+        $sheet->getCell('B1')->setValue('Commercial');
+        $sheet->getCell('C1')->setValue('Distributeur');
+        $sheet->getCell('D1')->setValue('Client');
+        $sheet->getCell('E1')->setValue('Adresse');
+        $sheet->getCell('F1')->setValue('Code postal');
+        $sheet->getCell('G1')->setValue('Ville');
+        $sheet->getCell('H1')->setValue('Numéro de téléphone');
+        $sheet->getCell('I1')->setValue('Mail');
+        $sheet->getCell('J1')->setValue('Date de signature');
+        $sheet->getCell('K1')->setValue('Status du contrat');
+        $sheet->getCell('L1')->setValue('RIB');
+        $sheet->getCell('M1')->setValue('BIC');
+
+        $data = [];
+        foreach ($numContracts as $key=>$numContract){
+            $contract = $contractRepository->findOneBy(['num_contrat'=>$numContract['_values']['list-numcontrat']]);
+
+            switch ($contract->getStatus()){
+                case '1':
+                    $status = 'En attente client';
+                    break;
+                case '2':
+                    $status = 'En attente back-office';
+                    break;
+                case '3':
+                    $status = 'Validé';
+                    break;
+                case '4':
+                    $status = 'Rétracté';
+                    break;
+                case '5':
+                    $status = 'Injoignable';
+                    break;
+                case '6':
+                    $status = 'Impayé';
+                    break;
+                default:
+                    $status = 'Erreur';
+                    break;
+            }
+            $data[] = [
+                $contract->getNumContrat(),
+                $contract->getSalesman()->getFirstname().' '.$contract->getSalesman()->getName(),
+                $contract->getSalesman()->getDistributor()->getName(),
+                (($contract->getInfoClient()['gender'] == 'm')?'M.':'Mme').' '.$contract->getInfoClient()['firstname'].' '.$contract->getInfoClient()['lastname'],
+                $contract->getInfoClient()['address'],
+                $contract->getInfoClient()['zipcode'],
+                $contract->getInfoClient()['city'],
+                $contract->getInfoClient()['mobile'],
+                $contract->getInfoClient()['mail'],
+                $contract->getCreated(),
+                $status,
+                $contract->getInfoPrelevement()['iban'],
+                $contract->getInfoPrelevement()['bic'],
+            ];
+        }
+
+        $sheet->fromArray($data,' - ','A2');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filename);
+
+        return $this->file($filename);
+    }
+
+    /**
      * @Route("/export-all", name="backoffice_export_all")
      */
     public function exportAllPdf(EntityManagerInterface $entityManager,Request $request, Pdf $pdf)
@@ -169,9 +247,9 @@ class BackofficeController extends AbstractController
     }
 
     /**
-     * @Route("/export-all-csv", name="backoffice_export_all_csv")
+     * @Route("/export-all-xlsx", name="backoffice_export_all_xlsx")
      */
-    public function exportAllCsv(EntityManagerInterface $entityManager,Request $request)
+    public function exportAllXlsx(EntityManagerInterface $entityManager,Request $request)
     {
         $contracts = $entityManager->getRepository(Contract::class)->findAll();
 

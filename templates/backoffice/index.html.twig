@@ -51,10 +51,11 @@
                                     <div class="py-1" role="none">
                                         <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                                         <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-0">Exporter la page courante en PDF</a>
+                                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-3">Exporter la page courante en XLSX</a>
                                     </div>
                                     <div class="py-1" role="none">
                                         <a href="{{ url('backoffice_export_all') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-1">Exporter tous les contrats en PDF</a>
-                                        <a href="{{ url('backoffice_export_all_csv') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-2">Exporter tous les contrats en XLSX</a>
+                                        <a href="{{ url('backoffice_export_all_xlsx') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-2">Exporter tous les contrats en XLSX</a>
                                     </div>
                                 </div>
                             </div>
@@ -372,6 +373,8 @@
             }
         })
 
+        //Export current page in PDF
+
         document.getElementById('export-selection-item-0').addEventListener('click',(e)=> {
             let waitingModal = document.getElementById('waiting-modal')
             let contracts = {
@@ -388,6 +391,37 @@
             waitingModal.classList.add('fixed')
             waitingModal.classList.remove('hidden')
             fetch('{{ url('backoffice_export_selection') }}', paramFetch)
+                .then( res => res.blob() )
+                .then( blob => {
+                    waitingModal.classList.add('hidden')
+                    waitingModal.classList.remove('fixed')
+                    let file = window.URL.createObjectURL(blob);
+                    let a = document.createElement('a')
+                    a.href = file;
+                    a.download = 'contrats_stark_industries';
+                    a.click();
+                    window.URL.revokeObjectURL(file);
+                })
+        })
+
+        //Export current page in XLSX
+
+        document.getElementById('export-selection-item-3').addEventListener('click',(e)=> {
+            let waitingModal = document.getElementById('waiting-modal')
+            let contracts = {
+                'contracts':contratsList.visibleItems
+            }
+            const paramFetch = {
+                method: 'POST',
+                body: JSON.stringify(contracts),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+
+            waitingModal.classList.add('fixed')
+            waitingModal.classList.remove('hidden')
+            fetch('{{ url('backoffice_export_selection_xlsx') }}', paramFetch)
                 .then( res => res.blob() )
                 .then( blob => {
                     waitingModal.classList.add('hidden')
