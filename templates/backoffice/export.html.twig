@@ -150,13 +150,13 @@
                                 conservé les conditions générales de vente valant notice d’information indiqués au dos du présent contrat.<br>
                             </p>
                         </tr>
-                        <tr class="w-full ">
+                        <tr class="w-full">
                             <td>
                                 <p class="w-full text-center my-3">Fait à {{ contrat.getInfoClient()['city'] }} le {{ contrat.getCreated() }}</p>
                             </td>
                             {% if contrat.status >= 2 %}
                                 <td>
-                                    <p class="w-full text-center my-3 text-2xl" style="font-family: 'Dawning of a New Day', cursive;">{{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</p>
+                                    <p class="w-full text-center text-xl" style="font-family: 'Dawning of a New Day', cursive;">{{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</p>
                                 </td>
                             {% endif %}
                         </tr>
@@ -176,8 +176,8 @@
                 </tr>
                 <tr class="w-full">
                     <td class="align-top">
-                        <h3 class="uppercase w-full text-center font-bold text-2xl my-5">Débiteur</h3>
-                        <table class="border-none mb-5 p-5 w-full">
+                        <h3 class="uppercase w-full text-center font-bold text-xl my-3">Débiteur</h3>
+                        <table class="border-none mb-3 p-5 w-full">
                             <tbody class="border-none w-full mb-5">
                             <tr class="h-8 pl-6">
                                 <td class="pl-6">{{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</td>
@@ -204,8 +204,8 @@
                         </table>
                     </td>
 
-                    <td class="mb-5 align-top">
-                        <h3 class="uppercase w-full text-center font-bold text-2xl my-5">Créancier</h3>
+                    <td class="align-top">
+                        <h3 class="uppercase w-full text-center font-bold text-xl my-3">Créancier</h3>
                         <table class="border-none mb-5 p-5 w-full">
                             <tbody class="border-none w-full mb-5">
                             <tr class="h-8 pl-6">
