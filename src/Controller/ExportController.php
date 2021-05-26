@@ -95,16 +95,17 @@ class ExportController extends AbstractController
         $sheet->getCell('A1')->setValue('Numéro de contrat');
         $sheet->getCell('B1')->setValue('Commercial');
         $sheet->getCell('C1')->setValue('Distributeur');
-        $sheet->getCell('D1')->setValue('Client');
-        $sheet->getCell('E1')->setValue('Adresse');
-        $sheet->getCell('F1')->setValue('Code postal');
-        $sheet->getCell('G1')->setValue('Ville');
-        $sheet->getCell('H1')->setValue('Numéro de téléphone');
-        $sheet->getCell('I1')->setValue('Mail');
-        $sheet->getCell('J1')->setValue('Date de signature');
-        $sheet->getCell('K1')->setValue('Status du contrat');
-        $sheet->getCell('L1')->setValue('RIB');
-        $sheet->getCell('M1')->setValue('BIC');
+        $sheet->getCell('D1')->setValue('Prénom Client');
+        $sheet->getCell('E1')->setValue('Nom Client');
+        $sheet->getCell('F1')->setValue('Adresse');
+        $sheet->getCell('G1')->setValue('Code postal');
+        $sheet->getCell('H1')->setValue('Ville');
+        $sheet->getCell('I1')->setValue('Numéro de téléphone');
+        $sheet->getCell('J1')->setValue('Mail');
+        $sheet->getCell('K1')->setValue('Date de signature');
+        $sheet->getCell('L1')->setValue('Status du contrat');
+        $sheet->getCell('M1')->setValue('RIB');
+        $sheet->getCell('N1')->setValue('BIC');
 
         $data = [];
         foreach ($numContracts as $key=>$numContract){
@@ -137,7 +138,8 @@ class ExportController extends AbstractController
                 $contract->getNumContrat(),
                 $contract->getSalesman()->getFirstname().' '.$contract->getSalesman()->getName(),
                 $contract->getSalesman()->getDistributor()->getName(),
-                (($contract->getInfoClient()['gender'] == 'm')?'M.':'Mme').' '.$contract->getInfoClient()['firstname'].' '.$contract->getInfoClient()['lastname'],
+                $contract->getInfoClient()['firstname'],
+                $contract->getInfoClient()['lastname'],
                 $contract->getInfoClient()['address'],
                 $contract->getInfoClient()['zipcode'],
                 $contract->getInfoClient()['city'],
@@ -209,16 +211,17 @@ class ExportController extends AbstractController
         $sheet->getCell('A1')->setValue('Numéro de contrat');
         $sheet->getCell('B1')->setValue('Commercial');
         $sheet->getCell('C1')->setValue('Distributeur');
-        $sheet->getCell('D1')->setValue('Client');
-        $sheet->getCell('E1')->setValue('Adresse');
-        $sheet->getCell('F1')->setValue('Code postal');
-        $sheet->getCell('G1')->setValue('Ville');
-        $sheet->getCell('H1')->setValue('Numéro de téléphone');
-        $sheet->getCell('I1')->setValue('Mail');
-        $sheet->getCell('J1')->setValue('Date de signature');
-        $sheet->getCell('K1')->setValue('Status du contrat');
-        $sheet->getCell('L1')->setValue('RIB');
-        $sheet->getCell('M1')->setValue('BIC');
+        $sheet->getCell('D1')->setValue('Prénom Client');
+        $sheet->getCell('E1')->setValue('Nom Client');
+        $sheet->getCell('F1')->setValue('Adresse');
+        $sheet->getCell('G1')->setValue('Code postal');
+        $sheet->getCell('H1')->setValue('Ville');
+        $sheet->getCell('I1')->setValue('Numéro de téléphone');
+        $sheet->getCell('J1')->setValue('Mail');
+        $sheet->getCell('K1')->setValue('Date de signature');
+        $sheet->getCell('L1')->setValue('Status du contrat');
+        $sheet->getCell('M1')->setValue('RIB');
+        $sheet->getCell('N1')->setValue('BIC');
 
         $data = [];
         foreach ($contracts as $key=>$contract){
@@ -249,7 +252,8 @@ class ExportController extends AbstractController
                 $contract->getNumContrat(),
                 $contract->getSalesman()->getFirstname().' '.$contract->getSalesman()->getName(),
                 $contract->getSalesman()->getDistributor()->getName(),
-                (($contract->getInfoClient()['gender'] == 'm')?'M.':'Mme').' '.$contract->getInfoClient()['firstname'].' '.$contract->getInfoClient()['lastname'],
+                $contract->getInfoClient()['firstname'],
+                $contract->getInfoClient()['lastname'],
                 $contract->getInfoClient()['address'],
                 $contract->getInfoClient()['zipcode'],
                 $contract->getInfoClient()['city'],

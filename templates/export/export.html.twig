@@ -147,7 +147,7 @@
                                     <i class="far fa-square"></i>
                                 {% endif %} Je choisis d’adhérer à l’Assistance électricité, gaz, plomberie présentée et souscrite par Stark Industries moyennant une cotisation mensuelle de
                                 9,99 € payable dès la souscription du contrat, puis à chaque échéance secondaire mensuelle, et je déclare avoir reçu et pris connaissance, accepté et
-                                conservé les conditions générales de vente valant notice d’information indiqués au dos du présent contrat.<br>
+                                conservé les conditions générales de vente valant notice d’information indiquées au dos du présent contrat.<br>
                             </p>
                         </tr>
                         <tr class="w-full">
@@ -170,7 +170,7 @@
                 <tbody class="border-none w-full">
                 <tr>
                     <p class="text-sm text-justify font-italic m-auto w-4/4">
-                        En signant ce formulaire de mandat, vous autorisez Stark Industries à envoyer de sinstructions à votre banque pour débiter votre compte, et votre banque à débiter votre compte conformément aux instructions Stark Industries.
+                        En signant ce formulaire de mandat, vous autorisez Stark Industries à envoyer des instructions à votre banque pour débiter votre compte, et votre banque à débiter votre compte conformément aux instructions Stark Industries.
                         Vous bénéficiez du droit d’être remboursé par votre banque selon les conditions décrites dans la convention que vous avez passée avec passée avec elle. Une demande de remboursement doit être présentée dans les 8 semaines suivant la date de débit de votre compte pour un prélèvement autorisé.
                     </p>
                 </tr>
@@ -198,7 +198,11 @@
                                 <td class="pl-6">Paiement récurrent le 5 de chaque mois</td>
                             </tr>
                             <tr class="h-8 pl-6">
-                               <td class="pl-6">A {{ contrat.getInfoClient()['city'] }} le {{ contrat.getCreated() }}</td>
+                               <td class="pl-6">A {{ contrat.getInfoClient()['city'] }} le {{ contrat.getCreated() }}
+                                   {% if contrat.status >= 2 %}
+                                   <span class="w-full text-xl" style="margin-left: 1.5rem;font-family: 'Dawning of a New Day', cursive;">{{ contrat.getInfoClient()['firstname'] }} {{ contrat.getInfoClient()['lastname'] }}</span>
+                                    {% endif %}
+                               </td>
                             </tr>
                             </tbody>
                         </table>
