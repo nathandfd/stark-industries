@@ -27,7 +27,6 @@ class ExportController extends AbstractController
     {
         $contract = $entityManager->getRepository(Contract::class)->find($request->query->get('contratid'));
 
-        $pdf->setBinary('"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe"'); //TODO supprime pute
         $pdf->setTemporaryFolder("../var/cache");
 
         $html = $this->renderView(
