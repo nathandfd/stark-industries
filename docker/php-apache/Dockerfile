@@ -32,13 +32,6 @@ WORKDIR /var/www/html
 
 ADD ./configure-symfony.sh /
 RUN chmod +x /configure-symfony.sh
-
-RUN /composer/composer.phar install
-RUN npm install
-RUN npm run build
-RUN php bin/console d:s:u -f
-RUN php bin/console c:c
-
-CMD ["apachectl","-D","FOREGROUND"]
+CMD ["/configure-symfony.sh"]
 
 EXPOSE 80
