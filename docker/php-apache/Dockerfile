@@ -12,7 +12,7 @@ RUN apt-get install -y php7.4
 RUN apt-get install -y libzip-dev
 RUN apt-get install -y libpng-dev
 RUN apt-get install -y zip
-RUN apt-get install -y php7.4-bcmath php7.4-bz2 php7.4-intl php7.4-gd php7.4-mbstring php7.4-mysql php7.4-zip
+RUN apt-get install -y php7.4-bcmath php7.4-bz2 php7.4-intl php7.4-gd php7.4-mbstring php7.4-mysql php7.4-zip php7.4-xml
 
 RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
 RUN apt-get install -y nodejs npm
