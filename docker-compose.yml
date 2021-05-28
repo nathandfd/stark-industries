@@ -1,0 +1,22 @@
+services:
+  apache:
+    build: ./docker/php-apache
+    ports:
+    - 8080:80
+    volumes:
+    - .:/var/www/html
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=stark_industries
+      - MYSQL_USER=stark
+      - MYSQL_PASSWORD=stark
+      - MYSQL_ALLOW_EMPTY_PASSWORD
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
