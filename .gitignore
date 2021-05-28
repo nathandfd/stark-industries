@@ -23,3 +23,5 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 /public/documents/
 /config/packages/knp_snappy.yaml
+
+/docker/mysql/

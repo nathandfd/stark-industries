@@ -30,11 +30,15 @@ RUN php -r "unlink('composer-setup.php');"
 
 WORKDIR /var/www/html
 
-CMD /composer/composer.phar install
-CMD ["npm","install"]
-CMD ["npm", "run", "build"]
-CMD ["php","bin/console","d:s:u" ,"-f"]
-CMD ["php", "bin/console", "c:c"]
-CMD ["apachectl", "-D", "FOREGROUND"]
+ADD ./configure-symfony.sh /
+RUN chmod +x /configure-symfony.sh
+
+RUN /composer/composer.phar install
+RUN npm install
+RUN npm run build
+RUN php bin/console d:s:u -f
+RUN php bin/console c:c
+
+CMD ["apachectl","-D","FOREGROUND"]
 
 EXPOSE 80
