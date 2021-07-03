@@ -50,7 +50,7 @@ class BackofficeController extends AbstractController
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
     ): JsonResponse {
-        if ($newstatus != 3 && $newstatus != 4 && $newstatus != 5 && $newstatus != 6){
+        if ($newstatus != 3 && $newstatus != 4 && $newstatus != 5 && $newstatus != 6 && $newstatus != 7){
             return new JsonResponse(false);
         }
         $contract = $entityManager->getRepository(Contract::class)->find($contratid);

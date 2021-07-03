@@ -108,6 +108,7 @@
                                                     {% elseif contrat.getStatus() == '4' %} text-red-600
                                                     {% elseif contrat.getStatus() == '5' %} text-red-600
                                                     {% elseif contrat.getStatus() == '6' %} text-red-600
+                                                    {% elseif contrat.getStatus() == '7' %} text-red-600
                                                     {% endif %}
                                                 " data-status-url="{{ path('status_update', { 'contratid': contrat.getId(),'newstatus':1 }) }}">
 
@@ -117,6 +118,7 @@
                                                     <option value="4" class="text-red-600" {% if contrat.getStatus() == '4' %} selected  {% endif %}>Rétracté</option>
                                                     <option value="5" class="text-red-600" {% if contrat.getStatus() == '5' %} selected  {% endif %}>Injoignable</option>
                                                     <option value="6" class="text-red-600" {% if contrat.getStatus() == '6' %} selected  {% endif %}>Impayé</option>
+                                                    <option value="7" class="text-red-600" {% if contrat.getStatus() == '7' %} selected  {% endif %}>Non conforme</option>
                                                 </select>
 
                                             </div>
@@ -150,6 +152,8 @@
                                                     <i class="fas fa-info-circle dtp text-red-600"></i><p class="list-status text-red-600 uppercase">Injoignable</p>
                                                 {% elseif contrat.getStatus() == '6' %}
                                                     <i class="fas fa-info-circle dtp text-red-600"></i><p class="list-status text-red-600 uppercase">Impayé</p>
+                                                {% elseif contrat.getStatus() == '7' %}
+                                                    <i class="fas fa-info-circle dtp text-red-600"></i><p class="list-status text-red-600 uppercase">Non conforme</p>
                                                 {% else %}
                                                     <i class="fas fa-info-circle dtp text-red-900"></i><p class="list-status text-red-900 uppercase">Erreur</p>
                                                 {% endif %}
@@ -290,6 +294,9 @@
                         value.setAttribute('class', 'status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-500 outline-none text-red-600')
                         break;
                     case '6':
+                        value.setAttribute('class', 'status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-500 outline-none text-red-600')
+                        break;
+                    case '7':
                         value.setAttribute('class', 'status w-full font-bold py-2 px-3 placeholder-gray-500 rounded-sm border border-solid border-gray-300 focus:border-yellow-500 outline-none text-red-600')
                         break;
                 }
