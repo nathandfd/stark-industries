@@ -5,6 +5,7 @@ RUN apt-get install -y
 RUN apt-get install -y apache2
 RUN apt-get -y install lsb-release apt-transport-https ca-certificates
 RUN apt-get install -y wget
+RUN apt-get install -y curl
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
 RUN apt-get update
@@ -15,7 +16,7 @@ RUN apt-get install -y zip
 RUN apt-get install -y php7.4-bcmath php7.4-bz2 php7.4-intl php7.4-gd php7.4-mbstring php7.4-mysql php7.4-zip php7.4-xml
 
 RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
-RUN apt-get install -y nodejs npm
+RUN apt-get install -y nodejs
 
 COPY ./apache-conf.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
