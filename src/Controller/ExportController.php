@@ -29,13 +29,24 @@ class ExportController extends AbstractController
 
         $pdf->setTemporaryFolder("../var/cache");
 
-        $html = $this->renderView(
-            'export/export.html.twig',
-            array(
-                'controller_name' => 'BackofficeController',
-                'contrat' => $contract
-            )
-        );
+        if ($contract->getContractType() == 0){
+            $html = $this->renderView(
+                'export/export.html.twig',
+                array(
+                    'controller_name' => 'BackofficeController',
+                    'contrat' => $contract
+                )
+            );
+        }
+        else{
+            $html = $this->renderView(
+                'export/export2.html.twig',
+                array(
+                    'controller_name' => 'BackofficeController',
+                    'contrat' => $contract
+                )
+            );
+        }
         $response = new PdfResponse(
             $pdf->getOutputFromHtml($html),
             'contrat_'.$contract->getNumContrat().'.pdf'
@@ -61,13 +72,24 @@ class ExportController extends AbstractController
 
         foreach ($numContracts as $key=>$numContract){
             $contract = $contractRepository->findOneBy(['num_contrat'=>$numContract['_values']['list-numcontrat']]);
-            $html = $this->renderView(
-                'export/export.html.twig',
-                array(
-                    'controller_name' => 'BackofficeController',
-                    'contrat' => $contract
-                )
-            );
+            if ($contract->getContractType() == 0){
+                $html = $this->renderView(
+                    'export/export.html.twig',
+                    array(
+                        'controller_name' => 'BackofficeController',
+                        'contrat' => $contract
+                    )
+                );
+            }
+            else{
+                $html = $this->renderView(
+                    'export/export2.html.twig',
+                    array(
+                        'controller_name' => 'BackofficeController',
+                        'contrat' => $contract
+                    )
+                );
+            }
             $pdf->generateFromHtml(
                 $html,
                 $pdf->getTemporaryFolder().'/temp_pdf/contrat_'.$contract->getNumContrat().'.pdf'
@@ -104,8 +126,9 @@ class ExportController extends AbstractController
         $sheet->getCell('J1')->setValue('Mail');
         $sheet->getCell('K1')->setValue('Date de signature');
         $sheet->getCell('L1')->setValue('Status du contrat');
-        $sheet->getCell('M1')->setValue('RIB');
-        $sheet->getCell('N1')->setValue('BIC');
+        $sheet->getCell('M1')->setValue('Type de contrat');
+        $sheet->getCell('N1')->setValue('RIB');
+        $sheet->getCell('O1')->setValue('BIC');
 
         $data = [];
         foreach ($numContracts as $key=>$numContract){
@@ -134,6 +157,19 @@ class ExportController extends AbstractController
                     $status = 'Erreur';
                     break;
             }
+
+            switch ($contract->getContractType()){
+                case '0':
+                    $contractType = '9,99€';
+                    break;
+                case '1':
+                    $contractType = '12,99€';
+                    break;
+                default:
+                    $contractType = 'Erreur';
+                    break;
+            }
+
             $data[] = [
                 $contract->getNumContrat(),
                 $contract->getSalesman()->getFirstname().' '.$contract->getSalesman()->getName(),
@@ -147,6 +183,7 @@ class ExportController extends AbstractController
                 $contract->getInfoClient()['mail'],
                 $contract->getCreated(),
                 $status,
+                $contractType,
                 $contract->getInfoPrelevement()['iban'],
                 $contract->getInfoPrelevement()['bic'],
             ];
@@ -177,13 +214,24 @@ class ExportController extends AbstractController
         }
 
         foreach ($contracts as $key=>$contract){
-            $html = $this->renderView(
-                'export/export.html.twig',
-                array(
-                    'controller_name' => 'BackofficeController',
-                    'contrat' => $contract
-                )
-            );
+            if ($contract->getContractType() == 0){
+                $html = $this->renderView(
+                    'export/export.html.twig',
+                    array(
+                        'controller_name' => 'BackofficeController',
+                        'contrat' => $contract
+                    )
+                );
+            }
+            else{
+                $html = $this->renderView(
+                    'export/export2.html.twig',
+                    array(
+                        'controller_name' => 'BackofficeController',
+                        'contrat' => $contract
+                    )
+                );
+            }
             $pdf->generateFromHtml(
                 $html,
                 $pdf->getTemporaryFolder().'/temp_pdf/contrat_'.$contract->getNumContrat().'.pdf'
@@ -220,8 +268,9 @@ class ExportController extends AbstractController
         $sheet->getCell('J1')->setValue('Mail');
         $sheet->getCell('K1')->setValue('Date de signature');
         $sheet->getCell('L1')->setValue('Status du contrat');
-        $sheet->getCell('M1')->setValue('RIB');
-        $sheet->getCell('N1')->setValue('BIC');
+        $sheet->getCell('M1')->setValue('Type de contrat');
+        $sheet->getCell('N1')->setValue('RIB');
+        $sheet->getCell('O1')->setValue('BIC');
 
         $data = [];
         foreach ($contracts as $key=>$contract){
@@ -248,6 +297,19 @@ class ExportController extends AbstractController
                     $status = 'Erreur';
                     break;
             }
+
+            switch ($contract->getContractType()){
+                case 0:
+                    $contractType = "9,99€";
+                    break;
+                case 1:
+                    $contractType = "12,99€";
+                    break;
+                default:
+                    $contractType = "Erreur";
+                    break;
+            }
+
             $data[] = [
                 $contract->getNumContrat(),
                 $contract->getSalesman()->getFirstname().' '.$contract->getSalesman()->getName(),
@@ -261,6 +323,7 @@ class ExportController extends AbstractController
                 $contract->getInfoClient()['mail'],
                 $contract->getCreated(),
                 $status,
+                $contractType,
                 $contract->getInfoPrelevement()['iban'],
                 $contract->getInfoPrelevement()['bic'],
             ];
