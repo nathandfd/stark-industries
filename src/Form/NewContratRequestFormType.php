@@ -408,6 +408,16 @@ class NewContratRequestFormType extends AbstractType
 				'mapped'=>false,
 
 			])
+            ->add('contractType', ChoiceType::class,[
+                'attr'=>[
+                    'autocomplete'=>'off'
+                ],
+                'label'=>'Type de contrat',
+                'choices'=>[
+                    '9,99€'=>'0',
+                    '12,99€'=>'1'
+                ]
+            ])
 			->add('save', SubmitType::class,[
                 'attr'=>[
                     'autocomplete'=>'off'
