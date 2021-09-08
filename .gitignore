@@ -25,3 +25,4 @@ yarn-error.log
 /config/packages/knp_snappy.yaml
 
 /docker/mysql/
+/migrations/

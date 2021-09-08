@@ -60,6 +60,11 @@ class Contract
      */
     private $duplicate;
 
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $contractType;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,6 +162,18 @@ class Contract
     public function setDuplicate(bool $duplicate): self
     {
         $this->duplicate = $duplicate;
+
+        return $this;
+    }
+
+    public function getContractType(): ?int
+    {
+        return $this->contractType;
+    }
+
+    public function setContractType(int $contractType): self
+    {
+        $this->contractType = $contractType;
 
         return $this;
     }
