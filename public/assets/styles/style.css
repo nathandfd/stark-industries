@@ -13,13 +13,49 @@
     display: flex;
     flex-direction: row;
 }*/
+
+.visual-radio-button div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.visual-radio-button input{
+    margin: 0;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.visual-radio-button input:checked + label{
+    border: 1px rgb(245, 158, 11) solid;
+}
+
+.visual-radio-button label{
+    padding: 4rem 4rem;
+    border: 1px lightgray solid;
+    border-radius: 2px;
+}
+
 @media (max-width: 768px) {
     .menu_closed{
         transition-duration: 0.3s;
         transform: translate3d(0,-100%,0);
     }
+
     .menu_opened{
         transition-duration: 0.3s;
         transform: translate3d(0,0,0);
+    }
+
+    .visual-radio-button div{
+        flex-direction: column;
+    }
+
+    .visual-radio-button label{
+        margin-bottom: 1.5rem;
     }
 }
