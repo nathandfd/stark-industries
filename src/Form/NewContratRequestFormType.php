@@ -415,8 +415,8 @@ class NewContratRequestFormType extends AbstractType
                 'data'=>'0',
                 'label'=>'Type de contrat',
                 'choices'=>[
-                    '9,99€'=>'0',
-                    '12,99€'=>'1'
+                    'Stark'=>'0',
+                    'Stark 2.0'=>'1'
                 ],
                 'expanded'=>true
             ])
