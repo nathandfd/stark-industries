@@ -162,11 +162,19 @@ class SalesmanController extends AbstractController
      */
     public function sendPrecontract(Pdf $pdf, MailerInterface $mailer, ContractRepository $contractRepository, $contractId){
         $contract = $contractRepository->find($contractId);
+        switch ($contract->getContractType()){
+            case '0':
+                $contractType = 'export/export.html.twig';
+                break;
+            case '1':
+                $contractType = 'export/export2.html.twig';
+                break;
+        }
         //$pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
         $pdf->generateFromHtml(
             $this->renderView(
-                'export/export.html.twig',
+                $contractType,
                 array(
                     'controller_name' => 'BackofficeController',
                     'contrat' => $contract
@@ -196,11 +204,19 @@ class SalesmanController extends AbstractController
      */
     public function sendMailNewContract(Pdf $pdf, MailerInterface $mailer, ContractRepository $contractRepository, $contractId){
         $contract = $contractRepository->find($contractId);
+        switch ($contract->getContractType()){
+            case '0':
+                $contractType = 'export/export.html.twig';
+                break;
+            case '1':
+                $contractType = 'export/export2.html.twig';
+                break;
+        }
         //$pdf->setBinary("\"../src/Wkhtmltopdf/bin/wkhtmltopdf.exe\"");
         $pdf->setTemporaryFolder("../var/cache");
         $pdf->generateFromHtml(
             $this->renderView(
-                'export/export.html.twig',
+                $contractType,
                 array(
                     'controller_name' => 'BackofficeController',
                     'contrat' => $contract
