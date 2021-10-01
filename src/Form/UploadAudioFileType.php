@@ -21,11 +21,12 @@ class UploadAudioFileType extends AbstractType
                 'constraints' => [
                     new File([
                         'mimeTypes' => [
-                            'audio/mpeg3',
+                            'audio/mp3',
                             'audio/m4a',
-                            'audio/x-m4a'
+                            'audio/x-m4a',
+                            'audio/mpeg'
                         ],
-                        'mimeTypesMessage' => 'Veuillez ajouter uniquement un MP3 ou M4A',
+                        'mimeTypesMessage' => 'Veuillez ajouter uniquement un fichier MP3 ou M4A',
                     ])
                 ],
             ])
