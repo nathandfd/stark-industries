@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contract;
 use App\Entity\User;
 use App\Form\SecureCodeValidationFormType;
+use App\Form\UploadAudioFileType;
 use App\Repository\ContractRepository;
 use App\Repository\DocumentRepository;
 use DateTime;
@@ -15,6 +16,7 @@ use Knp\Snappy\Pdf;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,14 +38,35 @@ class SalesmanController extends AbstractController
     /**
      * @Route("/", name="salesman_home")
      */
-    public function index(EntityManagerInterface $em): Response
+    public function index(EntityManagerInterface $em, Request $request, ContractRepository $contractRepository): Response
     {
         $salesman = $this->getUser();
         $contrats = $salesman->getContracts();
+        $form = $this->createForm(UploadAudioFileType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $audioFile = $form->get('audioFile')->getData();
+            if ($audioFile){
+                try {
+                    $fileName = 'audio-'.$form->get('audioContractId')->getData().'.'.$audioFile->guessExtension();
+                    $audioFile->move('assets/documents/audio', $fileName);
+                    $contract = $contractRepository->findOneBy(['num_contrat'=>$form->get('audioContractId')->getData()]);
+                    $contract->setAudioFileName($fileName);
+                    $em->flush();
+                    $this->addFlash('success','Fichier audio ajouté avec succès');
+                    return $this->redirectToRoute('salesman_home');
+                }catch (FileException $e){
+                    dd($e);
+                }
+            }
+        }
+
         return $this->render('salesman/index.html.twig', [
             'controller_name' => 'SalesmanController',
             'salesman' => $salesman,
-            'contrats' => $contrats
+            'contrats' => $contrats,
+            'form'=>$form->createView()
         ]);
     }
 

@@ -65,6 +65,11 @@ class Contract
      */
     private $contractType;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $audioFileName;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -174,6 +179,18 @@ class Contract
     public function setContractType(int $contractType): self
     {
         $this->contractType = $contractType;
+
+        return $this;
+    }
+
+    public function getAudioFileName(): ?string
+    {
+        return $this->audioFileName;
+    }
+
+    public function setAudioFileName(?string $audioFileName): self
+    {
+        $this->audioFileName = $audioFileName;
 
         return $this;
     }

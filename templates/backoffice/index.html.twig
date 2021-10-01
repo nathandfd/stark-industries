@@ -57,6 +57,9 @@
                                         <a href="{{ url('export_all') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-1">Exporter tous les contrats en PDF</a>
                                         <a href="{{ url('export_all_xlsx') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-2">Exporter tous les contrats en XLSX</a>
                                     </div>
+                                    <div class="py-1" role="none">
+                                        <a href="{{ url('export_all_audio') }}" class="text-red-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="export-selection-item-4">Exporter tous les fichiers audio</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -210,6 +213,16 @@
                                             <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
                                                 <i class="fas fa-at dtp"></i>
                                                 <a class="hover:text-yellow-500" href="mailto:{{ contrat.getInfoClient()['mail'] }}">{{ contrat.getInfoClient()['mail'] }}</a>
+                                            </div>
+                                            <div class="h-0.5 bg-gray-300 w-1/2 mx-auto my-5"></div>
+                                            <div class="ml-10 flex space-x-2 text-gray-400 text-sm my-1">
+                                                <i class="far fa-file-audio"></i>
+                                                {% if contrat.getAudioFileName() %}
+                                                    <audio src="/assets/documents/audio/{{ contrat.getAudioFileName() }}" controls></audio>
+                                                    <a href="/assets/documents/audio/{{ contrat.getAudioFileName() }}" download="{{ contrat.getAudioFileName() }}"><i class="fas fa-2x fa-download"></i></a>
+                                                {% else %}
+                                                    <p>Aucun fichier audio disponible</p>
+                                                {% endif %}
                                             </div>
                                             <div class="h-0.5 bg-gray-300 w-1/2 mx-auto my-5"></div>
                                             <div class="h-20 flex items-center justify-center">

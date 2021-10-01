@@ -337,6 +337,32 @@ class ExportController extends AbstractController
         return $this->file($filename);
     }
 
+    /**
+     * @Route("/export-all-audio", name="export_all_audio")
+     */
+    public function exportAllAudio(EntityManagerInterface $entityManager,Request $request)
+    {
+        $filename = "assets/documents/audio_export.zip";
+        $zip = new ZipArchive();
+        $folderPath = 'assets/documents/audio/';
+        $files = scandir($folderPath);
+
+        if (file_exists($filename)){
+            unlink($filename);
+        }
+        if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
+            exit("Impossible d'ouvrir le fichier <$filename>\n");
+        }
+
+        foreach ($files as $key=>$audioFile){
+            if ($audioFile !== '.' && $audioFile !== '..'){
+                $zip->addFile($folderPath.$audioFile, $audioFile);
+            }
+        }
+        $zip->close();
+        return $this->file($filename);
+    }
+
     private function removeDir($dir) {
         if (is_dir($dir)) {
             $objects = scandir($dir);
