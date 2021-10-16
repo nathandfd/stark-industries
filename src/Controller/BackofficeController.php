@@ -37,7 +37,7 @@ class BackofficeController extends AbstractController
 
         return $this->render('backoffice/index.html.twig', [
             'controller_name' => 'BackofficeController',
-            'contrats' => $contrats,
+            'contrats' => $contrats
         ]);
     }
 

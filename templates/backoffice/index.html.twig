@@ -9,8 +9,6 @@
     <div class="bg-gray-100 p-6 relative md:ml-64 min-h-screen overflow-x-hidden">
         <h1 class="order-1 text-gray-900 text-3xl font-extrabold tracking-tight">Contrats</h1>
         {% if contrats is not empty %}
-
-
             <div id="contrats-list" class="grid grid-cols-1 gap-6">
                 <div class="search-forms w-full grid grid-cols-1 grid-rows-2">
                     <!-- class="sort" automagically makes an element a sort buttons. The date-sort value decides what to sort by. -->
@@ -95,7 +93,7 @@
                                     </div>
                                     <div class="flex items-center space-x-2 text-gray-400 text-sm my-3">
                                         <i class="far fa-calendar-alt"></i>
-                                        <p>Fait le <span class="list-datecontrat timestamp" data-timestamp="{{ contrat.getCreated() }}">{{ contrat.getCreated() }}</span></p>
+                                        <p>Fait le <span class="list-datecontrat timestamp" data-timestamp="{{ contrat.getCreatedTimestamp()}}">{{ contrat.getCreated() }}</span></p>
                                     </div>
                                     <div class="h-px mt-5 bg-gray-300"></div>
 

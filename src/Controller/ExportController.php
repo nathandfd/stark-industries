@@ -129,6 +129,7 @@ class ExportController extends AbstractController
         $sheet->getCell('M1')->setValue('Type de contrat');
         $sheet->getCell('N1')->setValue('RIB');
         $sheet->getCell('O1')->setValue('BIC');
+        $sheet->getCell('P1')->setValue('Fichier audio disponible');
 
         $data = [];
         foreach ($numContracts as $key=>$numContract){
@@ -186,6 +187,7 @@ class ExportController extends AbstractController
                 $contractType,
                 $contract->getInfoPrelevement()['iban'],
                 $contract->getInfoPrelevement()['bic'],
+                $contract->getAudioFileName()?'OUI':'NON',
             ];
         }
 
@@ -271,6 +273,7 @@ class ExportController extends AbstractController
         $sheet->getCell('M1')->setValue('Type de contrat');
         $sheet->getCell('N1')->setValue('RIB');
         $sheet->getCell('O1')->setValue('BIC');
+        $sheet->getCell('P1')->setValue('Fichier audio disponible');
 
         $data = [];
         foreach ($contracts as $key=>$contract){
@@ -326,6 +329,7 @@ class ExportController extends AbstractController
                 $contractType,
                 $contract->getInfoPrelevement()['iban'],
                 $contract->getInfoPrelevement()['bic'],
+                $contract->getAudioFileName()?'OUI':'NON',
             ];
         }
 

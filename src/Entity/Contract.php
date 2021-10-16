@@ -152,6 +152,11 @@ class Contract
         return $this->created->format('d/m/Y');
     }
 
+    public function getCreatedTimestamp()
+    {
+        return $this->created->getTimestamp();
+    }
+
     public function setCreated(DateTimeInterface $created): self
     {
         $this->created = $created;
